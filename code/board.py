@@ -49,5 +49,3 @@ class Board:
 
                 #Create net object with id and gates that it connects
                 self.nets[i] = Net(i, (gate_a, gate_b))
-
-
