@@ -1,24 +1,62 @@
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
 import csv
+import re
+import ast
 
+# store connected gates
+gates = {}
 
+# store coordinates of nets
+x_line = []      
+y_line = []
+
+# open the output file
 with open(r"../example/output.csv") as f:
-    for line in f:
-        print(line)
-    
+    for line in csv.reader(f):
+        # skip first and last line
+        if line[0][0] == '(':
+            # convert string list to list
+            coordinates = ast.literal_eval(line[1])
+            
+            # seperate lists for each line/net
+            x_line.append([])
+            y_line.append([])
+            
+            # find number of seperate lists
+            number = len(x_line)
 
+            # seperate x, y coordinates for each net
+            for x, y in coordinates:
+                x_line[number - 1].append(x)
+                y_line[number - 1].append(y)
+            
+            # tuple of connected gate numbers
+            connected_gates = ast.literal_eval(line[0])
 
+            # save connected gates and its coordinates
+            gates[connected_gates[0]] = coordinates[0]
+            gates[connected_gates[1]] = coordinates[-1]
+            
+
+            
+# create figure
 fig = plt.figure()
 ax = plt.axes()
 
-x = [1,6,10,15,3,12,14,1,6,12,15,2,8,1,4,10,11,16,2,7,10,12,15,6,13,16,6,7]
-y = [15,15,15,15,14,14,14,13,13,13,13,12,12,11,11,11,11,11,10,10,10,10,10,9,9,9,8,8]
-
+# set size of grid
 ax.xaxis.set_major_locator(MultipleLocator(1))
 ax.yaxis.set_major_locator(MultipleLocator(1))
 
-ax.scatter(x, y)
+# create lines on plot
+for x, y in zip(x_line, y_line):
+    ax.plot(x, y, c='b')
 
+# create gates on plot
+for gate in gates:
+    x, y = gates[gate]
+    ax.scatter(x, y, s=150, c='r', marker='s')
+
+# create scatter plot with grid
 plt.grid()
 plt.show()
