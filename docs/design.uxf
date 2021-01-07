@@ -27,6 +27,6 @@ height: None
 --
 Methods
 
-load_gates(self, source_file): {'1': Gate, '2': Gate, ...}
-load_nets: {1: Net, 2, Net, ...}
+load_gates(self, print.csv): {'1': Gate, '2': Gate, ...}
+load_nets(self, netlist.csv): {0: Net, 1, Net, ...}
 occupied_locations: None</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>310</y><w>320</w><h>200</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>300;10;10;180</additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>560</y><w>320</w><h>110</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>300;90;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>680</x><y>410</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element></diagram>
