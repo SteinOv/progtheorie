@@ -1,5 +1,12 @@
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
+import csv
+
+
+with open(r"../example/output.csv") as f:
+    for line in f:
+        print(line)
+    
 
 
 fig = plt.figure()
