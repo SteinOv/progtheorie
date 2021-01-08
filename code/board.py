@@ -17,8 +17,8 @@ class Board:
         self.length = 0
         self.height = None
         self.intsections = None
-        self.cost = None
-
+        self.cost = 0
+        print("test4")
         self.load_gates(print_csv)
         self.load_nets(netlist_csv)
     
@@ -45,15 +45,23 @@ class Board:
     def load_nets(self, filename):
         '''load nets from netlist csv file'''
 
+        print("test0")
         with open(filename) as file:
             data = csv.reader(file)
             next(data)
 
+            print("test1")
             # read through data with enumerate
             for i, line in enumerate(data):
+                print("test2")
 
                 # gate objects that are connected
                 gate_a, gate_b = self.gates[int(line[0])], self.gates[int(line[1])]
 
                 # create net object with id and gates that it connects
                 self.nets.append(Net(i, (gate_a, gate_b)))
+
+                # add length of wire to cost
+                self.cost += self.nets[i].length
+
+                print(self.nets[i].route)

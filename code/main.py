@@ -10,7 +10,7 @@ def main():
         print("Usage: python3 main.py <chip_id> <netlist_id> ")
         exit(1)
     
-    chip_id, netlist_id = argv[1:]
+    chip_id, netlist_id = argv[1:3]
 
     chip_file = f"../data/chip_{chip_id}/print_{chip_id}.csv"
     netlist_file = f"../data/chip_{chip_id}/netlist_{netlist_id}.csv"

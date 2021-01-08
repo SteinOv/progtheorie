@@ -1,28 +1,29 @@
-<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>590</x><y>220</y><w>210</w><h>230</h></coordinates><panel_attributes>_object: Gate_
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>590</x><y>182</y><w>210</w><h>230</h></coordinates><panel_attributes>_object: Gate_
 --
-id: int
+gate_id: int
 loc: (x, y)
 
 --
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>590</x><y>520</y><w>210</w><h>220</h></coordinates><panel_attributes>_object: Net_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>590</x><y>482</y><w>210</w><h>220</h></coordinates><panel_attributes>_object: Net_
 --
-id: int
+net_id: int
 connect: [Gate, Gate]
 route: [(x, y), (x, y), ... ]
-len: int
+length: int
 
 --
 Methods
 
 create_route: [(x, y), (x, y), ... ]
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>460</y><w>300</w><h>230</h></coordinates><panel_attributes>_object: Board_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>422</y><w>300</w><h>230</h></coordinates><panel_attributes>_object: Board_
 --
 gates: {1: Gate, 2: Gate, ...}
 nets: [Net, Net, ...]
 width: int
 length: int
 height: None
+intsections: None
 cost: None
 
 --
@@ -30,4 +31,4 @@ Methods
 
 load_gates(self, print.csv): {'1': Gate, '2': Gate, ...}
 load_nets(self, netlist.csv): {0: Net, 1, Net, ...}
-occupied_locations: None</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>340</y><w>320</w><h>200</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>300;10;10;180</additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>590</y><w>320</w><h>110</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>300;90;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>680</x><y>440</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element></diagram>
+occupied_locations: None</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>302</y><w>320</w><h>200</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>300;10;10;180</additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>552</y><w>320</w><h>110</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>300;90;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>680</x><y>402</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element></diagram>
