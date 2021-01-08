@@ -43,7 +43,7 @@ def plot_output(output_csv, output_folder):
                 gates[connected_gates[1]] = coordinates[-1]
                 
     # create figure
-    fig = plt.figure()
+    plt.figure()
     ax = plt.axes()
 
     # set size of grid
