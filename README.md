@@ -15,6 +15,7 @@ To use, run in command line:
 ```
 python3 main.py <chip_id> <netlist_id>
 ```
+<br>
 
 * User should save data in `data` folder
 * Data should be stored in .csv format in folder `data/chip_<chip_id>/`
