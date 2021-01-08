@@ -10,7 +10,7 @@ def main():
     if len(argv) != 3:
         print("Usage: python3 main.py <chip_id> <netlist_id> ")
         exit(1)
-    
+        
     # TODO
     chip_id, netlist_id = argv[1:3]
     folder = f"../data/chip_{chip_id}"
@@ -24,6 +24,8 @@ def main():
 
     # TODO
     output_file = "output.csv"
+
+
     with open(f"{folder}/{output_file}", "w") as file:
         writer = csv.writer(file)
 

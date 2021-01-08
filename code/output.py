@@ -65,6 +65,3 @@ def plot_output(output_csv, output_folder):
 
     # save plot
     plt.savefig(f"{output_folder}/output_plot")
-
-
-plot_output(output_csv="output.csv", output_folder="../data/chip_0")

@@ -16,9 +16,9 @@ class Net:
     def create_route(self):
         
         # starting x and final x
-        x_curr, x_goal = self.connect[0][0], self.connect[1][0]
-        y = self.connect[0][1]
-        self.route.append(y)
+        x_curr, x_goal = self.connect[0].loc[0], self.connect[1].loc[0]
+        y = self.connect[0].loc[1]
+        self.route.append((x_curr, y))
 
         # move wire along x axis
         while x_curr != x_goal:
@@ -31,7 +31,7 @@ class Net:
             self.route.append((x_curr,y))
 
         
-        y_curr, y_goal = self.connect[0][1], self.connect[1][1]
+        y_curr, y_goal = self.connect[0].loc[1], self.connect[1].loc[1]
         x = x_curr
 
         while y_curr != y_goal:
