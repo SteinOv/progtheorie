@@ -7,4 +7,7 @@ class Gate:
         self.loc = loc
 
 
+    def __repr__(self):
+        return str(self.gate_id)
+
 

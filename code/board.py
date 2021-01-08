@@ -16,10 +16,11 @@ class Board:
         self.width = 0
         self.length = 0
         self.height = None
+        self.intsections = None
         self.cost = None
 
-        self.load_gates(f"../data/{print_csv}")
-        self.load_nets(f"../data/{netlist_csv}")
+        self.load_gates(print_csv)
+        self.load_nets(netlist_csv)
     
     def load_gates(self, filename):
         '''load gates from print csv file'''

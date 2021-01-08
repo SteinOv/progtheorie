@@ -1,5 +1,6 @@
-from sys import argv
+from sys import argv, exit
 from board import Board
+import csv
 
 
 def main():
@@ -8,11 +9,13 @@ def main():
     if len(argv) != 3:
         print("Usage: python3 main.py <chip_id> <netlist_id> ")
         exit(1)
+    
+    chip_id, netlist_id = argv[1:]
 
     chip_file = f"../data/chip_{chip_id}/print_{chip_id}.csv"
     netlist_file = f"../data/chip_{chip_id}/netlist_{netlist_id}.csv"
 
-    board = Board(argv[1], argv[2])
+    board = Board(chip_file, netlist_file)
 
     with open(f"../data/chip_{chip_id}/output.csv", "w") as file:
         writer = csv.writer(file)
@@ -22,15 +25,17 @@ def main():
 
         # write net connections and routes
         for net in board.nets:
-            writer.writerow([str(net.connect), str(net.route))
+            writer.writerow([str(net.connect), str(net.route)])
 
-        writer.writerow([f"chip_{chip_id}_net_{netlist_id}", board.cost)
+        writer.writerow([f"chip_{chip_id}_net_{netlist_id}", board.cost])
+
+    
 
         
 
 
 
-if __name__ is __main__:
+if __name__ == "__main__":
     main()
 
 
