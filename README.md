@@ -4,9 +4,9 @@
 
 
 ### Requirements
-UMLet (VSCode extension)
-Python 3+
-Matplotlib
+* UMLet (VSCode extension)
+* Python 3+
+* Matplotlib
 
 
 ### Usage
