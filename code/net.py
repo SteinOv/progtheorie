@@ -1,5 +1,3 @@
-from board import Board
-from gate import Gate
 
 class Net:
     ''' Defines a net between gates '''
