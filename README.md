@@ -13,12 +13,12 @@
 
 Command line: `python3 main.py <chip_id> <netlist_id>`
 
-* User should save data in "data" folder
+* User should save data in `data` folder
 * Data should be stored in .csv format in folder `data/chip_<chip_id>/`
-* Chip file: ```print_<chip_id>.csv``` 
+* Chip file: `print_<chip_id>.csv`
 * Netlist file: `netlist_<netlist_id>.csv`
-* See data/chip_0 for examples of input files
+* See `data/chip_0/` for examples of input files
 
 
-* Output is stored in folder "data/chip_<chip_id>/"
-* Output consists of output.csv and output_plot.png
+* Output is stored in folder `data/chip_<chip_id>/`
+* Output consists of `output.csv` and `output_plot.png`
