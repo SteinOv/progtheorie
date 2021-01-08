@@ -11,7 +11,7 @@
 
 ### Usage
 
-To use, run in command line:
+To use program, run in command line:
 ```
 python3 main.py <chip_id> <netlist_id>
 ```
