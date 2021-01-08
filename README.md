@@ -4,4 +4,4 @@
 Usage `python3 main.py <chip_id> <netlist>`
 
 
-© "All Rights Reserved"
+© 2021 "All Rights Reserved"
