@@ -24,8 +24,7 @@ Command line: `python3 main.py <chip_id> <netlist_id>`
 * Output consists of `output.csv` and `output_plot.png`
 
 ### Contributors: 
-*************
-___
+<hr style="border:1px solid gray"> </hr>
 * Samson van der Sande
 * Anouk Hooijschuur
 * Stein Overtoom 
