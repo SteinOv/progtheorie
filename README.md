@@ -23,7 +23,8 @@ Command line: `python3 main.py <chip_id> <netlist_id>`
 * Output is stored in folder `data/chip_<chip_id>/`
 * Output consists of `output.csv` and `output_plot.png`
 
-# Contributors: 
+### Contributors: 
+---
 * Samson van der Sande
 * Anouk Hooijschuur
 * Stein Overtoom 
