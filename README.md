@@ -1,5 +1,5 @@
 # Chips & Circuits
-### Contributors: Samson van der Sande, Anouk Hooijschuur & Stein Overtoom 
+
 © 2021 "All Rights Reserved"
 
 
@@ -22,3 +22,11 @@ Command line: `python3 main.py <chip_id> <netlist_id>`
 
 * Output is stored in folder `data/chip_<chip_id>/`
 * Output consists of `output.csv` and `output_plot.png`
+
+### Contributors: 
+<hr>
+* Samson van der Sande
+* Anouk Hooijschuur
+* Stein Overtoom 
+
+--
