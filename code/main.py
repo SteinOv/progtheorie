@@ -1,22 +1,30 @@
-from sys import argv
+from sys import argv, exit
 from board import Board
+from output import plot_output
+import csv
 
 
 def main():
-
+    """run the main program"""
     # ensure proper usage
     if len(argv) != 3:
         print("Usage: python3 main.py <chip_id> <netlist_id> ")
         exit(1)
-
+    
+    # TODO
     chip_id, netlist_id = argv[1:]
+    folder = f"../data/chip_{chip_id}"
 
-    chip_file = f"../data/chip_{chip_id}/print_{chip_id}.csv"
-    netlist_file = f"../data/chip_{chip_id}/netlist_{netlist_id}.csv"
+    # TODO
+    chip_file = f"{folder}/print_{chip_id}.csv"
+    netlist_file = f"{folder}/netlist_{netlist_id}.csv"
 
-    board = Board(argv[1], argv[2])
+    # TODO
+    board = Board(chip_file, netlist_file)
 
-    with open(f"../data/chip_{chip_id}/output.csv", "w") as file:
+    # TODO
+    output_file = "output.csv"
+    with open(f"{folder}/{output_file}", "w") as file:
         writer = csv.writer(file)
 
         # write header row
@@ -26,22 +34,12 @@ def main():
         for net in board.nets:
             writer.writerow([str(net.connect), str(net.route)])
 
+        # TODO
         writer.writerow([f"chip_{chip_id}_net_{netlist_id}", board.cost])
 
-        
+    # create output plot
+    plot_output(output_file, folder)
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
-
-'''
-
-Net.route = [(3,4), (3,5), ...]
-
-output: "(1,2)","[(1,5),(2,5),(3,5),(4,5),(5,5),(6,5)]"
-
-
-
-'''

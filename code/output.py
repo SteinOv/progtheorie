@@ -3,7 +3,7 @@ from matplotlib.ticker import MultipleLocator
 import csv
 import ast
 
-def plot_output(output_csv, png_name="output_plot"):
+def plot_output(output_csv, output_folder):
     """
     creates plot of output file
     """
@@ -15,12 +15,16 @@ def plot_output(output_csv, png_name="output_plot"):
     y_line = []
 
     # open the output file
-    with open(f"../example/{output_csv}") as f:
+    with open(f"{output_folder}/{output_csv}") as f:
         for line in csv.reader(f):
             # skip first and last line
             if line[0][0] == '(':
                 # convert string list to list
                 coordinates = ast.literal_eval(line[1])
+
+                # if no coordinates go to next net
+                if not coordinates:
+                    continue
                 
                 # seperate lists for each line/net
                 x_line.append([])
@@ -60,7 +64,7 @@ def plot_output(output_csv, png_name="output_plot"):
     plt.show()
 
     # save plot
-    plt.savefig(png_name)
+    plt.savefig(f"{output_folder}/output_plot")
 
 
-plot_output(output_csv="output.csv", png_name="output_plot")
+plot_output(output_csv="output.csv", output_folder="../data/chip_0")
