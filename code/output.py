@@ -12,7 +12,7 @@ x_line = []
 y_line = []
 
 # open the output file
-with open(r"../example/output.csv") as f:
+with open("../example/output.csv") as f:
     for line in csv.reader(f):
         # skip first and last line
         if line[0][0] == '(':
