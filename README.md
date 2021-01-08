@@ -11,7 +11,10 @@
 
 ### Usage
 
-Command line: `python3 main.py <chip_id> <netlist_id>`
+To use, run in command line:
+```
+python3 main.py <chip_id> <netlist_id>
+```
 
 * User should save data in `data` folder
 * Data should be stored in .csv format in folder `data/chip_<chip_id>/`
@@ -22,6 +25,10 @@ Command line: `python3 main.py <chip_id> <netlist_id>`
 
 * Output is stored in folder `data/chip_<chip_id>/`
 * Output consists of `output.csv` and `output_plot.png`
+
+### Structure
+*
+
 
 ## Contributors: 
 * Samson van der Sande
