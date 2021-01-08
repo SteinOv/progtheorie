@@ -18,7 +18,7 @@ Command line: `python3 main.py <chip_id> <netlist_id>`
 * Chip file: `print_<chip_id>.csv`
 * Netlist file: `netlist_<netlist_id>.csv`
 * See `data/chip_0/` for examples of input files
-
+<br>
 
 * Output is stored in folder `data/chip_<chip_id>/`
 * Output consists of `output.csv` and `output_plot.png`
