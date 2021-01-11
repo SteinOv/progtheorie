@@ -18,7 +18,8 @@ class Net:
         # starting x and final x
         x_curr, x_goal = self.connect[0].loc[0], self.connect[1].loc[0]
         y = self.connect[0].loc[1]
-        self.route.append((x_curr, y))
+        z = 0
+        self.route.append((x_curr,y,z))
 
         # move wire along x axis
         while x_curr != x_goal:
@@ -28,11 +29,12 @@ class Net:
                 x_curr -= 1
 
             self.length += 1
-            self.route.append((x_curr,y))
+            self.route.append((x_curr,y,z))
 
         
         y_curr, y_goal = self.connect[0].loc[1], self.connect[1].loc[1]
         x = x_curr
+        z = 0
 
         while y_curr != y_goal:
             if y_curr < y_goal:
@@ -41,7 +43,7 @@ class Net:
                 y_curr -= 1
 
             self.length += 1
-            self.route.append((x,y_curr))
+            self.route.append((x,y_curr,z))
 
         
 

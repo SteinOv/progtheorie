@@ -15,7 +15,7 @@ class Board:
         self.nets = []
         self.width = 0
         self.length = 0
-        self.height = None
+        self.height = 7
         self.intsections = None
         self.cost = 0
         self.load_gates(print_csv)
@@ -31,9 +31,10 @@ class Board:
             # read through data
             for line in data:
                 gate_id, x, y = int(line[0]), int(line[1]), int(line[2])
+                z = 0
 
                 # create Gate object
-                self.gates[gate_id] = Gate(gate_id, (x, y))
+                self.gates[gate_id] = Gate(gate_id, (x,y,z))
 
                 # set width and length to highest x and y plus 1
                 if x > self.width:

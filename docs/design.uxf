@@ -1,7 +1,7 @@
 <diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>590</x><y>182</y><w>210</w><h>230</h></coordinates><panel_attributes>_object: Gate_
 --
 gate_id: int
-loc: (x, y)
+loc: (x, y, 0)
 
 --
 
@@ -9,13 +9,13 @@ loc: (x, y)
 --
 net_id: int
 connect: [Gate, Gate]
-route: [(x, y), (x, y), ... ]
+route: [(x, y, z), (x, y, z), ... ]
 length: int
 
 --
 Methods
 
-create_route: [(x, y), (x, y), ... ]
+create_route: [(x, y, z), (x, y, z), ... ]
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>422</y><w>300</w><h>230</h></coordinates><panel_attributes>_object: Board_
 --
 gates: {1: Gate, 2: Gate, ...}
