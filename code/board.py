@@ -1,7 +1,6 @@
 import csv
 from gate import Gate
 from net import Net
-from sys import exit
 
 class Board:
     '''
