@@ -1,6 +1,7 @@
 import csv
 from gate import Gate
 from net import Net
+from sys import exit
 
 class Board:
     '''
@@ -24,39 +25,47 @@ class Board:
     def load_gates(self, filename):
         '''load gates from print csv file'''
 
-        with open(filename) as file:
-            data = csv.reader(file)
-            next(data)
+        try:
+            with open(filename) as file:
+                data = csv.reader(file)
+                next(data)
 
-            # read through data
-            for line in data:
-                gate_id, x, y = int(line[0]), int(line[1]), int(line[2])
-                z = 0
-                
-                # create Gate object
-                self.gates[gate_id] = Gate(gate_id, (x,y,z))
-                
-                # set width and length to highest x and y plus 1
-                if x > self.width:
-                    self.width = x + 1
-                if y > self.length:
-                    self.length = y + 1
+                # read through data
+                for line in data:
+                    gate_id, x, y = int(line[0]), int(line[1]), int(line[2])
+                    z = 0
+
+                    # create Gate object
+                    self.gates[gate_id] = Gate(gate_id, (x,y,z))
+
+                    # set width and length to highest x and y plus 1
+                    if x > self.width:
+                        self.width = x + 1
+                    if y > self.length:
+                        self.length = y + 1
+        except OSError:
+            print(f"File {filename} not found")
+            raise SystemExit
 
     def load_nets(self, filename):
         '''load nets from netlist csv file'''
+        
+        try:
+            with open(filename) as file:
+                data = csv.reader(file)
+                next(data)
 
-        with open(filename) as file:
-            data = csv.reader(file)
-            next(data)
+                # read through data with enumerate
+                for i, line in enumerate(data):
 
-            # read through data with enumerate
-            for i, line in enumerate(data):
+                    # gate objects that are connected
+                    gate_a, gate_b = self.gates[int(line[0])], self.gates[int(line[1])]
 
-                # gate objects that are connected
-                gate_a, gate_b = self.gates[int(line[0])], self.gates[int(line[1])]
+                    # create net object with id and gates that it connects
+                    self.nets.append(Net(i, (gate_a, gate_b)))
 
-                # create net object with id and gates that it connects
-                self.nets.append(Net(i, (gate_a, gate_b)))
-
-                # add length of wire to cost
-                self.cost += self.nets[i].length
+                    # add length of wire to cost
+                    self.cost += self.nets[i].length   
+        except OSError:
+            print(f"File {filename} not found")
+            raise SystemExit
