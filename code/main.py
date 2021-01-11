@@ -1,6 +1,6 @@
 from sys import argv, exit
 from board import Board
-from output import plot_output
+from plotly_output import plot_output
 import csv
 
 
@@ -40,7 +40,7 @@ def main():
         writer.writerow([f"chip_{chip_id}_net_{netlist_id}", board.cost])
 
     # create output plot
-    plot_output(output_file, folder)
+    plot_output(output_file, folder, board)
 
 
 if __name__ == "__main__":
