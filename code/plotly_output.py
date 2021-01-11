@@ -39,6 +39,8 @@ def plot_output(output_csv, output_folder, board):
     # Configure Plotly to be rendered inline in the notebook.
     plotly.offline.init_notebook_mode()
 
+    data = []
+
     # Configure the trace.
     trace = go.Scatter3d(
         x=[board.gates[gate].loc[0] for gate in board.gates],
@@ -50,14 +52,22 @@ def plot_output(output_csv, output_folder, board):
             'opacity': 0.8,
         }
     )
+    data.append(trace)
+
+    import plotly.express as px
+
+    # add wires to plot
+    for i in range(len(x_line)):
+        break
+        fig = px.line_3d(x=x_line[i], y=y_line[i], z=z_line[i])
+        fig.show()
 
     # Configure the layout.
     layout = go.Layout(
         margin={'l': 0, 'r': 0, 'b': 0, 't': 0}
     )
 
-    data = [trace]
-
+    
     plot_figure = go.Figure(data=data, layout=layout)
 
     # Render the plot.
