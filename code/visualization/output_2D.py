@@ -3,7 +3,7 @@ from matplotlib.ticker import MultipleLocator
 import csv
 import ast
 
-def plot_output(output_csv, output_folder):
+def plot_output2D(output_csv, output_folder):
     """
     creates plot of output file
     """
