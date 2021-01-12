@@ -1,6 +1,6 @@
 import csv
-from gate import Gate
-from net import Net
+from classes.gate import Gate
+from classes.net import Net
 import numpy as np
 
 class Board:
