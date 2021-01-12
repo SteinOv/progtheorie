@@ -4,9 +4,13 @@
 
 
 ### Requirements
-* UMLet (VSCode extension)
-* Python 3+
-* Matplotlib
+* This codebase is written entirely in Python 3.7.
+* The following extension is needed to visualize the ULM diagram:
+    * UMLet (VSCode extension)
+* Requirements.txt contains all necessary packages to run the code successfully. Install the requirements with the following command:
+```
+pip install -r requirements.txt 
+```
 
 
 ### Usage
