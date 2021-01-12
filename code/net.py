@@ -2,18 +2,18 @@
 class Net:
     ''' Defines a net between gates '''
 
-    def __init__(self, net_id, connect):
+    def __init__(self, board, net_id, connect):
         self.net_id = net_id
         self.connect = connect
         self.route = []
         self.length = 0
 
-        self.create_route()
+        self.create_route(board)
     
     def __repr__(self):
         return str(self.net_id)
     
-    def create_route(self):
+    def create_route(self, board):
         
         # starting x and final x
         x_curr, x_goal = self.connect[0].loc[0], self.connect[1].loc[0]
@@ -30,6 +30,7 @@ class Net:
 
             self.length += 1
             self.route.append((x_curr,y,z))
+            board.add_to_grid(x_curr,y,z)
 
         
         y_curr, y_goal = self.connect[0].loc[1], self.connect[1].loc[1]
@@ -44,6 +45,8 @@ class Net:
 
             self.length += 1
             self.route.append((x,y_curr,z))
+            board.add_to_grid(x,y_curr,z)
+            
 
         
 

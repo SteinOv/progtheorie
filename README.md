@@ -28,8 +28,12 @@ python3 main.py <chip_id> <netlist_id>
 * Output consists of `output.csv` and `output_plot.png`
 
 ### Structure
-*
-
+* The following list describes the most important folders and files in the project, and where to find them: 
+* /code: contains all the code of this project
+    * /code/algorithms: contains the code for algorithms
+    * /code/classes: contains the three classes required for this case
+    * /code/visualisation: contains plotly code for visualization 
+* /data: contains the various data files that are needed to fill and visualize the graph
 
 ## Contributors: 
 * Samson van der Sande

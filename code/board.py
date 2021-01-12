@@ -1,6 +1,7 @@
 import csv
 from gate import Gate
 from net import Net
+import numpy as np
 
 class Board:
     '''
@@ -16,10 +17,11 @@ class Board:
         self.width = 0
         self.length = 0
         self.height = 7
-        self.intsections = None
         self.cost = 0
         self.load_gates(print_csv)
+        self.grid = np.zeros((self.width + 1, self.length + 1, self.height + 1), dtype=bool)
         self.load_nets(netlist_csv)
+        
     
     def load_gates(self, filename):
         '''load gates from print csv file'''
@@ -61,10 +63,17 @@ class Board:
                     gate_a, gate_b = self.gates[int(line[0])], self.gates[int(line[1])]
 
                     # create net object with id and gates that it connects
-                    self.nets.append(Net(i, (gate_a, gate_b)))
+                    self.nets.append(Net(self, i, (gate_a, gate_b)))
 
                     # add length of wire to cost
                     self.cost += self.nets[i].length   
         except OSError:
             print(f"File {filename} not found")
             raise SystemExit
+
+
+    def add_to_grid(self, x, y, z):
+        self.grid[x][y][z] = True
+    
+    def rem_from_grid(self, x, y, z):
+        self.grid[x][y][z] = False
