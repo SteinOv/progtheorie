@@ -31,7 +31,7 @@ def plot_output2D(output_csv, output_folder):
                 y_line.append([])
 
                 # seperate x, y coordinates for each net
-                for x, y in coordinates:
+                for x, y, z in coordinates:
                     x_line[-1].append(x)
                     y_line[-1].append(y)
                 
@@ -56,7 +56,7 @@ def plot_output2D(output_csv, output_folder):
 
     # create gates on plot
     for gate in gates:
-        x, y = gates[gate]
+        x, y, z = gates[gate]
         ax.scatter(x, y, s=150, c='r', marker='s')
 
     # create plot with grid

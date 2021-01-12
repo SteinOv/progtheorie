@@ -44,7 +44,7 @@ def main():
     if board.height > 0:
         plot_output3D(output_file, folder, board)
     else:
-        plot_output2D(output_file, folder, board)
+        plot_output2D(output_file, folder)
     
 
 
