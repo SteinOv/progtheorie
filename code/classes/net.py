@@ -30,7 +30,7 @@ class Net:
 
             self.length += 1
             self.route.append((x_curr,y,z))
-            board.add_to_grid(x_curr,y,z)
+            # board.add_to_grid(x_curr,y,z)
 
         
         y_curr, y_goal = self.connect[0].loc[1], self.connect[1].loc[1]
@@ -45,7 +45,7 @@ class Net:
 
             self.length += 1
             self.route.append((x,y_curr,z))
-            board.add_to_grid(x,y_curr,z)
+            # board.add_to_grid(x,y_curr,z)
             
 
         

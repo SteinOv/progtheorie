@@ -7,20 +7,30 @@ import csv
 def main():
     """run the main program"""
     # ensure proper usage
-    if len(argv) != 3:
-        print("Usage: python3 main.py <chip_id> <netlist_id> ")
+    if not (len(argv) in [3, 4]):
+        print("Usage: python3 main.py <chip_id> <netlist_id> <algorithm (optional)> ")
         exit(1)
-        
+
+    # set algorithm to default if none is given
+    if len(argv) == 4:
+        algorithm = argv[3]
+    else:
+        algorithm = "default"
+
+
     # TODO
     chip_id, netlist_id = argv[1:3]
     folder = f"../data/chip_{chip_id}"
+    
 
     # TODO
     chip_file = f"{folder}/print_{chip_id}.csv"
     netlist_file = f"{folder}/netlist_{netlist_id}.csv"
+    
 
     # TODO
     board = Board(chip_file, netlist_file)
+
 
     # TODO
     output_file = "output.csv"

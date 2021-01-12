@@ -3,6 +3,7 @@ from classes.gate import Gate
 from classes.net import Net
 import numpy as np
 
+
 class Board:
     '''
     main class that handles loading of gates and nets
@@ -19,7 +20,7 @@ class Board:
         self.height = 7
         self.cost = 0
         self.load_gates(print_csv)
-        self.grid = np.zeros((self.width + 1, self.length + 1, self.height + 1), dtype=bool)
+        self.grid = self.create_grid(self.width, self.length, self.height)
         self.load_nets(netlist_csv)
         
     
@@ -71,9 +72,5 @@ class Board:
             print(f"File {filename} not found")
             raise SystemExit
 
-
-    def add_to_grid(self, x, y, z):
-        self.grid[x][y][z] = True
-    
-    def rem_from_grid(self, x, y, z):
-        self.grid[x][y][z] = False
+    def create_grid(self, width, length, height):
+        return [[[[] for x in range(width)] for y in range(length)] for z in range(height)]
