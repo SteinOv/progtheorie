@@ -1,8 +1,10 @@
 from sys import argv, exit
 from classes.board import Board
+# from algorithms.basic import basic
 from visualization.output_3D import plot_output3D
 from visualization.output_2D import plot_output2D
 import csv
+from importlib import import_module
 
 
 def main():
@@ -16,7 +18,7 @@ def main():
     if len(argv) == 4:
         algorithm = argv[3]
     else:
-        algorithm = "default"
+        algorithm = "basic"
 
 
     # TODO
@@ -31,6 +33,12 @@ def main():
 
     # TODO
     board = Board(chip_file, netlist_file)
+
+    # Run algorithm
+    alg = import_module(f"algorithms.{algorithm}")
+    alg_func = getattr(alg, algorithm)
+    alg_func(board)
+
 
 
     # TODO
