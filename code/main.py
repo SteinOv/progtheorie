@@ -1,6 +1,7 @@
 from sys import argv, exit
 from classes.board import Board
-from visualization.plotly_output import plot_output
+from visualization.output_3D import plot_output3D
+from visualization.output_2D import plot_output2D
 import csv
 
 
@@ -50,7 +51,11 @@ def main():
         writer.writerow([f"chip_{chip_id}_net_{netlist_id}", board.cost])
 
     # create output plot
-    plot_output(output_file, folder, board)
+    if board.height > 0:
+        plot_output3D(output_file, folder, board)
+    else:
+        plot_output2D(output_file, folder)
+    
 
 
 if __name__ == "__main__":

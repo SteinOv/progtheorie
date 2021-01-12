@@ -6,7 +6,7 @@ import ast
 import pandas as pd
     
 
-def plot_output(output_csv, output_folder, board):
+def plot_output3D(output_csv, output_folder, board):
 
     # store coordinates of nets
     x_line = []      
@@ -36,11 +36,13 @@ def plot_output(output_csv, output_folder, board):
                     y_line[-1].append(y)
                     z_line[-1].append(z)
 
+    # TODO
     x = []
     y = []
     z = []
     name = []
 
+    # TODO
     for i in range(len(x_line)):
         for j in range(len(x_line[i])):
             x.append(x_line[i][j])
@@ -48,6 +50,7 @@ def plot_output(output_csv, output_folder, board):
             z.append(z_line[i][j])
             name.append(i)
 
+    # TODO
     df = pd.DataFrame(dict(
         X=x, 
         Y=y, 
@@ -55,9 +58,9 @@ def plot_output(output_csv, output_folder, board):
         name=name
     ))
 
+    # TODO
     fig = px.line_3d(df, x='X', y='Y', z='Z', line_group="name")
     
-
     fig.add_scatter3d(
             x=[board.gates[gate].loc[0] for gate in board.gates],
             y=[board.gates[gate].loc[1] for gate in board.gates],
