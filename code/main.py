@@ -1,6 +1,5 @@
 from sys import argv, exit
 from classes.board import Board
-# from algorithms.basic import basic
 from visualization.output_3D import plot_output3D
 from visualization.output_2D import plot_output2D
 import csv

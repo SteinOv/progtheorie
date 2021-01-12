@@ -21,6 +21,8 @@ class Board:
         self.cost = 0
         self.load_gates(print_csv)
         self.grid = self.create_grid(self.width, self.length, self.height)
+        # print(f"length:{self.length}, width:{self.width}, height: {self.height}")
+        # print(len(self.grid[0]))
         self.load_nets(netlist_csv)
         
     
@@ -67,10 +69,10 @@ class Board:
                     self.nets.append(Net(self, i, (gate_a, gate_b)))
 
                     # add length of wire to cost
-                    self.cost += self.nets[i].length   
+                    self.cost += self.nets[i].length 
         except OSError:
             print(f"File {filename} not found")
             raise SystemExit
 
     def create_grid(self, width, length, height):
-        return [[[[] for x in range(width)] for y in range(length)] for z in range(height)]
+        return [[[[] for z in range(height + 1)] for y in range(length + 1)] for x in range(width + 1)]

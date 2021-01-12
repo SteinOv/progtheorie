@@ -36,4 +36,5 @@ def basic(board):
 
             net.length += 1
             net.route.append((x,y_curr,z))
-            board.grid[x][y_curr][x].append(net.net_id)
+            # print(f"x:{x}, y:{y}, z:{z}")
+            board.grid[x][y_curr][z].append(net.net_id)
