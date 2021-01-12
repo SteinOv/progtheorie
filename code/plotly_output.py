@@ -36,8 +36,7 @@ def plot_output(output_csv, output_folder, board):
 
 
 
-    # Configure Plotly to be rendered inline in the notebook.
-    plotly.offline.init_notebook_mode()
+    
 
     data = []
 
@@ -56,22 +55,22 @@ def plot_output(output_csv, output_folder, board):
 
     import plotly.express as px
 
+
     # add wires to plot
     for i in range(len(x_line)):
-        break
         fig = px.line_3d(x=x_line[i], y=y_line[i], z=z_line[i])
-        fig.show()
+        
 
+    print(fig.data)
     # Configure the layout.
     layout = go.Layout(
         margin={'l': 0, 'r': 0, 'b': 0, 't': 0}
     )
+    
+    fig.show()
+    plot_figure = go.Figure(data=fig.data, layout=layout)
 
     
-    plot_figure = go.Figure(data=data, layout=layout)
-
-    # Render the plot.
-    plotly.offline.iplot(plot_figure)
 
 
     
