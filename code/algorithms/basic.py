@@ -21,7 +21,7 @@ def basic(board):
 
             net.length += 1
             net.route.append((x_curr,y,z))
-            # board.add_to_grid(x_curr,y,z)
+            board.grid[x_curr][y][z].append(net.net_id)
 
 
         y_curr, y_goal = net.connect[0].loc[1], net.connect[1].loc[1]
@@ -36,4 +36,4 @@ def basic(board):
 
             net.length += 1
             net.route.append((x,y_curr,z))
-            # board.add_to_grid(x,y_curr,z)
+            board.grid[x][y_curr][x].append(net.net_id)
