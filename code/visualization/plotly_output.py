@@ -1,8 +1,10 @@
 # Import dependencies
-import plotly
 import plotly.graph_objs as go
+import plotly.express as px
 import csv
 import ast
+import pandas as pd
+    
 
 def plot_output(output_csv, output_folder, board):
 
@@ -34,42 +36,42 @@ def plot_output(output_csv, output_folder, board):
                     y_line[-1].append(y)
                     z_line[-1].append(z)
 
+    x = []
+    y = []
+    z = []
+    name = []
 
-
-    
-
-    data = []
-
-    # Configure the trace.
-    trace = go.Scatter3d(
-        x=[board.gates[gate].loc[0] for gate in board.gates],
-        y=[board.gates[gate].loc[1] for gate in board.gates],
-        z=[board.gates[gate].loc[2] for gate in board.gates],
-        mode='markers',
-        marker={
-            'size': 10,
-            'opacity': 0.8,
-        }
-    )
-    data.append(trace)
-
-    import plotly.express as px
-
-
-    # add wires to plot
     for i in range(len(x_line)):
-        fig = px.line_3d(x=x_line[i], y=y_line[i], z=z_line[i])
-        
+        for j in range(len(x_line[i])):
+            x.append(x_line[i][j])
+            y.append(y_line[i][j])
+            z.append(z_line[i][j])
+            name.append(i)
 
-    print(fig.data)
-    # Configure the layout.
-    layout = go.Layout(
-        margin={'l': 0, 'r': 0, 'b': 0, 't': 0}
-    )
+    df = pd.DataFrame(dict(
+        X=x, 
+        Y=y, 
+        Z=z,
+        name=name
+    ))
+
+    fig = px.line_3d(df, x='X', y='Y', z='Z', line_group="name")
     
-    fig.show()
-    plot_figure = go.Figure(data=fig.data, layout=layout)
 
+    fig.add_scatter3d(
+            x=[board.gates[gate].loc[0] for gate in board.gates],
+            y=[board.gates[gate].loc[1] for gate in board.gates],
+            z=[board.gates[gate].loc[2] for gate in board.gates],
+            mode="markers", 
+            marker_symbol="square",
+            marker_color="red"
+            
+        )
+
+    fig.show()
+
+    
+    
     
 
 
