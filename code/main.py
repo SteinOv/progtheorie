@@ -1,6 +1,6 @@
 from sys import argv, exit
-from board import Board
-from plotly_output import plot_output
+from classes.board import Board
+from visualization.plotly_output import plot_output
 import csv
 
 
