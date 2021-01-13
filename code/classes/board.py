@@ -79,8 +79,8 @@ class Board:
 
     def is_collision(self, coord_1, coord_2):
         '''check if nets are in collision'''
-        if len(coord_1) < 3: print(coord_1)
-        if len(coord_2) < 3: print(coord_2)
+        if len(coord_1) < 3: print(coord_1) #TODO Remove
+        if len(coord_2) < 3: print(coord_2) #TODO Remove
         nets_1 = set(self.grid[coord_1[0]][coord_1[1]][coord_1[2]])
         nets_2 = set(self.grid[coord_2[0]][coord_2[1]][coord_2[2]])
 
