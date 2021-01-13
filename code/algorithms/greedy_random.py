@@ -4,6 +4,7 @@ from copy import copy
 # max deviation from ideal route
 BOUNDS = 50
 BOUND_INCR = 50
+INVALID_LIMIT = 500
 
 def greedy_random(board):
     '''combines greedy and random'''
@@ -25,18 +26,15 @@ def greedy_random(board):
             
             bound_curr = BOUNDS
             
-            # if k > 100:
-            #     raise SystemExit
-            
             if k % BOUND_INCR == 0:
                 bound_curr += 1
 
+            n_invalid = 0
+
             # continue until valid move is found 
             # TODO change to max iterations
-            while True:
+            while n_invalid < INVALID_LIMIT:
                 k += 1
-                # if k > 1000:
-                #     raise SystemExit
 
                 # choose if x, y or z is moved and choose to move -1 or +1
                 move = [random.choice((0, 1, 2)), random.choice((-1, 1))]
@@ -59,7 +57,8 @@ def greedy_random(board):
                     curr_location = new_location
                     # print(f"valid: {new_location} len: {net_length}")
                     break
-                # else:
+                else:
+                    n_invalid += 1
                 #     print(f"invalid: {new_location} len: {net_length}")
 
         print(f"Net {net} is af!!!!!")
