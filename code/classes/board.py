@@ -84,7 +84,7 @@ class Board:
             grid[x][y][z].append(gate)
         return grid
 
-    def is_collision(self, curr_location, new_location):
+    def is_collision(self, curr_location, new_location, goal):
         """
         check if nets are in collision
         returns empty set if not in collision else returns non-empty set
@@ -95,17 +95,14 @@ class Board:
         # set is empty if no common element
         collision = nets_1 & nets_2
 
-        # check if new_location is a gate
+        # return True if new_location is a gate
+        # return False if new_location is the goal gate
         if not collision:
             for xyz in self.gate_locations:
                 if new_location == xyz:
+                    if new_location == goal:
+                        return False
                     return True
-
-        # print("nets1 -- ", nets_1)
-        # print(self.grid[coord_1[0]][coord_1[1]][coord_1[2]])
-        # print("nets2 -- ", nets_2)
-        # print(self.grid[coord_2[0]][coord_2[1]][coord_2[2]])
-        # print(nets_1 & nets_2)
 
         return collision
 
