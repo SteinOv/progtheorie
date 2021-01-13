@@ -36,6 +36,8 @@ def greedy_random(board):
             n_invalid = 0
             
 
+            n_invalid = 0
+
             # continue until valid move is found 
             while n_invalid < INVALID_LIMIT:
                 # choose if x, y or z is moved and choose to move -1 or +1
