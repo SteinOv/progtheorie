@@ -2,15 +2,15 @@ import random
 from copy import copy
 
 # max deviation from ideal route
-DEVIATION = 20
-DEVIATION_INCREASE = 5
-MAX_RESETS = 5000
-INVALID_LIMIT = 50
+DEVIATION = 25
+DEVIATION_INCREASE = 10
+MAX_RESETS = 500
+INVALID_LIMIT = 25
 
 
 def greedy_random(board):
     """combines greedy and random"""
-    random.seed(500)
+    random.seed(510)
     current_deviation = DEVIATION
     #board.width * board.length
 
@@ -41,10 +41,22 @@ def greedy_random(board):
                 # number of consecutive invalids
                 n_invalid = 0
 
+                # keep track of previous moves
+                previous_moves = []
+
                 # continue until valid move or limit is reached
                 while n_invalid < INVALID_LIMIT:
+                    
                     # choose if x, y or z is moved and choose to move -1 or +1
                     move = [random.choice((0, 1, 2)), random.choice((-1, 1))]
+
+                    # if all moves are exhausted, stop
+                    if len(previous_moves) == 6:
+                        break
+                    # if move already done do another move
+                    elif move in previous_moves:
+                        continue
+                    previous_moves.append(move)
 
                     # create new location based on move
                     new_location = []
@@ -68,7 +80,7 @@ def greedy_random(board):
                         # print(f"invalid: {new_location} len: {net_length}")
 
             
-            print(n_resets)
+            print("resets:", n_resets)
 
             # if max resets is reached start over
             if n_resets == MAX_RESETS:
