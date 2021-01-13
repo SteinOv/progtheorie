@@ -14,63 +14,80 @@ def greedy_random(board):
     current_deviation = DEVIATION
     #board.width * board.length
 
-    # determine route for each net individually
-    for net in board.nets:
-        current_deviation += 1
-        print(net)
+    # False as long as no solution is found
+    no_solution = True
+    while no_solution:
+        print("\nStart searching for solution")
 
-        curr_location = net.connect[0].loc
-        goal = net.connect[1].loc
-        start_distance = manhattan(curr_location, goal)
-        net_length = 0
-        
-        # coordinates of the wire, start at gate
-        wire_coordinates = [curr_location]
+        # determine route for each net individually
+        for net in board.nets:
+            current_deviation += DEVIATION_INCREASE
+            print(net)
 
-        n_resets = 0
+            curr_location = net.connect[0].loc
+            goal = net.connect[1].loc
+            start_distance = manhattan(curr_location, goal)
+            net_length = 0
+            
+            # coordinates of the wire, start at gate
+            wire_coordinates = [curr_location]
 
-        # continue until goal or limit is reached
-        while curr_location != goal and n_resets < MAX_RESETS:
-            n_resets += 1
+            n_resets = 0
 
-            # number of consecutive invalids
-            n_invalid = 0
+            # continue until goal or limit is reached
+            while curr_location != goal and n_resets < MAX_RESETS:
+                n_resets += 1
 
-            # continue until valid move or limit is reached
-            while n_invalid < INVALID_LIMIT:
-                # choose if x, y or z is moved and choose to move -1 or +1
-                move = [random.choice((0, 1, 2)), random.choice((-1, 1))]
+                # number of consecutive invalids
+                n_invalid = 0
 
-                # create new location based on move
-                new_location = []
-                for i, value in enumerate(curr_location):
-                    if i == move[0]:
-                        new_location.append(value + move[1])
+                # continue until valid move or limit is reached
+                while n_invalid < INVALID_LIMIT:
+                    # choose if x, y or z is moved and choose to move -1 or +1
+                    move = [random.choice((0, 1, 2)), random.choice((-1, 1))]
+
+                    # create new location based on move
+                    new_location = []
+                    for i, value in enumerate(curr_location):
+                        if i == move[0]:
+                            new_location.append(value + move[1])
+                        else:
+                            new_location.append(value)
+                    new_location = tuple(new_location)
+
+
+                    # check if move is valid
+                    if valid_move(board, wire_coordinates, curr_location, new_location, goal, net_length, start_distance, current_deviation):
+                        net_length += 1
+                        wire_coordinates.append(new_location)
+                        curr_location = new_location
+                        # print(f"valid: {new_location} len: {net_length}")
+                        break
                     else:
-                        new_location.append(value)
-                new_location = tuple(new_location)
+                        n_invalid += 1
+                        # print(f"invalid: {new_location} len: {net_length}")
 
+            
+            print(n_resets)
 
-                # check if move is valid
-                if valid_move(board, wire_coordinates, curr_location, new_location, goal, net_length, start_distance, current_deviation):
-                    net_length += 1
-                    wire_coordinates.append(new_location)
-                    curr_location = new_location
-                    # print(f"valid: {new_location} len: {net_length}")
-                    break
-                else:
-                    n_invalid += 1
-                    # print(f"invalid: {new_location} len: {net_length}")
+            # if max resets is reached start over
+            if n_resets == MAX_RESETS:
+                board.reset_grid()
+                break
+            
+            print(f"Net {net} is af!!!!!")
+            
 
-        print(f"Net {net} is af!!!!!")
-        print(n_resets)
+            # add all wire coordinates to the net's route
+            net.route = wire_coordinates
 
-        # add all wire coordinates to the net's route
-        net.route = wire_coordinates
-
-        # add all wire coordinates to board
-        for xyz in wire_coordinates:
-            board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
+            # add all wire coordinates to board
+            for xyz in wire_coordinates:
+                board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
+        
+        # solution found, so quit loop
+        if n_resets != MAX_RESETS:
+            no_solution = False
 
 
        
@@ -93,9 +110,9 @@ def valid_move(board, wire_coordinates, curr_location, new_location, goal, net_l
 
     # print(f"distance: {manhattan(goal, coord_2)}, net_len: {net_length}, dist_init: {dist_init}, bound_curr: {bound_curr}")
 
-    req_a = not board.is_collision(curr_location, new_location, goal)
-    req_b = manhattan(goal, new_location) + net_length <= dist_init + bound_curr
-    req_c = not new_location in wire_coordinates
+    check_a = not board.is_collision(curr_location, new_location, goal)
+    check_b = manhattan(goal, new_location) + net_length <= dist_init + bound_curr
+    check_c = not new_location in wire_coordinates
     # print(req_a, req_b, req_c)
 
-    return req_a & req_b & req_c
+    return check_a & check_b & check_c

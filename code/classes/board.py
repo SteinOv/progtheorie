@@ -2,6 +2,7 @@ import csv
 from classes.gate import Gate
 from classes.net import Net
 import numpy as np
+import copy
 
 
 class Board:
@@ -23,9 +24,13 @@ class Board:
 
         self.load_gates(print_csv)
         self.grid = self.create_grid(self.width, self.length, self.height)
+        self.load_nets(netlist_csv)
         # print(f"length:{self.length}, width:{self.width}, height: {self.height}")
         # print(len(self.grid[0]))
-        self.load_nets(netlist_csv)
+
+        # save the start of grid for algorithm to start over
+        self.grid_reserve = copy.deepcopy(self.grid)
+        
         
     
     def load_gates(self, filename):
@@ -61,15 +66,16 @@ class Board:
 
                 # read through data with enumerate
                 for i, line in enumerate(data):
+                    # make sure line is not empty
+                    if line:
+                        # gate objects that are connected
+                        gate_a, gate_b = self.gates[int(line[0])], self.gates[int(line[1])]
 
-                    # gate objects that are connected
-                    gate_a, gate_b = self.gates[int(line[0])], self.gates[int(line[1])]
+                        # create net object with id and gates that it connects
+                        self.nets.append(Net(self, i, (gate_a, gate_b)))
 
-                    # create net object with id and gates that it connects
-                    self.nets.append(Net(self, i, (gate_a, gate_b)))
-
-                    # add length of wire to cost
-                    self.cost += self.nets[i].length 
+                        # add length of wire to cost
+                        self.cost += self.nets[i].length 
         except OSError:
             print(f"File {filename} not found")
             raise SystemExit
@@ -83,6 +89,10 @@ class Board:
             x, y, z = self.gates[gate].loc
             grid[x][y][z].append(gate)
         return grid
+    
+    def reset_grid(self):
+        """change the grid back to its starting state"""
+        self.grid = copy.deepcopy(self.grid_reserve)
 
     def is_collision(self, curr_location, new_location, goal):
         """
