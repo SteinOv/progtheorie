@@ -76,3 +76,16 @@ class Board:
 
     def create_grid(self, width, length, height):
         return [[[[] for z in range(height + 1)] for y in range(length + 1)] for x in range(width + 1)]
+
+    def is_collision(self, coord_1, coord_2):
+        '''check if nets are in collision'''
+        if len(coord_1) < 3: print(coord_1)
+        if len(coord_2) < 3: print(coord_2)
+        nets_1 = set(self.grid[coord_1[0]][coord_1[1]][coord_1[2]])
+        nets_2 = set(self.grid[coord_2[0]][coord_2[1]][coord_2[2]])
+
+        # returns True, if at least one common element
+        return nets_1 & nets_2
+
+    
+
