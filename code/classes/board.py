@@ -5,20 +5,22 @@ import numpy as np
 
 
 class Board:
-    '''
+    """
     main class that handles loading of gates and nets
 
     attributes:
-
-    '''
+    """
 
     def __init__(self, print_csv, netlist_csv):
+        """initializes variables"""
         self.gates = {}
+        self.gate_locations = []
         self.nets = []
         self.width = 0
         self.length = 0
         self.height = 7
         self.cost = 0
+
         self.load_gates(print_csv)
         self.grid = self.create_grid(self.width, self.length, self.height)
         # print(f"length:{self.length}, width:{self.width}, height: {self.height}")
@@ -27,22 +29,21 @@ class Board:
         
     
     def load_gates(self, filename):
-        '''load gates from print csv file'''
-
+        """load gates from print csv file"""
         try:
             with open(filename) as file:
                 data = csv.reader(file)
                 next(data)
 
-                # read through data
                 for line in data:
-                    gate_id, x, y = int(line[0]), int(line[1]), int(line[2])
-                    z = 0
+                    # get gate with its coordinates
+                    gate_id, x, y, z = int(line[0]), int(line[1]), int(line[2]), 0
 
                     # create Gate object
-                    self.gates[gate_id] = Gate(gate_id, (x,y,z))
+                    self.gates[gate_id] = Gate(gate_id, (x, y, z))
+                    self.gate_locations.append((x, y, z))
 
-                    # set width and length to highest x and y plus 1
+                    # set width and length of grid
                     if x > self.width:
                         self.width = x + 1
                     if y > self.length:
@@ -52,8 +53,7 @@ class Board:
             raise SystemExit
 
     def load_nets(self, filename):
-        '''load nets from netlist csv file'''
-        
+        """load nets from netlist csv file"""
         try:
             with open(filename) as file:
                 data = csv.reader(file)
@@ -75,21 +75,39 @@ class Board:
             raise SystemExit
 
     def create_grid(self, width, length, height):
-        """"""
-        return [[[[] for z in range(height + 1)] for y in range(length + 1)] for x in range(width + 1)]
+        """creates grid"""
+        grid = [[[[] for z in range(height + 1)] for y in range(length + 1)] for x in range(width + 1)]
+        
+        # add gate locations to grid
+        for gate in self.gates:
+            x, y, z = self.gates[gate].loc
+            grid[x][y][z].append(gate)
+        return grid
 
-    def is_collision(self, coord_1, coord_2):
-        '''
+    def is_collision(self, curr_location, new_location):
+        """
         check if nets are in collision
-        returns True if in collision
-        '''
-        if len(coord_1) < 3: print(coord_1) #TODO Remove
-        if len(coord_2) < 3: print(coord_2) #TODO Remove
-        nets_1 = set(self.grid[coord_1[0]][coord_1[1]][coord_1[2]])
-        nets_2 = set(self.grid[coord_2[0]][coord_2[1]][coord_2[2]])
+        returns empty set if not in collision else returns non-empty set
+        """
+        nets_1 = set(self.grid[curr_location[0]][curr_location[1]][curr_location[2]])
+        nets_2 = set(self.grid[new_location[0]][new_location[1]][new_location[2]])
+        
+        # set is empty if no common element
+        collision = nets_1 & nets_2
 
-        # returns True, if at least one common element
-        return nets_1 & nets_2
+        # check if new_location is a gate
+        if not collision:
+            for xyz in self.gate_locations:
+                if new_location == xyz:
+                    return True
+
+        # print("nets1 -- ", nets_1)
+        # print(self.grid[coord_1[0]][coord_1[1]][coord_1[2]])
+        # print("nets2 -- ", nets_2)
+        # print(self.grid[coord_2[0]][coord_2[1]][coord_2[2]])
+        # print(nets_1 & nets_2)
+
+        return collision
 
     
 
