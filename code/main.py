@@ -1,5 +1,6 @@
 from sys import argv, exit
 from classes.board import Board
+from stats.stats import get_stats
 from visualization.output_3D import plot_output3D
 from visualization.output_2D import plot_output2D
 import csv
@@ -13,8 +14,15 @@ def main():
     
     # ensure proper usage
     if not (len(argv) in [2, 3]):
-        print("Usage: python3 main.py <chip_id> <netlist_id> ")
+        print("Usage: python3 main.py <chip_id> <netlist_id>")
+        print("or")
+        print("Usage: python3 main.py stats")
         exit(1)
+    
+    if argv[1] == 'stats':
+        get_stats()
+        exit(0)
+
 
     algorithms = []
 
@@ -78,9 +86,17 @@ def main():
         # get the cost of this solution
         cost = board.cost
 
+        # filename for costs output
+        costs_file = "costs.csv"
+
+        # write column names if file doesn't exist yet
+        if costs_file not in os.listdir(f'statistics/'):
+            with open(f"statistics/{costs_file}", 'a') as file:
+                file.write("costs,total_time,algorithm")
+
         # write costs in file
-        with open(f"{folder}/costs.csv", 'a') as file:
-            # costs, total_time, seed
+        with open(f"statistics/{costs_file}", 'a') as file:
+            # costs, total_time, algorithm
             file.write(f"\n{cost}, {total_time}, {algorithm}")
 
 
