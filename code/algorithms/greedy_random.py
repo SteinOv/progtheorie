@@ -15,9 +15,9 @@ def greedy_random(board):
 
     # True as long as no solution is found
     no_solution = True
+    count = 0
     while no_solution:
-        # print("\nStart searching for solution")
-
+        
         # determine route for each net individually
         for net in board.nets:
             current_deviation += DEVIATION_INCREASE
@@ -41,17 +41,6 @@ def greedy_random(board):
 
                 # continue until no possible moves left
                 while moves:
-                    # choose if x, y or z is moved and choose to move -1 or +1
-                    # move = [random.choice((0, 1, 2)), random.choice((-1, 1))]
-
-                    # # if all moves are exhausted, stop
-                    # if len(previous_moves) == 6:
-                    #     break
-                    # # if move already done do another move
-                    # elif move in previous_moves:
-                    #     continue
-                    # previous_moves.append(move)
-
                     # choose a move
                     move = random.choice(moves)
                     moves.remove(move)
@@ -73,21 +62,12 @@ def greedy_random(board):
                         curr_location = new_location
                         break
 
-
-            
-            
-
             # if max resets is reached start over
             if n_resets == MAX_RESETS:
                 if net != 0:
                     board.reset_grid()
                 break
             
-            # if net.net_id >= 1:
-            #     print("resets:", n_resets)
-            #     print(f"Net {net} is af!!!!!")
-            
-
             # add all wire coordinates to the net's route
             net.route = wire_coordinates
             net.length = net_length
@@ -95,15 +75,18 @@ def greedy_random(board):
             # add all wire coordinates to board
             for xyz in wire_coordinates:
                 board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
+
+        
+        if count == 100:
+            count = 0
+            print("100 additional tries")
+        count += 1
+
         
         # solution found, so quit loop
         if n_resets != MAX_RESETS:
             board.calc_cost()
             no_solution = False
-
-        
-
-       
 
 
 def manhattan(coord_1, coord_2):
