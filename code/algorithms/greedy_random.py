@@ -2,10 +2,9 @@ import random
 from copy import copy
 
 # max deviation from ideal route
-DEVIATION = 25
+DEVIATION = 50
 DEVIATION_INCREASE = 10
 MAX_RESETS = 500
-INVALID_LIMIT = 25
 
 
 def greedy_random(board):
@@ -76,24 +75,22 @@ def greedy_random(board):
             for xyz in wire_coordinates:
                 board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
 
-        
         if count == 100:
             count = 0
             print("100 additional tries")
         count += 1
 
-        
         # solution found, so quit loop
         if n_resets != MAX_RESETS:
             board.calc_cost()
             no_solution = False
 
 
-def manhattan(coord_1, coord_2):
+def manhattan(curr_location, new_location):
     """calculate manhattan distance"""
     dist = 0
     for i in range(3):
-        dist += abs(coord_1[i] - coord_2[i])
+        dist += abs(curr_location[i] - new_location[i])
     return dist
 
 def valid_move(board, wire_coordinates, curr_location, new_location, goal, net_length, dist_init, bound_curr):
@@ -101,14 +98,10 @@ def valid_move(board, wire_coordinates, curr_location, new_location, goal, net_l
     # move is outside of grid
     for i, j in zip(new_location, (board.width, board.length, board.height)):
         if i > j or i < 0:
-            # print("req_0")
             return False
-
-    # print(f"distance: {manhattan(goal, coord_2)}, net_len: {net_length}, dist_init: {dist_init}, bound_curr: {bound_curr}")
 
     check_a = not board.is_collision(curr_location, new_location, goal)
     check_b = manhattan(goal, new_location) + net_length <= dist_init + bound_curr
     check_c = not new_location in wire_coordinates
-    # print(req_a, req_b, req_c)
 
     return check_a & check_b & check_c
