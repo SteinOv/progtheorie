@@ -38,26 +38,26 @@ def greedy_random(board):
             while curr_location != goal and n_resets < MAX_RESETS:
                 n_resets += 1
 
-                # number of consecutive invalids
-                n_invalid = 0
+                # possible moves
+                moves = [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]
 
-                # keep track of previous moves
-                previous_moves = []
-
-                # continue until valid move or limit is reached
-                while n_invalid < INVALID_LIMIT:
-                    
+                # continue until no possible moves left
+                while moves:
                     # choose if x, y or z is moved and choose to move -1 or +1
-                    move = [random.choice((0, 1, 2)), random.choice((-1, 1))]
+                    # move = [random.choice((0, 1, 2)), random.choice((-1, 1))]
 
-                    # if all moves are exhausted, stop
-                    if len(previous_moves) == 6:
-                        break
-                    # if move already done do another move
-                    elif move in previous_moves:
-                        continue
-                    previous_moves.append(move)
+                    # # if all moves are exhausted, stop
+                    # if len(previous_moves) == 6:
+                    #     break
+                    # # if move already done do another move
+                    # elif move in previous_moves:
+                    #     continue
+                    # previous_moves.append(move)
 
+                    # choose a move
+                    move = random.choice(moves)
+                    moves.remove(move)
+                    
                     # create new location based on move
                     new_location = []
                     for i, value in enumerate(curr_location):
@@ -75,19 +75,20 @@ def greedy_random(board):
                         curr_location = new_location
                         # print(f"valid: {new_location} len: {net_length}")
                         break
-                    else:
-                        n_invalid += 1
                         # print(f"invalid: {new_location} len: {net_length}")
 
             
-            print("resets:", n_resets)
+            
 
             # if max resets is reached start over
             if n_resets == MAX_RESETS:
-                board.reset_grid()
+                if net != 0:
+                    board.reset_grid()
                 break
             
-            print(f"Net {net} is af!!!!!")
+            if net.net_id >= 1:
+                print("resets:", n_resets)
+                print(f"Net {net} is af!!!!!")
             
 
             # add all wire coordinates to the net's route
