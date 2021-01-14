@@ -10,7 +10,7 @@ INVALID_LIMIT = 25
 
 def greedy_random(board):
     """combines greedy and random"""
-    random.seed(seed)
+    random.seed(500)
     current_deviation = DEVIATION
     #board.width * board.length
 
@@ -43,17 +43,6 @@ def greedy_random(board):
 
                 # continue until no possible moves left
                 while moves:
-                    # choose if x, y or z is moved and choose to move -1 or +1
-                    # move = [random.choice((0, 1, 2)), random.choice((-1, 1))]
-
-                    # # if all moves are exhausted, stop
-                    # if len(previous_moves) == 6:
-                    #     break
-                    # # if move already done do another move
-                    # elif move in previous_moves:
-                    #     continue
-                    # previous_moves.append(move)
-
                     # choose a move
                     move = random.choice(moves)
                     moves.remove(move)

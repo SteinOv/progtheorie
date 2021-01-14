@@ -5,20 +5,54 @@ from visualization.output_2D import plot_output2D
 import csv
 from importlib import import_module
 import time
+import os
 
 
 def main():
     """run the main program"""
     # ensure proper usage
-    if not (len(argv) in [3, 4]):
-        print("Usage: python3 main.py <chip_id> <netlist_id> <algorithm (optional)> ")
+    if not (len(argv) in [2, 3]):
+        print("Usage: python3 main.py <chip_id> <netlist_id> ")
         exit(1)
 
-    # set algorithm to default if none is given
-    if len(argv) == 4:
-        algorithm = argv[3]
-    else:
-        algorithm = "basic"
+    algorithms = []
+
+    # TODO
+    for filename in os.listdir('algorithms/'):
+        if filename.endswith(".py"):
+            algorithms.append(filename[:-3])
+
+    while True:
+        # prompt user for desired algorithm
+        print("Which algorithm would you like to run?")
+        
+        # display algorithms to choose from
+        for algo in algorithms:
+            print(algo)
+
+        command = input("> ")
+
+        # check if algorithm exists
+        if command in algorithms:
+            algorithm = str(command)
+            break
+    
+    while True:
+        # prompt user for desired number of solutions
+        print("How many solutions do you want to generate?")
+
+        # break if positive integer
+        try:
+            n_solutions = int(input("> "))
+            if n_solutions > 0:
+                break
+        except:
+            pass
+
+
+    # import algorithm
+    alg = import_module(f"algorithms.{algorithm}")
+    alg_func = getattr(alg, algorithm)
 
 
     # get id's and folder
@@ -28,29 +62,26 @@ def main():
     # get correct files
     chip_file = f"{folder}/print_{chip_id}.csv"
     netlist_file = f"{folder}/netlist_{netlist_id}.csv"
-    
 
-    # create a board to solve
-    board = Board(chip_file, netlist_file)
 
-    # Run algorithm
-    alg = import_module(f"algorithms.{algorithm}")
-    alg_func = getattr(alg, algorithm)
+    # find number of solution desired by user
+    for i in range(n_solutions):
+        # create a board to solve
+        board = Board(chip_file, netlist_file) # TODO misschien niet elke keer een nieuwe board
 
-    # run algorithm and check how long it takes to find solution
-    seed = 500
-    start = time.time()
-    alg_func(board, seed)
-    total_time = time.time() - start
+        # run algorithm and check how long it takes to find solution
+        start = time.time()
+        alg_func(board)
+        total_time = time.time() - start
 
-    # get the cost of this solution
-    # cost = board.cost
-    cost = 602349
+        # get the cost of this solution
+        # cost = board.cost
+        cost = 602349
 
-    # write costs in file
-    with open(f"{folder}/costs.csv", 'a') as file:
-        # costs, total_time, seed
-        file.write(f"\n{cost}, {total_time}, {seed}, {algorithm}")
+        # write costs in file
+        with open(f"{folder}/costs.csv", 'a') as file:
+            # costs, total_time, seed
+            file.write(f"\n{cost}, {total_time}, {algorithm}")
 
 
     # name of ouput file
@@ -74,7 +105,7 @@ def main():
         plot_output3D(output_file, folder, board)
     else:
         plot_output2D(output_file, folder)
-    
+        
 
 
 if __name__ == "__main__":
