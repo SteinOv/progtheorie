@@ -50,10 +50,11 @@ def main():
         except:
             pass
 
-
+            
     # import algorithm
     alg = import_module(f"algorithms.{algorithm}")
-    alg_func = getattr(alg, algorithm)
+    alg_cls = getattr(alg, algorithm)
+    
 
 
     # get id's and folder
@@ -64,19 +65,25 @@ def main():
     chip_file = f"{folder}/print_{chip_id}.csv"
     netlist_file = f"{folder}/netlist_{netlist_id}.csv"
 
+    # create board
+    board = Board(chip_file, netlist_file)
 
+    best_solution = board
     # find number of solution desired by user
     for i in range(n_solutions):
-        # create a board to solve
-        board = Board(chip_file, netlist_file) # TODO misschien niet elke keer een nieuwe board
 
         # run algorithm and check how long it takes to find solution
         start = time.time()
-        alg_func(board)
+        algorithm = alg_cls(board)
+        algorithm.run()
         total_time = time.time() - start
 
         # get the cost of this solution
-        cost = board.cost
+        cost = algorithm.board.cost
+
+        # check if best solution
+        if cost <= best_solution.cost:
+            best_solution = algorithm.board
 
         # write costs in file
         with open(f"{folder}/costs.csv", 'a') as file:
@@ -87,6 +94,7 @@ def main():
     # name of ouput file
     output_file = "output.csv"
 
+    # write output file
     with open(f"{folder}/{output_file}", "w") as file:
         writer = csv.writer(file)
 
@@ -94,15 +102,15 @@ def main():
         writer.writerow(["net", "wires"])
 
         # write net connections and routes
-        for net in board.nets:
+        for net in best_solution.nets:
             writer.writerow([str(net.connect), str(net.route)])
 
         # TODO
-        writer.writerow([f"chip_{chip_id}_net_{netlist_id}", cost])
+        writer.writerow([f"chip_{chip_id}_net_{netlist_id}", best_solution.cost])
 
     # create output plot
-    if board.height > 0:
-        plot_output3D(output_file, folder, board)
+    if best_solution.height > 0:
+        plot_output3D(output_file, folder, best_solution)
     else:
         plot_output2D(output_file, folder)
         
