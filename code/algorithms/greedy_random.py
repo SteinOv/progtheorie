@@ -10,19 +10,19 @@ INVALID_LIMIT = 25
 
 def greedy_random(board):
     """combines greedy and random"""
-    random.seed(510)
+    random.seed(seed)
     current_deviation = DEVIATION
     #board.width * board.length
 
     # False as long as no solution is found
     no_solution = True
     while no_solution:
-        print("\nStart searching for solution")
+        #print("\nStart searching for solution")
 
         # determine route for each net individually
         for net in board.nets:
             current_deviation += DEVIATION_INCREASE
-            print(net)
+            #print(net)
 
             curr_location = net.connect[0].loc
             goal = net.connect[1].loc
@@ -77,8 +77,6 @@ def greedy_random(board):
                         break
                         # print(f"invalid: {new_location} len: {net_length}")
 
-            
-            
 
             # if max resets is reached start over
             if n_resets == MAX_RESETS:
