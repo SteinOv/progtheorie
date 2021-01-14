@@ -74,8 +74,6 @@ class Board:
                         # create net object with id and gates that it connects
                         self.nets.append(Net(self, i, (gate_a, gate_b)))
 
-                        # add length of wire to cost
-                        self.cost += self.nets[i].length 
         except OSError:
             print(f"File {filename} not found")
             raise SystemExit
@@ -105,16 +103,30 @@ class Board:
         # set is empty if no common element
         collision = nets_1 & nets_2
 
-        # return True if new_location is a gate
-        # return False if new_location is the goal gate
-        if not collision:
-            for xyz in self.gate_locations:
-                if new_location == xyz:
-                    if new_location == goal:
-                        return False
-                    return True
+        # return true if in collision with wire or gate
+        return collision or (new_location in self.gate_locations and not new_location == goal)
 
-        return collision
+    def calc_cost(self):
+        '''calculate total cost of net configuration'''
+
+        # calculate combined length of all nets
+        length = 0
+        for net in self.nets:
+            length += net.length
+
+        # convert grid to 2D list
+        list_2D = sum(sum(self.grid, []), [])
+
+        # remove grid points with less than 2 nets
+        intersection_nets = [li for li in list_2D if len(li) > 1]
+
+        # calculate total intersections
+        total_intersections = sum([1 if len(grid_point) == 2 else 3 for grid_point in intersection_nets])
+
+        print(f"total intersections: {total_intersections}")
+
+        # calculate cost
+        self.cost = length + 300 * total_intersections
 
     
 

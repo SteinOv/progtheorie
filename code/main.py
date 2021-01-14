@@ -5,9 +5,11 @@ from visualization.output_2D import plot_output2D
 import csv
 from importlib import import_module
 
+import time
 
 def main():
     """run the main program"""
+    start_time = time.time()
     # ensure proper usage
     if not (len(argv) in [3, 4]):
         print("Usage: python3 main.py <chip_id> <netlist_id> <algorithm (optional)> ")
@@ -63,6 +65,8 @@ def main():
     else:
         plot_output2D(output_file, folder)
     
+    print(board.cost)
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 
 if __name__ == "__main__":

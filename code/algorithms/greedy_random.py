@@ -10,19 +10,17 @@ INVALID_LIMIT = 25
 
 def greedy_random(board):
     """combines greedy and random"""
-    random.seed(510)
+    random.seed(500)
     current_deviation = DEVIATION
-    #board.width * board.length
 
-    # False as long as no solution is found
+    # True as long as no solution is found
     no_solution = True
     while no_solution:
-        print("\nStart searching for solution")
+        # print("\nStart searching for solution")
 
         # determine route for each net individually
         for net in board.nets:
             current_deviation += DEVIATION_INCREASE
-            print(net)
 
             curr_location = net.connect[0].loc
             goal = net.connect[1].loc
@@ -68,14 +66,13 @@ def greedy_random(board):
                     new_location = tuple(new_location)
 
 
-                    # check if move is valid
+                    # check if move is valid, continue to next wire if so
                     if valid_move(board, wire_coordinates, curr_location, new_location, goal, net_length, start_distance, current_deviation):
                         net_length += 1
                         wire_coordinates.append(new_location)
                         curr_location = new_location
-                        # print(f"valid: {new_location} len: {net_length}")
                         break
-                        # print(f"invalid: {new_location} len: {net_length}")
+
 
             
             
@@ -86,13 +83,14 @@ def greedy_random(board):
                     board.reset_grid()
                 break
             
-            if net.net_id >= 1:
-                print("resets:", n_resets)
-                print(f"Net {net} is af!!!!!")
+            # if net.net_id >= 1:
+            #     print("resets:", n_resets)
+            #     print(f"Net {net} is af!!!!!")
             
 
             # add all wire coordinates to the net's route
             net.route = wire_coordinates
+            net.length = net_length
 
             # add all wire coordinates to board
             for xyz in wire_coordinates:
@@ -100,8 +98,10 @@ def greedy_random(board):
         
         # solution found, so quit loop
         if n_resets != MAX_RESETS:
+            board.calc_cost()
             no_solution = False
 
+        
 
        
 
