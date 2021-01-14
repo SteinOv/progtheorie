@@ -2,14 +2,14 @@ import random
 from copy import copy
 
 # max deviation from ideal route
-DEVIATION = 50
+DEVIATION = 25
 DEVIATION_INCREASE = 10
 MAX_RESETS = 500
 
 
 def greedy_random(board):
     """combines greedy and random"""
-    random.seed(500)
+
     current_deviation = DEVIATION
 
     # True as long as no solution is found
