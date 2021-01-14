@@ -1,23 +1,37 @@
+# %% 
 from sys import argv, exit
 from classes.board import Board
 from visualization.output_3D import plot_output3D
 from visualization.output_2D import plot_output2D
 import csv
 from importlib import import_module
+import os
 
 
 def main():
     """run the main program"""
     # ensure proper usage
-    if not (len(argv) in [3, 4]):
-        print("Usage: python3 main.py <chip_id> <netlist_id> <algorithm (optional)> ")
+    if not (len(argv) in [2, 3]):
+        print("Usage: python3 main.py <chip_id> <netlist_id>")
         exit(1)
 
-    # set algorithm to default if none is given
-    if len(argv) == 4:
-        algorithm = argv[3]
-    else:
-        algorithm = "basic"
+    algorithms = []
+
+    for filename in os.listdir('algorithms/'):
+        if filename.endswith(".py"):
+            algorithms.append(filename[:-3])
+
+    # prompt user for desired algorithm
+    print("Which algorithm would you like to run?")
+    print(algorithms)
+    command = input("> ")
+
+    if command in algorithms:
+        algorithm = str(command)
+
+    # prompt user for desired number of solutions
+    print("How many solutions do you want to generate?")
+    n_solutions = int(input("> "))
 
 
     # TODO
@@ -33,11 +47,11 @@ def main():
     # TODO
     board = Board(chip_file, netlist_file)
 
-    # Run algorithm
-    alg = import_module(f"algorithms.{algorithm}")
-    alg_func = getattr(alg, algorithm)
-    alg_func(board)
-
+    for i in range(n_solutions):
+        # Run algorithm
+        alg = import_module(f"algorithms.{algorithm}")
+        alg_func = getattr(alg, algorithm)
+        alg_func(board)
 
 
     # TODO
