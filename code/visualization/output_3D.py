@@ -37,10 +37,7 @@ def plot_output3D(output_csv, output_folder, board):
                     z_line[-1].append(z)
 
     # TODO
-    x = []
-    y = []
-    z = []
-    name = []
+    x, y, z, name = [], [], [], []
 
     # TODO
     for i in range(len(x_line)):
@@ -51,12 +48,7 @@ def plot_output3D(output_csv, output_folder, board):
             name.append(i)
 
     # TODO
-    df = pd.DataFrame(dict(
-        X=x, 
-        Y=y, 
-        Z=z,
-        name=name
-    ))
+    df = pd.DataFrame(dict(X=x, Y=y, Z=z, name=name))
 
     # TODO
     fig = px.line_3d(df, x='X', y='Y', z='Z', line_group="name")
