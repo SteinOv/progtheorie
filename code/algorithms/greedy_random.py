@@ -7,10 +7,10 @@ DEVIATION_INCREASE = 10
 MAX_RESETS = 500
 
 class greedy_random:
-    '''
+    """
     combination of random and greedy algorithm using manhattan distance
     
-    '''
+    """
 
     def __init__(self, board):
         self.board = deepcopy(board)
@@ -20,7 +20,6 @@ class greedy_random:
 
     def run(self):
         """combines greedy and random"""
-        random.seed(500) # TODO remove seed
         current_deviation = DEVIATION
 
         # True as long as no solution is found
