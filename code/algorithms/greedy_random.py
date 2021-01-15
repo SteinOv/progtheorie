@@ -54,14 +54,8 @@ class greedy_random:
                         move = random.choice(moves)
                         moves.remove(move)
                         
-                        # create new location based on move
-                        new_loc = []
-                        for i, value in enumerate(current_loc):
-                            if i == move[0]:
-                                new_loc.append(value + move[1])
-                            else:
-                                new_loc.append(value)
-                        new_loc = tuple(new_loc)
+                        # create new location based on move 
+                        new_loc = self.find_new_loc(current_loc, move)
 
                         # check if move is valid, continue to next wire if so
                         if self.valid_move(wire_coordinates, current_loc, new_loc, goal, net_length, start_distance, current_deviation):
@@ -104,7 +98,7 @@ class greedy_random:
             dist += abs(current_loc[i] - new_loc[i])
         return dist
 
-    def valid_move(self, wire_coordinates, current_loc, new_loc, goal, net_length, dist_init, bound_curr):
+    def valid_move(self, wire_coordinates, current_loc, new_loc, goal, net_length, dist_init, current_deviation):
         """determine if move is valid"""
         # move is outside of grid
         for i, j in zip(new_loc, (self.board.width, self.board.length, self.board.height)):
@@ -112,7 +106,18 @@ class greedy_random:
                 return False
 
         check_a = not self.board.is_collision(current_loc, new_loc, goal)
-        check_b = self.manhattan(goal, new_loc) + net_length <= dist_init + bound_curr
+        check_b = self.manhattan(goal, new_loc) + net_length <= dist_init + current_deviation
         check_c = not new_loc in wire_coordinates
 
         return check_a & check_b & check_c
+
+    def find_new_loc(self, current_loc, move):
+        """returns new location based on move"""
+        new_loc = []
+        for i, value in enumerate(current_loc):
+            if i == move[0]:
+                new_loc.append(value + move[1])
+            else:
+                new_loc.append(value)
+
+        return tuple(new_loc)
