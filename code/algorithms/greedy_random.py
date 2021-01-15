@@ -31,6 +31,7 @@ class greedy_random:
             for net in self.board.nets:
                 current_deviation += DEVIATION_INCREASE
 
+                # starting data
                 curr_location = net.connect[0].loc
                 goal = net.connect[1].loc
                 start_distance = self.manhattan(curr_location, goal)
@@ -63,7 +64,6 @@ class greedy_random:
                                 new_location.append(value)
                         new_location = tuple(new_location)
 
-
                         # check if move is valid, continue to next wire if so
                         if self.valid_move(wire_coordinates, curr_location, new_location, goal, net_length, start_distance, current_deviation):
                             net_length += 1
@@ -84,7 +84,8 @@ class greedy_random:
                 # add all wire coordinates to board
                 for xyz in wire_coordinates:
                     self.board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
-
+            
+            # display every 100 iterations
             if count == 100:
                 count = 0
                 print("100 additional tries")
