@@ -46,3 +46,5 @@ class basic:
                 net.route.append((x,y_curr,z))
                 # print(f"x:{x}, y:{y}, z:{z}")
                 self.board.grid[x][y_curr][z].append(net.net_id)
+            
+            self.board.cost += net.length

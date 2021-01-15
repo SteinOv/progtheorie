@@ -77,13 +77,14 @@ def main():
         algorithm = alg_cls(board)
         algorithm.run()
         total_time = time.time() - start
-
+        
         # get the cost of this solution
         cost = algorithm.board.cost
 
         # check if best solution
-        if cost <= best_solution.cost:
+        if cost < best_solution.cost or not best_solution.cost:
             best_solution = algorithm.board
+
 
         # write costs in file
         with open(f"{folder}/costs.csv", 'a') as file:
