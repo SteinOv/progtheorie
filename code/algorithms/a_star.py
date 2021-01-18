@@ -47,7 +47,7 @@ class a_star(greedy_random):
 
         while open_list:
             # end reached
-            if current_node is end_node:
+            if current_node.loc == end_node.loc:
                 # backtrack to start
                 path = []
                 current = current_node
