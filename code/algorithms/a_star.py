@@ -17,6 +17,9 @@ class a_star(greedy_random):
 
     def __init__(self, board):
         self.board = deepcopy(board)
+    
+    def __repr__(self):
+        return "a_star"
         
 
 
@@ -42,9 +45,9 @@ class a_star(greedy_random):
         # input("Start search")
 
         start_loc = net.connect[0].loc
-        start_node = Node(start_loc, None)
+        start_node = Node(start_loc)
         end_loc = net.connect[1].loc
-        end_node = Node(end_loc, None)
+        end_node = Node(end_loc)
 
         open_list = [start_node]
         closed_list = []

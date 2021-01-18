@@ -57,11 +57,11 @@ def main():
                 break
         except:
             pass
-
             
     # import algorithm
     alg = import_module(f"algorithms.{algorithm}")
-    alg_cls = getattr(alg, algorithm)
+    alg_class = getattr(alg, algorithm)
+    
     
 
 
@@ -79,10 +79,9 @@ def main():
     best_solution = board
     # find number of solution desired by user
     for i in range(n_solutions):
-
         # run algorithm and check how long it takes to find solution
         start = time.time()
-        algorithm = alg_cls(board)
+        algorithm = alg_class(board)
         algorithm.run()
         total_time = time.time() - start
         
