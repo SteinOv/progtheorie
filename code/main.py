@@ -107,18 +107,18 @@ def main():
     output_file = "output.csv"
 
     # write output file
-    with open(f"{folder}/{output_file}", "w") as file:
+    with open(f"{folder}/{output_file}", "w", newline='') as file:
         writer = csv.writer(file)
 
         # write header row
-        writer.writerow(["net", "wires"])
+        writer.writerow(["net","wires"])
 
         # write net connections and routes
         for net in best_solution.nets:
-            writer.writerow([str(net.connect), str(net.route)])
+            writer.writerow([str(net.connect).replace(" ", ""), str(net.route).replace(" ", "")])
 
         # TODO
-        writer.writerow([f"chip_{chip_id}_net_{netlist_id}", best_solution.cost])
+        writer.writerow([f"chip_{chip_id}_net_{netlist_id}",best_solution.cost])
 
     # create output plot
     if best_solution.height > 0:

@@ -11,8 +11,6 @@ class Node:
         self.heuristic = 0
         self.sum = 0
 
-
-
 class a_star(greedy_random):
 
     def __init__(self, board):
@@ -20,35 +18,34 @@ class a_star(greedy_random):
     
     def __repr__(self):
         return "a_star"
-        
-
 
     def run(self):
         # sort netlist by amount of connections
         self.board.nets.sort(key=lambda net: net.priority_num, reverse=True)
-        print(self.board.nets[0].priority_num)
-        print(self.board.nets[-1].priority_num)
 
-
+        i = 0
         # run a star search
-        for net in self.board.nets:
+        while i < len(self.board.nets):
+            net = self.board.nets[i]
             # add all wire coordinates to board
             result = self.a_star_search(net)
-            if result:
+            if result[0]:
                 net.route = result
                 net.length = len(result) - 1
 
                 for xyz in result:
                     self.board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
+                i += 1
+            else:
+                self.board.reset_grid()
+                self.board.nets.remove(net)
+                self.board.nets.insert(0, net)
+                i = 0
+                print("Restarting...")
+
         self.board.calc_cost()
 
-            
-
-    
-
-
     def a_star_search(self, net):
-        # input("Start search")
 
         start_loc = net.connect[0].loc
         start_node = Node(start_loc)
@@ -60,7 +57,6 @@ class a_star(greedy_random):
         current_node = start_node
 
         while open_list:
-            # print("new node found")
             # end reached
             if current_node.loc == end_node.loc:
 
@@ -73,18 +69,12 @@ class a_star(greedy_random):
                     current = current.parent
                 path.append(current.loc)
                 
-
                 # backtracked, reverse list
                 path.reverse()
-                # print(path)
                 return path
 
-            # input("continue1")
             # sort open_list on lowest sum
             open_list.sort(key=lambda node: node.sum)
-            # print([i.sum for i in open_list])
-            # input("continue")
-            # print([i.sum for i in open_list])
 
             # choose node with lowest sum
             current_node = open_list[0]
@@ -93,7 +83,6 @@ class a_star(greedy_random):
             open_list.remove(current_node)
             closed_list.append(current_node)
 
-            # print(len(open_list))
             for move in [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]:
                 
                 new_loc = self.find_new_loc(current_node.loc, move)
@@ -127,11 +116,10 @@ class a_star(greedy_random):
                     new_node.cost_to_node = cost_to_node
                     new_node.heuristic = self.manhattan(current_node.loc, new_node.loc)
                     new_node.sum = cost_to_node + new_node.heuristic
-                    # print(new_node.sum)
 
 
         print(f"No solution found, {net.net_id}")
-        return False   
+        return False, net   
             
 
 
