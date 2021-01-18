@@ -24,8 +24,9 @@ class a_star(greedy_random):
         # run a star search
         for net in self.board.nets:
             # add all wire coordinates to board
-            print("de functie", self.a_star_search(net))
-            for xyz in self.a_star_search(net):
+            result = self.a_star_search(net)
+            net.route = result
+            for xyz in result:
                 print("xyz", xyz)
                 self.board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
             
@@ -95,7 +96,16 @@ class a_star(greedy_random):
                     open_list.append(new_node)
                 else:
                     continue
-        return "Hallo dit is het eind er is geen oplossing"
+        # backtrack to start
+        path = []
+        current = current_node
+
+        while current is not start_node:
+            path.append(current.loc)
+            current = current.parent
+
+        path.reverse()
+        return path
             
             
 
