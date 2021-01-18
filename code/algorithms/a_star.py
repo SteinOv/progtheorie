@@ -25,10 +25,11 @@ class a_star(greedy_random):
         for net in self.board.nets:
             # add all wire coordinates to board
             result = self.a_star_search(net)
-            net.route = result
-            for xyz in result:
-                print("xyz", xyz)
-                self.board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
+            if result:
+                net.route = result
+                for xyz in result:
+                    # print("xyz", xyz)
+                    self.board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
             
 
     
@@ -55,13 +56,17 @@ class a_star(greedy_random):
                 while current is not start_node:
                     path.append(current.loc)
                     current = current.parent
+                path.append(current.loc)
 
+                # backtracked, reverse list
                 path.reverse()
+                print(path)
                 return path
 
 
             # sort open_list on lowest sum
             open_list.sort(key=lambda node: node.sum)
+            # print([i.sum for i in open_list])
 
             # choose node with lowest sum
             current_node = open_list[0]
@@ -69,44 +74,33 @@ class a_star(greedy_random):
             # move to closed_list
             open_list.remove(current_node)
             closed_list.append(current_node)
-            print(len(closed_list))
+            
 
             for move in [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]:
                 
                 new_loc = self.find_new_loc(current_node.loc, move)
 
                 if self.valid_move(current_node.loc, new_loc, end_node.loc):
-                    new_node = Node(new_loc, current_node)
 
-                    # break out of loop if node in closed_list
-                    in_closed_list = [True for node in closed_list if node.loc == new_node.loc]
+                    # try next move if node in closed_list
+                    in_closed_list = [True for node in closed_list if node.loc == new_loc]
                     if in_closed_list:
-                        break
+                        continue
+                    
+                    # create node and add to open_list
+                    new_node = Node(new_loc, current_node)
+                    open_list.append(new_node)
 
                     # calculate cost_to_node, heuristic and sum
-                    new_node.cost_to_node += 1
+                    new_node.cost_to_node = current_node.cost_to_node + 1
                     new_node.heuristic = self.manhattan(current_node.loc, new_node.loc)
                     new_node.sum = new_node.cost_to_node + new_node.heuristic
 
-                    # add node to open list
-                    in_open_list = [True for node in open_list if new_node.cost_to_node > node.cost_to_node]
-                    if in_open_list:
-                        break
-
-                    open_list.append(new_node)
                 else:
                     continue
-        # backtrack to start
-        path = []
-        current = current_node
 
-        while current is not start_node:
-            path.append(current.loc)
-            current = current.parent
-
-        path.reverse()
-        return path
-            
+        print("No solution found")
+        return False   
             
 
 
