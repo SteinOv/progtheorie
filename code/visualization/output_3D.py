@@ -51,7 +51,7 @@ def plot_output3D(output_csv, output_folder, board):
     df = pd.DataFrame(dict(X=x, Y=y, Z=z, name=name))
 
     # TODO
-    fig = px.line_3d(df, x='X', y='Y', z='Z', line_group="name")
+    fig = px.line_3d(df, x='X', y='Y', z='Z', color="name")
     
     fig.add_scatter3d(
             x=[board.gates[gate].loc[0] for gate in board.gates],
@@ -59,8 +59,7 @@ def plot_output3D(output_csv, output_folder, board):
             z=[board.gates[gate].loc[2] for gate in board.gates],
             mode="markers", 
             marker_symbol="square",
-            marker_color="red",
-            color='name'
+            marker_color="red"
         )
 
     fig.show()
