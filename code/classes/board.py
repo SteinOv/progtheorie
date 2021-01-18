@@ -108,7 +108,6 @@ class Board:
 
     def calc_cost(self):
         '''calculate total cost of net configuration'''
-
         # calculate combined length of all nets
         length = 0
         for net in self.nets:
