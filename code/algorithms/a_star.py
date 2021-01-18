@@ -17,6 +17,9 @@ class a_star(greedy_random):
 
     def __init__(self, board):
         self.board = deepcopy(board)
+    
+    def __repr__(self):
+        return "a_star"
         
 
 
