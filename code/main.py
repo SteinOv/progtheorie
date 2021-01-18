@@ -61,9 +61,6 @@ def main():
     # import algorithm
     alg = import_module(f"algorithms.{algorithm}")
     alg_class = getattr(alg, algorithm)
-    
-    
-
 
     # get id's and folder
     chip_id, netlist_id = argv[1:3]
@@ -91,7 +88,6 @@ def main():
         # check if best solution
         if cost < best_solution.cost or not best_solution.cost:
             best_solution = algorithm.board
-
 
         # filename for costs output
         costs_file = "costs.csv"

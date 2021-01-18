@@ -24,6 +24,10 @@ class a_star(greedy_random):
 
 
     def run(self):
+        # sort netlist by amount of connections
+        
+
+
         # run a star search
         for net in self.board.nets:
             # add all wire coordinates to board

@@ -7,6 +7,7 @@ class Net:
         self.connect = connect
         self.route = []
         self.length = 0
+        self.priority_num = 0
 
     
     def __repr__(self):
