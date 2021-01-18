@@ -76,11 +76,12 @@ class Board:
                         # create net object with id and gates that it connects
                         self.nets.append(Net(self, i, (gate_a, gate_b)))
 
-                    # count number of connections of gate
-                    if gate_a in self.gates:
-                        self.gates[gate_a] += 1
-                    if gate_b in self.gates:
-                        self.gates[gate_b] += 1
+                        # count number of connections of gate
+                        self.gates[gate_a.gate_id].n_connections += 1
+                        self.gates[gate_b.gate_id].n_connections += 1
+                
+            for net in self.nets:
+                net.priority_num = net.connect[0].n_connections + net.connect[1].n_connections
                     
 
                     

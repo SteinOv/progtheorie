@@ -25,7 +25,9 @@ class a_star(greedy_random):
 
     def run(self):
         # sort netlist by amount of connections
-        
+        self.board.nets.sort(key=lambda net: net.priority_num, reverse=True)
+        print(self.board.nets[0].priority_num)
+        print(self.board.nets[-1].priority_num)
 
 
         # run a star search
