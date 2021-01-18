@@ -53,6 +53,8 @@ class Board:
                         self.width = x + 1
                     if y > self.length:
                         self.length = y + 1
+
+
         except OSError:
             print(f"File {filename} not found")
             raise SystemExit
@@ -73,6 +75,15 @@ class Board:
 
                         # create net object with id and gates that it connects
                         self.nets.append(Net(self, i, (gate_a, gate_b)))
+
+                    # count number of connections of gate
+                    if gate_a in self.gates:
+                        self.gates[gate_a] += 1
+                    if gate_b in self.gates:
+                        self.gates[gate_b] += 1
+                    
+
+                    
 
         except OSError:
             print(f"File {filename} not found")
