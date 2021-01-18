@@ -83,10 +83,6 @@ class a_star(greedy_random):
             # move to closed_list
             open_list.remove(current_node)
             closed_list.append(current_node)
-<<<<<<< HEAD
-            print(len(open_list))
-=======
->>>>>>> 539bd404a0b0378de2241519ee7490c0a8a5e69b
 
             # print(len(open_list))
             for move in [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]:
@@ -94,26 +90,12 @@ class a_star(greedy_random):
                 new_loc = self.find_new_loc(current_node.loc, move)
 
                 if self.valid_move(current_node.loc, new_loc, end_node.loc):
-<<<<<<< HEAD
-                    
-                    # try next move if node in closed_list
-=======
 
                     # skip move if in closed_list
->>>>>>> 539bd404a0b0378de2241519ee7490c0a8a5e69b
                     in_closed_list = [True for node in closed_list if node.loc == new_loc]
                     if in_closed_list:
                         continue
                     
-<<<<<<< HEAD
-                    # create node and add to open_list
-                    new_node = Node(new_loc, current_node)
-
-                    
-
-                    # calculate cost_to_node, heuristic and sum
-                    new_node.cost_to_node = current_node.cost_to_node + 1
-=======
                     # calculate cost_to_node
                     cost_to_node = current_node.cost_to_node + 1
 
@@ -134,19 +116,10 @@ class a_star(greedy_random):
 
                     # calculate heuristic and sum
                     new_node.cost_to_node = cost_to_node
->>>>>>> 539bd404a0b0378de2241519ee7490c0a8a5e69b
                     new_node.heuristic = self.manhattan(current_node.loc, new_node.loc)
                     new_node.sum = cost_to_node + new_node.heuristic
                     # print(new_node.sum)
 
-<<<<<<< HEAD
-                    in_open_list = [True for node in open_list if new_node.loc == node.loc]
-                    if in_open_list:
-                        continue
-                    open_list.append(new_node)
-
-=======
->>>>>>> 539bd404a0b0378de2241519ee7490c0a8a5e69b
 
         print(f"No solution found, {net.net_id}")
         return False   
