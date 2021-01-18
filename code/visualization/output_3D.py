@@ -59,8 +59,8 @@ def plot_output3D(output_csv, output_folder, board):
             z=[board.gates[gate].loc[2] for gate in board.gates],
             mode="markers", 
             marker_symbol="square",
-            marker_color="red"
-            
+            marker_color="red",
+            color='name'
         )
 
     fig.show()

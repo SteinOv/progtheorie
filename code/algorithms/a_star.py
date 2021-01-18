@@ -68,30 +68,30 @@ class a_star(greedy_random):
 
             # move to closed_list
             open_list.remove(current_node)
-            closed_list.append(current_node)
-            print(len(closed_list))
+            # print(len(closed_list))
 
             for move in [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]:
                 
                 new_loc = self.find_new_loc(current_node.loc, move)
 
                 if self.valid_move(current_node.loc, new_loc, end_node.loc):
+                    closed_list.append(current_node)
                     new_node = Node(new_loc, current_node)
 
                     # break out of loop if node in closed_list
                     in_closed_list = [True for node in closed_list if node.loc == new_node.loc]
                     if in_closed_list:
-                        break
+                        continue
 
                     # calculate cost_to_node, heuristic and sum
-                    new_node.cost_to_node += 1
+                    new_node.cost_to_node += current_node.cost_to_node + 1
                     new_node.heuristic = self.manhattan(current_node.loc, new_node.loc)
                     new_node.sum = new_node.cost_to_node + new_node.heuristic
 
                     # add node to open list
-                    in_open_list = [True for node in open_list if new_node.cost_to_node > node.cost_to_node]
-                    if in_open_list:
-                        break
+                    # in_open_list = [True for node in open_list if new_node.cost_to_node > node.cost_to_node]
+                    # if in_open_list:
+                    #     continue
 
                     open_list.append(new_node)
                 else:
