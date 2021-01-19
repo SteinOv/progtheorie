@@ -92,6 +92,13 @@ def main():
         # filename for costs output
         costs_file = "costs.csv"
 
+
+        # create stats folder
+        try:
+            os.mkdir("data/stats/")
+        except OSError:
+            pass
+
         # write column names if file doesn't exist yet
         if costs_file not in os.listdir(f'data/stats/'):
             with open(f"data/stats/{costs_file}", 'a') as file:
