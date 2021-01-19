@@ -105,7 +105,7 @@ class greedy_random:
             if i > j or i < 0:
                 return False
 
-        check_a = not self.board.is_collision(current_loc, new_loc, goal)
+        check_a = not self.board.is_collision(current_loc, new_loc, goal)[0]
         check_b = self.manhattan(goal, new_loc) + net_length <= dist_init + current_deviation
         check_c = not new_loc in wire_coordinates
 

@@ -97,7 +97,7 @@ class Board:
         # add gate locations to grid
         for gate in self.gates:
             x, y, z = self.gates[gate].loc
-            grid[x][y][z].append(gate)
+            grid[x][y][z].append(-1)
         return grid
     
     def reset_grid(self):
@@ -115,12 +115,18 @@ class Board:
         # set is empty if no common element
         collision = nets_1 & nets_2
 
-        # return true if in collision with wire or gate
-        return collision or (new_location in self.gate_locations and not new_location == goal)
+        # number of extra intersections if net would move to new_location
+        n_intersections = len(nets_2)
+
+        if new_location == goal:
+            n_intersections = 0
+
+        # return true if in collision with wire or gate and number of extra intersections
+        return collision or (new_location in self.gate_locations and not new_location == goal), n_intersections
 
     def calc_cost(self):
         '''calculate total cost of net configuration'''
-        # calculate combined length of all nets
+        # combined length of all nets
         length = 0
         for net in self.nets:
             length += net.length
@@ -128,15 +134,15 @@ class Board:
         # convert grid to 2D list
         list_2D = sum(sum(self.grid, []), [])
 
-        # remove grid points with less than 2 nets
-        intersection_nets = [li for li in list_2D if len(li) > 1]
+        # list of grid points with intersections
+        intersection_nets = [li for li in list_2D if len(li) > 1 and not li.count(-1)]
 
-        # calculate total intersections
+        # total intersections
         total_intersections = sum([1 if len(grid_point) == 2 else 3 for grid_point in intersection_nets])
 
         print(f"total intersections: {total_intersections}")
 
-        # calculate cost
+        # total cost
         self.cost = length + 300 * total_intersections
 
     
