@@ -2,9 +2,17 @@
 
 © 2021 "All Rights Reserved"
 
+This program contains several algorithms, which use heuristics to solve the Chips & Circuits problems. These problems contain multiple gates that have to be connected with wires. This connection between two gates is called a net. The goal of the problem is to place all nets in the most cost efficient manner. The nets are allowed to intersect, but are not allowed to overlap.
+
+Costs are calculated as follows:
+n = total length of all nets
+k = number of intersections
+Costs = n + 300 * k
+
+
 
 ### Requirements
-* This codebase is written entirely in Python 3.7.
+* This codebase is written entirely in Python 3.8.
 * The following extension is needed to visualize the ULM diagram:
     * UMLet (VSCode extension)
 * Requirements.txt contains all necessary packages to run the code successfully. Install the requirements with the following command:
@@ -14,13 +22,14 @@ pip install -r requirements.txt
 
 
 ### Usage
-To use the program, run the following in command line:
+To use the program, run in the command line:
 
-To create find solutions for a specific netlist.
+To find solutions
 ```
 python3 main.py <chip_id> <netlist_id>
 ```
-Or for the statistics of the results
+
+To get statistics
 ```
 python3 main.py <chip_id> <netlist_id>
 ```
