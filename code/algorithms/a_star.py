@@ -1,7 +1,7 @@
 from .greedy_random import greedy_random
 from copy import deepcopy
 
-INTERSECTION_COST = 0
+INTERSECTION_COST = 300
 DIRECTIONS = [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]
 
 
