@@ -1,4 +1,4 @@
-from algorithms.greedy_random import greedy_random
+from .greedy_random import greedy_random
 from copy import deepcopy
 
 INTERSECTION_COST = 0

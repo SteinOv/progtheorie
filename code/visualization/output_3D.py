@@ -37,7 +37,7 @@ def plot_output3D(output_csv, output_folder, board):
                     z_line[-1].append(z)
 
     # TODO
-    x, y, z, name = [], [], [], []
+    x, y, z, nets = [], [], [], []
 
     # TODO
     for i in range(len(x_line)):
@@ -45,22 +45,37 @@ def plot_output3D(output_csv, output_folder, board):
             x.append(x_line[i][j])
             y.append(y_line[i][j])
             z.append(z_line[i][j])
-            name.append(i)
+            nets.append(i)
 
     # TODO
-    df = pd.DataFrame(dict(X=x, Y=y, Z=z, name=name))
+    df = pd.DataFrame(dict(X=x, Y=y, Z=z, nets=nets))
 
     # TODO
-    fig = px.line_3d(df, x='X', y='Y', z='Z', color="name")
+    fig = px.line_3d(df, x='X', y='Y', z='Z', color="nets")
     
+    # add gates to plot
     fig.add_scatter3d(
             x=[board.gates[gate].loc[0] for gate in board.gates],
             y=[board.gates[gate].loc[1] for gate in board.gates],
             z=[board.gates[gate].loc[2] for gate in board.gates],
-            mode="markers", 
+            mode="markers+text",
             marker_symbol="square",
-            marker_color="red"
+            marker_color="red",
+            marker_size=12,
+            text=list(range(1, len(board.gates) + 1)),
+            textposition="middle center",
+            name="gates"
         )
+
+    fig.update_layout (
+        scene = dict (
+            xaxis = dict(dtick=1),
+            yaxis = dict(dtick=1),
+            zaxis = dict(dtick=1)
+        )
+    )
+    # change font size
+    fig.layout.font.size = 10
 
     fig.show()
 
