@@ -94,7 +94,7 @@ def main():
 
 
         # create stats folder
-        stats_folder = "data/stats/"
+        stats_folder = "data/output/"
         try:
             os.mkdir(stats_folder)
         except OSError:

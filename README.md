@@ -13,7 +13,7 @@ Cost = n + 300 * k<br>
 
 ### Requirements
 * This codebase is written entirely in Python 3.8.
-* The following extension is needed to visualize the ULM diagram:
+* The following extension is needed to visualize the UML diagram:
     * UMLet (VSCode extension)
 * Requirements.txt contains all necessary packages to run the code successfully. Install the requirements with the following command:
 ```
@@ -31,7 +31,7 @@ python3 main.py <chip_id> <netlist_id>
 
 To get statistics
 ```
-python3 main.py <chip_id> <netlist_id>
+python3 main.py stats
 ```
 <br>
 
@@ -42,8 +42,8 @@ python3 main.py <chip_id> <netlist_id>
 * See `data/chip_0/` for examples of input files
 <br>
 
-* Output is stored in folder `data/chip_<chip_id>/`
-* Output consists of `output.csv` and `output_plot.png`
+* Output is stored in folder `data/stats/`
+* Output consists of `output.csv` and `costs.csv`
 
 ### Structure
 * The following list describes the most important folders and files in the project, and where to find them: 
@@ -51,7 +51,10 @@ python3 main.py <chip_id> <netlist_id>
     * /code/algorithms: contains the code for algorithms
     * /code/classes: contains the three classes required for this case
     * /code/visualisation: contains plotly code for visualization 
+    * /code/stats: contains pandas code for statistics
 * /data: contains the various data files that are needed to fill and visualize the graph
+* /data/output: contains the output files
+* /docs: contains the UML diagram <i>requires UMLet</i>
 
 ## Contributors: 
 * Samson van der Sande
