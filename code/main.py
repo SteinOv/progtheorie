@@ -95,7 +95,7 @@ def main():
         # write column names if file doesn't exist yet
         if costs_file not in os.listdir(f'stats/'):
             with open(f"stats/{costs_file}", 'a') as file:
-                file.write("costs,total_time,algorithmm,chip_id_netlist_id")
+                file.write("costs,total_time,algorithm,chip_id_netlist_id")
 
         # write costs in file
         with open(f"stats/{costs_file}", 'a') as file:
