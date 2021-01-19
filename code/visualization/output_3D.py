@@ -9,7 +9,7 @@ import pandas as pd
 def plot_output3D(output_csv, output_folder, board):
 
     # store coordinates of nets
-    x_line = []      
+    x_line = []
     y_line = []
     z_line = []
 

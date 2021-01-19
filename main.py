@@ -115,7 +115,7 @@ def main():
     output_file = "output.csv"
 
     # write output file
-    with open(f"{folder}/{output_file}", "w", newline='') as file:
+    with open(f"{stats_folder}/{output_file}", "w", newline='') as file:
         writer = csv.writer(file)
 
         # write header row
@@ -130,9 +130,9 @@ def main():
 
     # create output plot
     if best_solution.height > 0:
-        plot_output3D(output_file, folder, best_solution)
+        plot_output3D(output_file, stats_folder, best_solution)
     else:
-        plot_output2D(output_file, folder)
+        plot_output2D(output_file, stats_folder)
         
 
 if __name__ == "__main__":
