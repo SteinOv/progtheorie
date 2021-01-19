@@ -17,7 +17,7 @@ class Node:
     def __repr__(self):
         return str(f"{id(self)}, loc: {self.loc}, sum: {self.sum}")
 
-class a_star(greedy_random):
+class a_star():
 
     def __init__(self, board):
         self.board = deepcopy(board)
@@ -92,7 +92,7 @@ class a_star(greedy_random):
             for move in DIRECTIONS:
                 
                 # TODO
-                new_loc = self.find_new_loc(current_node.loc, move)
+                new_loc = self.board.find_new_loc(current_node.loc, move)
                 move_valid, n_intersections = self.valid_move(current_node.loc, new_loc, end_node.loc)
                     
                 if move_valid:
@@ -121,7 +121,7 @@ class a_star(greedy_random):
 
                     # calculate heuristic and sum
                     new_node.cost_to_node = cost_to_node
-                    new_node.heuristic = self.manhattan(current_node.loc, new_node.loc)
+                    new_node.heuristic = self.board.manhattan(current_node.loc, new_node.loc)
                     new_node.sum = cost_to_node + new_node.heuristic
 
         print(f"No solution found, {net.net_id}")

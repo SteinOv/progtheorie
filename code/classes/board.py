@@ -145,5 +145,22 @@ class Board:
         # total cost
         self.cost = length + 300 * total_intersections
 
+    def manhattan(self, current_loc, new_loc):
+        """calculate manhattan distance"""
+        dist = 0
+        for i in range(3):
+            dist += abs(current_loc[i] - new_loc[i])
+        return dist
+
+    def find_new_loc(self, current_loc, move):
+        """returns new location based on move"""
+        new_loc = []
+        for i, value in enumerate(current_loc):
+            if i == move[0]:
+                new_loc.append(value + move[1])
+            else:
+                new_loc.append(value)
+
+        return tuple(new_loc)
     
 
