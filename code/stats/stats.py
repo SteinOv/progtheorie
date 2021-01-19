@@ -6,4 +6,4 @@ def get_stats():
     df = pd.read_csv("stats/costs.csv")
 
     # print summary statistics
-    print(df.groupby(df.algorithm).agg(['std', 'mean', 'median', 'min', 'max']))
+    print(df.groupby([df.chip_id_netlist_id, df.algorithm]).agg(['std', 'mean', 'median', 'min', 'max']))
