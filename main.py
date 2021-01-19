@@ -94,18 +94,19 @@ def main():
 
 
         # create stats folder
+        stats_folder = "data/stats/"
         try:
-            os.mkdir("data/stats/")
+            os.mkdir(stats_folder)
         except OSError:
             pass
 
         # write column names if file doesn't exist yet
-        if costs_file not in os.listdir(f'data/stats/'):
-            with open(f"data/stats/{costs_file}", 'a') as file:
+        if costs_file not in os.listdir(stats_folder):
+            with open(f"{stats_folder}{costs_file}", 'a') as file:
                 file.write("costs,total_time,algorithm,chip_id_netlist_id")
 
         # write costs in file
-        with open(f"data/stats/{costs_file}", 'a') as file:
+        with open(f"{stats_folder}{costs_file}", 'a') as file:
             # costs, total_time, algorithm
             file.write(f"\n{cost}, {total_time}, {algorithm}, {chip_id}_{netlist_id}")
 
