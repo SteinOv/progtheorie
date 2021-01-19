@@ -1,22 +1,20 @@
-<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>600</x><y>0</y><w>210</w><h>230</h></coordinates><panel_attributes>_object: Gate_
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>590</x><y>30</y><w>210</w><h>140</h></coordinates><panel_attributes>_object: Gate_
 --
 gate_id: int
 loc: (x, y, 0)
 
 --
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>600</x><y>300</y><w>210</w><h>220</h></coordinates><panel_attributes>_object: Net_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>590</x><y>330</y><w>210</w><h>180</h></coordinates><panel_attributes>_object: Net_
 --
 net_id: int
 connect: [Gate, Gate]
 route: [(x, y, z), (x, y, z), ... ]
 length: int
+priority_num: int
 
 --
-Methods
-
-create_route: [(x, y, z), (x, y, z), ... ]
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>240</y><w>300</w><h>230</h></coordinates><panel_attributes>_object: Board_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>270</y><w>300</w><h>330</h></coordinates><panel_attributes>_object: Board_
 --
 gates: {1: Gate, 2: Gate, ...}
 nets: [Net, Net, ...]
@@ -31,7 +29,13 @@ Methods
 
 load_gates(self, print.csv): {'1': Gate, '2': Gate, ...}
 load_nets(self, netlist.csv): {0: Net, 1, Net, ...}
-occupied_locations: None</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>300</x><y>120</y><w>320</w><h>200</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>300;10;10;180</additional_attributes></element><element><id>Relation</id><coordinates><x>300</x><y>370</y><w>320</w><h>110</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>300;90;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>690</x><y>220</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>580</y><w>300</w><h>190</h></coordinates><panel_attributes>_object: Node_
+create_grid(self, width, length, height): 3D list of (x,y,z) tuples
+reset_grid(self)
+is_collision(self, curr_loc, new_loc, goal): bool, n_intersections
+calc_cost(self): self.cost = int
+manhattan(self, current_loc, new_loc): distance (int)
+find_new_loc(self, current_loc, move): (x,y,z) tuple
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>150</y><w>320</w><h>200</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>300;10;10;180</additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>400</y><w>320</w><h>110</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>300;90;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>680</x><y>160</y><w>30</w><h>190</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;10;170</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>680</y><w>300</w><h>190</h></coordinates><panel_attributes>_object: Node_
 --
 parent: Node
 location: (x,y,z)

@@ -26,18 +26,18 @@ def main():
 
     algorithms = []
 
-    # TODO
+    # save all existing algorithms
     for filename in os.listdir('code/algorithms/'):
         if filename.endswith(".py") and not filename.startswith("__"):
             algorithms.append(filename[:-3])
 
+    # prompt user for desired algorithm
     while True:
-        # prompt user for desired algorithm
         print("Which algorithm would you like to run?")
         
         # display algorithms to choose from
-        for algo in algorithms:
-            print(algo)
+        for algorithm in algorithms:
+            print(algorithm)
 
         command = input("> ")
 

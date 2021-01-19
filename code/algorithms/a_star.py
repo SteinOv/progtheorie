@@ -42,6 +42,7 @@ class a_star():
                 for xyz in result:
                     self.board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
                 i += 1
+
             # no solution for a net, restart with net as first
             else:
                 self.board.reset_grid()
@@ -63,7 +64,7 @@ class a_star():
         current_node = start_node
 
         while open_list:
-            # end reached
+            # goal reached
             if current_node.loc == end_node.loc:
 
                 # backtrack to start
@@ -75,7 +76,7 @@ class a_star():
                     current = current.parent
                 path.append(current.loc)
                 
-                # backtracked, reverse list
+                # backtracked, return list reversed
                 path.reverse()
                 return path
 
@@ -89,6 +90,7 @@ class a_star():
             open_list.remove(current_node)
             closed_list.append(current_node)
 
+            # add each valid move to open list
             for move in DIRECTIONS:
                 
                 # TODO
@@ -135,6 +137,6 @@ class a_star():
             if i > j or i < 0:
                 return False, 0
 
-        # return true if not in collision, number of extra intersections
+        # return: true if not in collision, number of extra intersections
         return_ = self.board.is_collision(current_loc, new_loc, goal)
         return not return_[0], return_[1]

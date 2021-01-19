@@ -2,7 +2,7 @@ import csv
 from .gate import Gate
 from .net import Net
 import numpy as np
-import copy
+from copy import deepcopy
 
 
 class Board:
@@ -25,11 +25,9 @@ class Board:
         self.load_gates(print_csv)
         self.grid = self.create_grid(self.width, self.length, self.height)
         self.load_nets(netlist_csv)
-        # print(f"length:{self.length}, width:{self.width}, height: {self.height}")
-        # print(len(self.grid[0]))
 
         # save the start of grid for algorithm to start over
-        self.grid_reserve = copy.deepcopy(self.grid)
+        self.grid_reserve = deepcopy(self.grid)
         
         
     
@@ -83,9 +81,6 @@ class Board:
             for net in self.nets:
                 net.priority_num = net.connect[0].n_connections + net.connect[1].n_connections
                     
-
-                    
-
         except OSError:
             print(f"File {filename} not found")
             raise SystemExit
@@ -102,27 +97,24 @@ class Board:
     
     def reset_grid(self):
         """change the grid back to its starting state"""
-        self.grid = copy.deepcopy(self.grid_reserve)
+        self.grid = deepcopy(self.grid_reserve)
 
-    def is_collision(self, curr_location, new_location, goal):
+    def is_collision(self, curr_loc, new_loc, goal):
         """
         check if nets are in collision
         returns empty set if not in collision else returns non-empty set
         """
-        nets_1 = set(self.grid[curr_location[0]][curr_location[1]][curr_location[2]])
-        nets_2 = set(self.grid[new_location[0]][new_location[1]][new_location[2]])
+        nets_1 = set(self.grid[curr_loc[0]][curr_loc[1]][curr_loc[2]])
+        nets_2 = set(self.grid[new_loc[0]][new_loc[1]][new_loc[2]])
         
         # set is empty if no common element
         collision = nets_1 & nets_2
 
-        # number of extra intersections if net would move to new_location
-        n_intersections = len(nets_2)
-
-        if new_location == goal:
-            n_intersections = 0
+        # number of extra intersections for move
+        n_intersections = 1 if nets_2 and new_loc != goal else 0
 
         # return true if in collision with wire or gate and number of extra intersections
-        return collision or (new_location in self.gate_locations and not new_location == goal), n_intersections
+        return collision or (new_loc in self.gate_locations and not new_loc == goal), n_intersections
 
     def calc_cost(self):
         '''calculate total cost of net configuration'''
@@ -138,7 +130,7 @@ class Board:
         intersection_nets = [li for li in list_2D if len(li) > 1 and not li.count(-1)]
 
         # total intersections
-        total_intersections = sum([1 if len(grid_point) == 2 else 3 for grid_point in intersection_nets])
+        total_intersections = sum([1 if len(grid_point) == 2 else 2 for grid_point in intersection_nets])
 
         print(f"total intersections: {total_intersections}")
 
@@ -147,10 +139,10 @@ class Board:
 
     def manhattan(self, current_loc, new_loc):
         """calculate manhattan distance"""
-        dist = 0
+        distance = 0
         for i in range(3):
-            dist += abs(current_loc[i] - new_loc[i])
-        return dist
+            distance += abs(current_loc[i] - new_loc[i])
+        return distance
 
     def find_new_loc(self, current_loc, move):
         """returns new location based on move"""
