@@ -4,10 +4,10 @@
 
 This program contains several algorithms, which use heuristics to solve the Chips & Circuits problems. These problems contain multiple gates that have to be connected with wires. This connection between two gates is called a net. The goal of the problem is to place all nets in the most cost efficient manner. The nets are allowed to intersect, but are not allowed to overlap.
 
-Costs are calculated as follows:
-n = total length of all nets
-k = number of intersections
-Costs = n + 300 * k
+Costs are calculated as follows:<br>
+n = total length of all nets<br>
+k = number of intersections<br>
+Cost = n + 300 * k<br>
 
 
 
