@@ -1,6 +1,6 @@
 import csv
-from classes.gate import Gate
-from classes.net import Net
+from .gate import Gate
+from .net import Net
 import numpy as np
 import copy
 

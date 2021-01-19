@@ -1,8 +1,8 @@
 from sys import argv, exit
-from classes.board import Board
-from stats.stats import get_stats
-from visualization.output_3D import plot_output3D
-from visualization.output_2D import plot_output2D
+from code.classes.board import Board
+from code.stats.stats import get_stats
+from code.visualization.output_3D import plot_output3D
+from code.visualization.output_2D import plot_output2D
 import csv
 from importlib import import_module
 import time
@@ -27,8 +27,8 @@ def main():
     algorithms = []
 
     # TODO
-    for filename in os.listdir('algorithms/'):
-        if filename.endswith(".py"):
+    for filename in os.listdir('code/algorithms/'):
+        if filename.endswith(".py") and not filename.startswith("__"):
             algorithms.append(filename[:-3])
 
     while True:
@@ -59,12 +59,12 @@ def main():
             pass
             
     # import algorithm
-    alg = import_module(f"algorithms.{algorithm}")
+    alg = import_module(f"code.algorithms.{algorithm}")
     alg_class = getattr(alg, algorithm)
 
     # get id's and folder
     chip_id, netlist_id = argv[1:3]
-    folder = f"../data/chip_{chip_id}"
+    folder = f"data/chip_{chip_id}"
     
     # get correct files
     chip_file = f"{folder}/print_{chip_id}.csv"
@@ -93,12 +93,12 @@ def main():
         costs_file = "costs.csv"
 
         # write column names if file doesn't exist yet
-        if costs_file not in os.listdir(f'stats/'):
-            with open(f"stats/{costs_file}", 'a') as file:
+        if costs_file not in os.listdir(f'code/stats/'):
+            with open(f"code/stats/{costs_file}", 'a') as file:
                 file.write("costs,total_time,algorithmm,chip_id_netlist_id")
 
         # write costs in file
-        with open(f"stats/{costs_file}", 'a') as file:
+        with open(f"code/stats/{costs_file}", 'a') as file:
             # costs, total_time, algorithm
             file.write(f"\n{cost}, {total_time}, {algorithm}, {chip_id}_{netlist_id}")
 
