@@ -93,13 +93,8 @@ def main():
         costs_file = "costs.csv"
 
         # write column names if file doesn't exist yet
-<<<<<<< HEAD:code/main.py
-        if costs_file not in os.listdir(f'stats/'):
-            with open(f"stats/{costs_file}", 'a') as file:
-=======
         if costs_file not in os.listdir(f'data/stats/'):
             with open(f"data/stats/{costs_file}", 'a') as file:
->>>>>>> 0cde2eb9cee532030032e0dccf1b515a5214a160:main.py
                 file.write("costs,total_time,algorithm,chip_id_netlist_id")
 
         # write costs in file
