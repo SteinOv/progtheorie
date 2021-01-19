@@ -14,8 +14,13 @@ pip install -r requirements.txt
 
 
 ### Usage
+To use the program, run the following in command line:
 
-To use program, run in command line:
+To create find solutions for a specific netlist.
+```
+python3 main.py <chip_id> <netlist_id>
+```
+Or for the statistics of the results
 ```
 python3 main.py <chip_id> <netlist_id>
 ```
