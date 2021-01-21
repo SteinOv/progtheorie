@@ -48,7 +48,7 @@ class greedy_random:
 
                     # continue until valid move found or no moves left
                     while moves:
-                        # make move
+                        # try move
                         move = random.choice(moves)
                         moves.remove(move)
                         new_loc = self.board.find_new_loc(current_loc, move)

@@ -105,9 +105,9 @@ class a_star():
             open_list.remove(current_node)
             closed_list.append(current_node)
 
-            # add valid moves to open list
+            # add valid moves to open_list
             for move in DIRECTIONS:
-                # TODO
+                # try move
                 new_loc = self.board.find_new_loc(current_node.loc, move)
                 move_valid, n_intersections = self.valid_move(current_node.loc, new_loc, end_node.loc)
                     
@@ -117,21 +117,20 @@ class a_star():
                     if in_closed_list:
                         continue
 
-                    # calculate cost_to_node
+                    # increase cost_to_node
                     cost_to_node = current_node.cost_to_node + 1 + INTERSECTION_COST * n_intersections
 
-                    # check if new_loc already in open_list
+                    # check if new_loc in open_list
                     in_open_list = [node for node in open_list if new_loc == node.loc]
-
-                    # if not in open list add to open list
                     if in_open_list:
-                        # if cost is lower than existing route, update route
+                        # update route if cost_to_node lower than current route
                         if cost_to_node < in_open_list[0].cost_to_node:
                             new_node = in_open_list[0]
                             new_node.parent = current_node
                         else:
                             continue
                     else:
+                        # add new node to open_list
                         new_node = Node(new_loc, current_node)
                         open_list.append(new_node)
 
@@ -145,12 +144,12 @@ class a_star():
             
 
     def valid_move(self, current_loc, new_loc, goal):
-        """determine if move is valid"""
-        # move is outside of grid, return false
+        """determines if move is valid"""
+        # return false if move outside of grid
         for i, j in zip(new_loc, (self.board.width, self.board.length, self.board.height)):
             if i > j or i < 0:
                 return False, 0
 
-        # return: true if not in collision, number of extra intersections
+        # return: true if not in collision, number of extra intersections TODO
         return_ = self.board.is_collision(current_loc, new_loc, goal)
         return not return_[0], return_[1]
