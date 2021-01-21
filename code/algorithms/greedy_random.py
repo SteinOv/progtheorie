@@ -54,10 +54,10 @@ class greedy_random:
                         move = random.choice(moves)
                         moves.remove(move)
                         
-                        # create new location based on move 
+                        # create new location
                         new_loc = self.board.find_new_loc(current_loc, move)
 
-                        # check if move is valid, continue to next wire if so
+                        # check if move is valid, continue
                         if self.valid_move(wire_coordinates, current_loc, new_loc, goal, net_length, start_distance, current_deviation):
                             net_length += 1
                             wire_coordinates.append(new_loc)

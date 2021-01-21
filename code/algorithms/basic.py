@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 class basic:
-
+    """finds shortest possible routes without constraints"""
     def __init__(self, board):
         self.board = deepcopy(board)
 
@@ -9,12 +9,9 @@ class basic:
         return "basic"
 
     def run(self):
-        '''basic algorithm, does not take intersections into account'''
-
-        # for each net
+        """start algorithm"""
         for net in self.board.nets:
-
-            # starting x and final x
+            # horizontal starting data
             x_curr, x_goal = net.connect[0].loc[0], net.connect[1].loc[0]
             y = net.connect[0].loc[1]
             z = 0
@@ -28,14 +25,17 @@ class basic:
                     x_curr -= 1
 
                 net.length += 1
+
+                # add x coordinates
                 net.route.append((x_curr,y,z))
                 self.board.grid[x_curr][y][z].append(net.net_id)
 
-
+            # vertical starting data
             y_curr, y_goal = net.connect[0].loc[1], net.connect[1].loc[1]
             x = x_curr
             z = 0
 
+            # move wire along y axis
             while y_curr != y_goal:
                 if y_curr < y_goal:
                     y_curr += 1
@@ -43,8 +43,9 @@ class basic:
                     y_curr -= 1
 
                 net.length += 1
+
+                # add x coordinates
                 net.route.append((x,y_curr,z))
-                # print(f"x:{x}, y:{y}, z:{z}")
                 self.board.grid[x][y_curr][z].append(net.net_id)
             
             self.board.cost += net.length

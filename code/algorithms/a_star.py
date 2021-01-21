@@ -6,6 +6,7 @@ DIRECTIONS = [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]
 
 
 class Node:
+    """grid point"""
 
     def __init__(self, loc, parent=None):
         self.parent = parent
@@ -17,7 +18,9 @@ class Node:
     def __repr__(self):
         return str(f"{id(self)}, loc: {self.loc}, sum: {self.sum}")
 
+
 class a_star():
+    """A* algorithm using Manhattan distance heuristic"""
 
     def __init__(self, board):
         self.board = deepcopy(board)
@@ -26,24 +29,27 @@ class a_star():
         return "a_star"
 
     def run(self):
-        # sort netlist by gates with most connections first
+        """start algorithm"""
+        # sort nets by priority
         self.board.nets.sort(key=lambda net: net.priority_num, reverse=True)
 
         i = 0
-        # run A* search
+        
+        # for every net
         while i < len(self.board.nets):
             net = self.board.nets[i]
-            # add all wire coordinates to board
-            result = self.a_star_search(net)
-            if result:
-                net.route = result
-                net.length = len(result) - 1
 
-                for xyz in result:
+            # add wire coordinates to grid
+            solution = self.a_star_search(net)
+            if solution:
+                net.route = solution
+                net.length = len(solution) - 1
+
+                for xyz in solution:
                     self.board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
                 i += 1
 
-            # no solution for a net, restart with net as first
+            # if no solution restart with unsolved net first
             else:
                 self.board.reset_grid()
                 self.board.nets.remove(net)
@@ -51,32 +57,41 @@ class a_star():
                 i = 0
                 print("Restarting...")
 
+        # total cost
         self.board.calc_cost()
 
     def a_star_search(self, net):
+        """
+        tries to find ideal solution for net
+        returns list of coordinates if solution found else false
+        """
+        # start and end nodes
         start_loc = net.connect[0].loc
         start_node = Node(start_loc)
         end_loc = net.connect[1].loc
         end_node = Node(end_loc)
 
+        # nodes open to visit TODO
         open_list = [start_node]
+
+        # already visited nodes TODO
         closed_list = []
+        
         current_node = start_node
 
         while open_list:
-            # goal reached
+            # check if goal reached
             if current_node.loc == end_node.loc:
-
-                # backtrack to start
                 path = []
                 current = current_node
 
+                # backtrack to start
                 while current is not start_node:
                     path.append(current.loc)
                     current = current.parent
                 path.append(current.loc)
                 
-                # backtracked, return list reversed
+                # return reversed list
                 path.reverse()
                 return path
 
@@ -86,13 +101,12 @@ class a_star():
             # choose node with lowest sum
             current_node = open_list[0]
 
-            # move to closed_list
+            # move node from open to closed_list
             open_list.remove(current_node)
             closed_list.append(current_node)
 
-            # add each valid move to open list
+            # add valid moves to open list
             for move in DIRECTIONS:
-                
                 # TODO
                 new_loc = self.board.find_new_loc(current_node.loc, move)
                 move_valid, n_intersections = self.valid_move(current_node.loc, new_loc, end_node.loc)
