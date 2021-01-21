@@ -61,5 +61,3 @@ def plot_output2D(output_csv, output_folder):
     plt.grid()
     plt.show()
 
-    # save plot
-    plt.savefig(f"{output_folder}/output_plot")
