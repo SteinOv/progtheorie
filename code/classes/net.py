@@ -1,6 +1,4 @@
-
 class Net:
-    ''' Defines a net between gates '''
 
     def __init__(self, board, net_id, connect):
         self.net_id = net_id
@@ -9,7 +7,6 @@ class Net:
         self.length = 0
         self.priority_num = 0
 
-    
     def __repr__(self):
         return str(self.net_id)
 

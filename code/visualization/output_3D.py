@@ -1,4 +1,3 @@
-# Import dependencies
 import plotly.graph_objs as go
 import plotly.express as px
 import csv
@@ -7,50 +6,36 @@ import pandas as pd
 
 
 def plot_output3D(output_csv, output_folder, board):
-
+    """creates plot from csv file"""
     # store coordinates of nets
-    x_line = []
-    y_line = []
-    z_line = []
+    x_df = []
+    y_df = []
+    z_df = []
+    nets_df = []
 
-    # open the output file
-    with open(f"{output_folder}/{output_csv}") as f:
-        for line in csv.reader(f):
-            # skip first and last line
+    # open output file
+    with open(f"{output_folder}/{output_csv}") as file:
+        for i, line in enumerate(csv.reader(file)):
+            # only read rows with coordinates
             if line[0][0] == '(':
-                # convert string list to list
+                # convert list as string to list
                 coordinates = ast.literal_eval(line[1])
 
-                # if no coordinates go to next net
+                # if no coordinates skip row
                 if not coordinates:
                     continue
-                
-                # seperate lists for each line/net
-                x_line.append([])
-                y_line.append([])
-                z_line.append([])
 
-                # seperate x, y coordinates for each net
+                # add coordinates
                 for x, y, z in coordinates:
-                    x_line[-1].append(x)
-                    y_line[-1].append(y)
-                    z_line[-1].append(z)
+                    x_df.append(x)
+                    y_df.append(y)
+                    z_df.append(z)
+                    nets_df.append(i)
 
-    # TODO
-    x, y, z, nets = [], [], [], []
+    # create dataframe
+    df = pd.DataFrame(dict(X=x_df, Y=y_df, Z=z_df, nets=nets_df))
 
-    # TODO
-    for i in range(len(x_line)):
-        for j in range(len(x_line[i])):
-            x.append(x_line[i][j])
-            y.append(y_line[i][j])
-            z.append(z_line[i][j])
-            nets.append(i)
-
-    # TODO
-    df = pd.DataFrame(dict(X=x, Y=y, Z=z, nets=nets))
-
-    # TODO
+    # plot nets
     fig = px.line_3d(df, x='X', y='Y', z='Z', color="nets")
     
     # add gates to plot
@@ -67,6 +52,7 @@ def plot_output3D(output_csv, output_folder, board):
             name="gates"
         )
 
+    # set grid steps
     fig.update_layout (
         scene = dict (
             xaxis = dict(dtick=1),
@@ -77,6 +63,7 @@ def plot_output3D(output_csv, output_folder, board):
     # change font size
     fig.layout.font.size = 10
 
+    # show plot
     fig.show()
 
     

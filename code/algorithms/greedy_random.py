@@ -1,15 +1,13 @@
 import random
 from copy import copy, deepcopy
 
-# max deviation from ideal route
 DEVIATION = 25
 DEVIATION_INCREASE = 10
 MAX_RESETS = 500
+MOVES = [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]
 
 class greedy_random:
-    """
-    combination of random and greedy algorithm using manhattan distance    
-    """
+    """combination of random and greedy algorithm using manhattan distance"""
 
     def __init__(self, board):
         self.board = deepcopy(board)
@@ -18,18 +16,18 @@ class greedy_random:
         return "greedy_random"
 
     def run(self):
-        """combines greedy and random"""
+        """starts algorithm"""
         # allowed deviation for algorithm
         current_deviation = DEVIATION
 
         no_solution = True
         n_tries = 0
 
-        # continue until solution is found
+        # continue until solution found
         while no_solution:
-            # determine route for each net individually
+            # determine route for each net
             for net in self.board.nets:
-                # increase the allowed deviation
+                # increase allowed deviation
                 current_deviation += DEVIATION_INCREASE
 
                 # starting data
@@ -38,7 +36,7 @@ class greedy_random:
                 start_distance = self.board.manhattan(current_loc, goal)
                 net_length = 0
                 
-                # coordinates of the wire, start at gate
+                # coordinates of wire, start at gate
                 wire_coordinates = [current_loc]
 
                 n_resets = 0
@@ -46,18 +44,16 @@ class greedy_random:
                 # continue until goal or limit is reached
                 while current_loc != goal and n_resets < MAX_RESETS:
                     # possible moves
-                    moves = [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]
+                    moves = MOVES.copy()
 
-                    # continue until no possible moves left
+                    # continue until valid move found or no moves left
                     while moves:
-                        # choose a move
+                        # make move
                         move = random.choice(moves)
                         moves.remove(move)
-                        
-                        # create new location based on move 
                         new_loc = self.board.find_new_loc(current_loc, move)
 
-                        # check if move is valid, continue to next wire if so
+                        # if move invalid try new move
                         if self.valid_move(wire_coordinates, current_loc, new_loc, goal, net_length, start_distance, current_deviation):
                             net_length += 1
                             wire_coordinates.append(new_loc)
@@ -66,38 +62,39 @@ class greedy_random:
 
                     n_resets += 1
 
-                # if max resets reached start over
+                # if max resets reached, start over
                 if n_resets == MAX_RESETS:
                     if net != 0:
                         self.board.reset_grid()
                     break
                 
-                # add all wire coordinates to net's route
+                # store wire coordinates in net
                 net.route = wire_coordinates
                 net.length = net_length
 
-                # add all wire coordinates to board
+                # add net to grid
                 for xyz in wire_coordinates:
                     self.board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
 
-            # display every 100 iterations
+            # display every 100 tries
             if not n_tries % 100:
                 print(f"Tried {n_tries} times")
             n_tries += 1
 
-            # solution found, so quit loop
+            # check if solution found
             if n_resets != MAX_RESETS:
                 self.board.calc_cost()
                 no_solution = False
 
 
     def valid_move(self, wire_coordinates, current_loc, new_loc, goal, net_length, dist_init, current_deviation):
-        """determine if move is valid"""
+        """determines if move is valid"""
         # move is outside of grid
         for i, j in zip(new_loc, (self.board.width, self.board.length, self.board.height)):
             if i > j or i < 0:
                 return False
 
+        # requirements
         check_a = not self.board.is_collision(current_loc, new_loc, goal)[0]
         check_b = self.board.manhattan(goal, new_loc) + net_length <= dist_init + current_deviation
         check_c = not new_loc in wire_coordinates

@@ -4,9 +4,7 @@ import csv
 import ast
 
 def plot_output2D(output_csv, output_folder):
-    """
-    creates plot of output file
-    """
+    """creates plot from output file"""
     # store connected gates
     gates = {}
 
@@ -14,15 +12,15 @@ def plot_output2D(output_csv, output_folder):
     x_line = []      
     y_line = []
 
-    # open the output file
-    with open(f"{output_folder}/{output_csv}") as f:
-        for line in csv.reader(f):
-            # skip first and last line
+    # open output file
+    with open(f"{output_folder}/{output_csv}") as file:
+        for line in csv.reader(file):
+            # only read rows with coordinates
             if line[0][0] == '(':
-                # convert string list to list
+                # convert list as string to list
                 coordinates = ast.literal_eval(line[1])
 
-                # if no coordinates go to next net
+                # if no coordinates skip row
                 if not coordinates:
                     continue
                 
@@ -30,7 +28,7 @@ def plot_output2D(output_csv, output_folder):
                 x_line.append([])
                 y_line.append([])
 
-                # seperate x, y coordinates for each net
+                # seperate x, y coordinates for each net TODO plot directly
                 for x, y, z in coordinates:
                     x_line[-1].append(x)
                     y_line[-1].append(y)
