@@ -84,7 +84,7 @@ class greedy_random:
 
             # check if solution found
             if n_resets != MAX_RESETS:
-                self.board.calc_cost()
+                self.board.cost = self.board.calc_cost()
                 no_solution = False
 
 
