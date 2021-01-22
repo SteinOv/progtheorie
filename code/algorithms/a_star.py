@@ -109,7 +109,8 @@ class a_star():
             for move in DIRECTIONS:
                 # try move
                 new_loc = self.board.find_new_loc(current_node.loc, move)
-                move_valid, n_intersections = self.valid_move(current_node.loc, new_loc, end_node.loc)
+                move_valid, n_intersections = self.valid_move(current_node.loc,
+                                                         new_loc, end_node.loc)
                     
                 if move_valid:
                     # skip move if in closed_list
@@ -118,7 +119,8 @@ class a_star():
                         continue
 
                     # increase cost_to_node
-                    cost_to_node = current_node.cost_to_node + 1 + INTERSECTION_COST * n_intersections
+                    cost_to_node = current_node.cost_to_node + 1 + \
+                                 INTERSECTION_COST * n_intersections
 
                     # check if new_loc in open_list
                     in_open_list = [node for node in open_list if new_loc == node.loc]
@@ -146,7 +148,8 @@ class a_star():
     def valid_move(self, current_loc, new_loc, goal):
         """determines if move is valid"""
         # return false if move outside of grid
-        for i, j in zip(new_loc, (self.board.width, self.board.length, self.board.height)):
+        grid_dimensions = (self.board.width, self.board.length, self.board.height)
+        for i, j in zip(new_loc, grid_dimensions):
             if i > j or i < 0:
                 return False, 0
 

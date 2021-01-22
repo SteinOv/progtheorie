@@ -48,13 +48,14 @@ class greedy_random:
 
                     # continue until valid move found or no moves left
                     while moves:
-                        # try move
+                        # make move
                         move = random.choice(moves)
                         moves.remove(move)
                         new_loc = self.board.find_new_loc(current_loc, move)
 
                         # if move invalid try new move
-                        if self.valid_move(wire_coordinates, current_loc, new_loc, goal, net_length, start_distance, current_deviation):
+                        if self.valid_move(wire_coordinates, current_loc, new_loc, goal, 
+                                           net_length, start_distance, current_deviation):
                             net_length += 1
                             wire_coordinates.append(new_loc)
                             current_loc = new_loc
@@ -87,10 +88,12 @@ class greedy_random:
                 no_solution = False
 
 
-    def valid_move(self, wire_coordinates, current_loc, new_loc, goal, net_length, dist_init, current_deviation):
+    def valid_move(self, wire_coordinates, current_loc, new_loc, goal, 
+                   net_length, dist_init, current_deviation):
         """determines if move is valid"""
-        # move is outside of grid
-        for i, j in zip(new_loc, (self.board.width, self.board.length, self.board.height)):
+        # return false if move outside of grid
+        grid_dimensions = (self.board.width, self.board.length, self.board.height)
+        for i, j in zip(new_loc, grid_dimensions):
             if i > j or i < 0:
                 return False
 
