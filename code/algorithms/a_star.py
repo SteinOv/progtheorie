@@ -71,10 +71,10 @@ class a_star():
         end_loc = net.connect[1].loc
         end_node = Node(end_loc)
 
-        # nodes open to visit TODO
+        # nodes open to visit
         open_list = [start_node]
 
-        # already visited nodes TODO
+        # already visited nodes
         closed_list = []
         
         current_node = start_node
@@ -150,6 +150,6 @@ class a_star():
             if i > j or i < 0:
                 return False, 0
 
-        # return: true if not in collision, number of extra intersections TODO
-        return_ = self.board.is_collision(current_loc, new_loc, goal)
-        return not return_[0], return_[1]
+        # return: true if not in collision and 1 if intersection
+        collision_intersection = self.board.is_collision(current_loc, new_loc, goal)
+        return not collision_intersection[0], collision_intersection[1]

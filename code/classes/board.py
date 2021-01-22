@@ -144,7 +144,12 @@ class Board:
         intersection_nets = [li for li in list_2D if len(li) > 1 and not li.count(-1)]
 
         # total number of intersections
-        total_intersections = sum([1 if len(grid_point) == 2 else 2 for grid_point in intersection_nets])
+        total_intersections = 0
+        for grid_point in intersection_nets:
+            if len(grid_point) == 2:
+                total_intersections += 1
+            else:
+                total_intersections += 2
 
         print(f"total intersections: {total_intersections}")
 
