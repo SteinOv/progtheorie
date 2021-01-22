@@ -58,7 +58,7 @@ class a_star():
                 print("Restarting...")
 
         # total cost
-        self.board.calc_cost()
+        self.board.cost = self.board.calc_cost()
 
     def a_star_search(self, net):
         """

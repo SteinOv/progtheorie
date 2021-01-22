@@ -1,7 +1,9 @@
 import csv
+import ast
 from .gate import Gate
 from .net import Net
 from copy import deepcopy
+
 
 
 class Board:
@@ -154,7 +156,7 @@ class Board:
         print(f"total intersections: {total_intersections}")
 
         # total cost
-        self.cost = length + 300 * total_intersections
+        return length + 300 * total_intersections
 
 
     def manhattan(self, current_loc, new_loc):
@@ -175,4 +177,34 @@ class Board:
                 new_loc.append(value)
         return tuple(new_loc)
     
+    def read_output(self, output_csv):
+        with open(output_csv) as file:
+            data = csv.reader(file)
+            next(data)
 
+            # for every net in output
+            for line in data:
+
+                # stop if at end of file
+                if line[0][0] != '(':
+                    break
+
+                # search for matching net in self.nets
+                match = False
+                for net in self.nets:
+                    # if matching net found
+                    if line[0] == str(net.connect).replace(" ", ""):
+
+                        # save route and add net to grid
+                        net.route = ast.literal_eval(line[1])
+                        net.length = len(net.route) - 1
+                        for x, y, z in net.route:
+                            self.grid[x][y][z].append(net)
+                        
+
+                        # match found
+                        match = True
+                        break
+                if match == False:
+                    print("One or more nets in netlist and output.csv do not match")
+                    raise SystemExit
