@@ -3,12 +3,12 @@ from copy import deepcopy
 import itertools
 
 
-GROUP_SIZE = 4
+GROUP_SIZE = 3
 
 class hill_climber(a_star):
 
     def __init__(self, board, i, filename="./data/output/output.csv"):
-        self.board = deepcopy(board)
+        self.board = board
 
         # first iteration, read in output.csv
         if i == 0:
@@ -17,9 +17,9 @@ class hill_climber(a_star):
 
     def __repr__(self):
         return "hill_climber"
-    
-    def run(self):
 
+    def run(self):
+        """starts algorithm"""
         # group nets into separate lists
         grouped_nets = list(zip(*(iter(self.board.nets),) * GROUP_SIZE))
 
@@ -28,7 +28,6 @@ class hill_climber(a_star):
             grouped_nets.append([self.board.nets[-i] for i in range(1, GROUP_SIZE + 1)])
         
         for nets in grouped_nets:
-
             # save original route
             best_routes = [net.route for net in nets]
 
@@ -49,14 +48,12 @@ class hill_climber(a_star):
 
     def rewire(self, nets, best_cost):
         """rewires nets"""
-
         # gives all possible permutations of nets
         permutations = list(itertools.permutations(nets))
         best_permutation = []
         solution_found = False
 
         while permutations:
-
             # current permutation
             nets = permutations.pop()
 

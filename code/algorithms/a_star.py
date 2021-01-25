@@ -28,7 +28,7 @@ class a_star:
         return "a_star"
 
     def run(self):
-        """start algorithm"""
+        """starts algorithm"""
         # sort nets by priority
         self.board.nets.sort(key=lambda net: net.priority_num, reverse=True)
 
