@@ -76,15 +76,32 @@ def main():
 
     best_solution = board
 
+    # filename for costs
+    costs_file = "costs.csv"
+
+    # create ouput folder
+    output_folder = "data/output/"
+    try:
+        os.mkdir(output_folder)
+    except OSError:
+        pass
+
+    # write header row
+    if costs_file not in os.listdir(output_folder):
+        with open(f"{output_folder}{costs_file}", 'w') as file:
+            file.write("costs,total_time,algorithm,chip_id_netlist_id")
+
     # for every desired solution
     for i in range(n_solutions):
+        print(f"-----running {str(algorithm)}-----\n")
         # run algorithm and track time
         start = time.time()
 
         # for hill climber, pass in iteration number
-        print(algorithm)
         if str(algorithm) == "hill_climber":
+            cost_before = best_solution.cost
             algorithm = alg_class(best_solution, i)
+
         else:
             algorithm = alg_class(board)
 
@@ -98,24 +115,16 @@ def main():
         if cost < best_solution.cost or not best_solution.cost:
             best_solution = algorithm.board
 
-        # filename for costs
-        costs_file = "costs.csv"
-
-        # create ouput folder
-        output_folder = "data/output/"
-        try:
-            os.mkdir(output_folder)
-        except OSError:
-            pass
-
-        # write header row
-        if costs_file not in os.listdir(output_folder):
-            with open(f"{output_folder}{costs_file}", 'a') as file:
-                file.write("costs,total_time,algorithm,chip_id_netlist_id")
-
+        # cost is the same as before running hill climber
+        elif cost_before == best_solution.cost and str(algorithm) == "hill_climber":
+            print("solution did not improve in last iteration, quitting...")
+            break
+        
         # write costs
         with open(f"{output_folder}{costs_file}", 'a') as file:
             file.write(f"\n{cost}, {total_time}, {algorithm}, {chip_id}_{netlist_id}")
+        
+        
 
     # filename for output
     output_file = "output.csv"

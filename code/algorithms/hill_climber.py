@@ -21,7 +21,12 @@ class hill_climber(a_star):
     def run(self):
 
         # group nets into separate lists
-        grouped_nets = zip(*(iter(self.board.nets),) * GROUP_SIZE)
+        grouped_nets = list(zip(*(iter(self.board.nets),) * GROUP_SIZE))
+
+        # add remaining nets into last group
+        if len(self.board.nets) % GROUP_SIZE:
+            grouped_nets.append([self.board.nets[-i] for i in range(1, GROUP_SIZE + 1)])
+        
         for nets in grouped_nets:
 
             # save original route
