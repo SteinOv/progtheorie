@@ -6,44 +6,45 @@ import pandas as pd
 
 
 # ensure proper usage
-if not len(argv) == 2:
-    print("Usage: python3 random_netlist.py <chip_id>")
+if not len(argv) == 3:
+    print("Usage: python3 random_netlist.py <chip_id> <netlist_id>")
     exit(1)
 
-# get chip id
+# get id's
 chip_id = argv[1]
+netlist_id = argv[2]
 
 # store gates
 gates = []
 
+# print file
+print_file = f"../../data/chip_{chip_id}/print_{chip_id}.csv"
+
 # read print file
-with open(f"../../data/chip_{chip_id}/print_{chip_id}.csv", 'r') as file:
+with open(print_file, 'r') as file:
     data = csv.reader(file)
     next(data)
 
     for line in data:
         gates.append(line[0])
 
-
 # copy print file
-df = pd.read_csv(f"../../data/chip_{chip_id}/print_{chip_id}.csv")
+df = pd.read_csv(print_file)
 df.to_csv("../../data/chip_3/print_3.csv", index=False)
 
-
-
-
+# find length of netlist
+df = pd.read_csv(f"../../data/chip_{chip_id}/netlist_{netlist_id}.csv")
+netlist_length = len(df.iloc[:, 0])
+print("netlist contains", netlist_length, "nets")
 
 # all possible nets
 all_combinations = list(combinations(gates, 2))
-print(len(all_combinations))
-
-for i in all_combinations:
-    print(i)
+print("number of possible nets", len(all_combinations))
 
 # nets in netlist
 nets = []
 
-for i in range(30):
+for i in range(netlist_length):
     # choose random net
     net = random.choice(all_combinations)
     all_combinations.remove(net)
