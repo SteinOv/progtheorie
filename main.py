@@ -50,12 +50,12 @@ def main():
     while True:
         print("How many solutions do you want to generate?")
 
-        # break if positive integer
+        # only accept positive integer
         try:
             n_solutions = int(input("> "))
             if n_solutions > 0:
                 break
-        except:
+        except ValueError:
             pass
             
     # import algorithm
