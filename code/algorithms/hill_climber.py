@@ -22,7 +22,6 @@ class hill_climber(a_star):
         """starts algorithm"""
         # group nets into separate lists
         grouped_nets = [self.board.nets[i: i + GROUP_SIZE] for i in range(len(self.board.nets) - 2)]
-        print(grouped_nets)
 
         # add remaining nets into last group
         if len(self.board.nets) % GROUP_SIZE:
