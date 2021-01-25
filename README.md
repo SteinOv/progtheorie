@@ -45,6 +45,26 @@ python3 main.py stats
 * Output is stored in folder `data/stats/`
 * Output consists of `output.csv` and `costs.csv`
 
+
+### Algorithms
+#### Basic algorithm
+The Basic algorithm is based on the fastest possible route using the Manhattan Distance heuristic. It does not take intersections and collisions into account, therefore Basic does not find valid solutions. The costs of other algorithms can never be less than the costs resulting from the basic algorithm, so the costs of Basic can be seen as a lower bound for every other algorithm.
+ 
+ 
+#### A* algorithm
+The A* algorithm finds the optimal solution for each individual net, but it does not take the routes of future nets into account. This results in a local optimum for the final solution.
+ 
+The order in which the A* algorithm places nets, is passed in the algorithm as a parameter. The nets connected to the gates that have the most connections are laid first, because the combination of all nets are most likely unsolvable because of collisions around the gates that have the most connections.
+ 
+ 
+#### Bounded-Random algorithm
+The Bounded-Random algorithm tries to find solutions to connect the gates one net at a time. The algorithm will try up to 500 times to find a solution for a specific net. If unsuccessful, the algorithm will reset. This maximum has been chosen because previous nets may have occupied so many locations that later nets cannot be solved.
+ 
+The route of a net may deviate only 25 steps from the ideal route. The ideal route is based on the Manhattan Distance. To correct for the increased difficulty in placing consecutive nets, every consecutive net can deviate an extra 10 steps from the ideal route. This means that solutions that require a higher deviation are not found by the algorithm.
+
+
+
+
 ### Structure
 * The following list describes the most important folders and files in the project, and where to find them: 
 * /code: contains all the code of this project
