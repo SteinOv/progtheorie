@@ -80,7 +80,14 @@ def main():
     for i in range(n_solutions):
         # run algorithm and track time
         start = time.time()
-        algorithm = alg_class(board)
+
+        # for hill climber, pass in iteration number
+        print(algorithm)
+        if str(algorithm) == "hill_climber":
+            algorithm = alg_class(best_solution, i)
+        else:
+            algorithm = alg_class(board)
+
         algorithm.run()
         total_time = time.time() - start
         

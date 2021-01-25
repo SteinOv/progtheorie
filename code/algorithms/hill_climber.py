@@ -7,9 +7,12 @@ GROUP_SIZE = 4
 
 class hill_climber(a_star):
 
-    def __init__(self, board, filename="./data/output/output.csv"):
+    def __init__(self, board, i, filename="./data/output/output.csv"):
         self.board = deepcopy(board)
-        self.board.read_output(filename)
+
+        # first iteration, read in output.csv
+        if i == 0:
+            self.board.read_output(filename)
         self.board.cost = self.board.calc_cost()
 
     def __repr__(self):
@@ -23,6 +26,7 @@ class hill_climber(a_star):
 
             # save original route
             best_routes = [net.route for net in nets]
+            print(best_routes)
 
             # perform hill climber, new best route if improvement found
             improvement = self.rewire(nets, self.board.cost)
