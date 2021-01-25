@@ -18,8 +18,8 @@ class Node:
         return str(f"{id(self)}, loc: {self.loc}, sum: {self.sum}")
 
 
-class a_star():
-    """A* algorithm using Manhattan distance heuristic"""
+class a_star:
+    """A* algorithm using manhattan distance heuristic"""
 
     def __init__(self, board):
         self.board = deepcopy(board)

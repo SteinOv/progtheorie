@@ -6,14 +6,14 @@ DEVIATION_INCREASE = 10
 MAX_RESETS = 500
 MOVES = [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]
 
-class greedy_random:
-    """combination of random and greedy algorithm using manhattan distance"""
+class bounded_random:
+    """random algorithm with maximum deviation from manhattan distance"""
 
     def __init__(self, board):
         self.board = deepcopy(board)
 
     def __repr__(self):
-        return "greedy_random"
+        return "bounded_random"
 
     def run(self):
         """starts algorithm"""
@@ -74,8 +74,8 @@ class greedy_random:
                 net.length = net_length
 
                 # add net to grid
-                for xyz in wire_coordinates:
-                    self.board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
+                for x, y, z in wire_coordinates:
+                    self.board.grid[x][y][z].append(net.net_id)
 
             # display every 100 tries
             if not n_tries % 100:

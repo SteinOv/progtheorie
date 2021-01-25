@@ -160,7 +160,7 @@ class Board:
 
 
     def manhattan(self, current_loc, new_loc):
-        """calculate Manhattan distance"""
+        """calculate manhattan distance"""
         distance = 0
         for i in range(3):
             distance += abs(current_loc[i] - new_loc[i])

@@ -2,7 +2,6 @@ from sys import argv, exit
 from code.classes.board import Board
 from code.stats.stats import get_stats
 from code.visualization.output_3D import plot_output3D
-from code.visualization.output_2D import plot_output2D
 import csv
 from importlib import import_module
 import time
@@ -145,10 +144,8 @@ def main():
         writer.writerow([f"chip_{chip_id}_net_{netlist_id}", best_solution.cost])
 
     # create output plot
-    if best_solution.height > 0:
-        plot_output3D(output_file, output_folder, best_solution)
-    else:
-        plot_output2D(output_file, output_folder)
+    plot_output3D(output_file, output_folder, best_solution)
+
         
 
 if __name__ == "__main__":

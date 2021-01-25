@@ -31,7 +31,6 @@ class hill_climber(a_star):
 
             # save original route
             best_routes = [net.route for net in nets]
-            print(best_routes)
 
             # perform hill climber, new best route if improvement found
             improvement = self.rewire(nets, self.board.cost)
