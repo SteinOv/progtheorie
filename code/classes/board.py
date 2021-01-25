@@ -225,3 +225,4 @@ class Board:
         
         # reset net length to 0
         net.length = 0
+        net.route = []

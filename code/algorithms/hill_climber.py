@@ -34,15 +34,19 @@ class hill_climber(a_star):
             for net in nets:
                 # search for route matching to net
                 for route in best_routes:
-                    if route[0] == net.connect[0].loc:
+                    if route[0], route[-1] == net.connect[0].loc, net.connect[-1].loc
                         net.route = route
                 self.board.add_net(net)
+                print(net.route)
                 # print(f"route: {net.route}, len: {net.length}")
+            print(f"41 board cost: {self.board.cost}")    
             self.board.cost = self.board.calc_cost()
+            print(f"43 board cost: {self.board.cost}")
 
 
     def rewire(self, nets, best_cost):
         """rewires nets"""
+        print(f"best cost: {best_cost}")
 
         # gives all possible permutations of nets
         permutations = list(itertools.permutations(nets))
@@ -57,7 +61,6 @@ class hill_climber(a_star):
             # remove nets from grid
             for net in nets:
                 self.board.rem_net(net)
-                net.route = []
             
             # replace nets
             for net in nets:
@@ -71,21 +74,26 @@ class hill_climber(a_star):
                 # skip permutation
                 else:
                     solution_found = False
+                    print("skip permutation")
                     break
             
             # no solution found in A* search
             if not solution_found:
                 continue
 
-            # check if current permutations is an improvement
+            # check if current permutation is an improvement
             rewire_cost = self.board.calc_cost()
+            print(f"best cost: {best_cost}, rewire_cost: {rewire_cost}")
             if rewire_cost < best_cost:
                 print(f"improvement found: from {best_cost} to {rewire_cost}")
                 best_permutation = [net.route for net in nets]
-                best_cost = rewire_cost
+                self.board.cost = best_cost = rewire_cost
+                print(f"board cost: {self.board.cost}")
+                
         
         # remove nets from grid
         for net in nets:
+            print(net.route)
             self.board.rem_net(net)
         
         # return best permutation
