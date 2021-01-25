@@ -1,4 +1,3 @@
-from .greedy_random import greedy_random
 from copy import deepcopy
 
 INTERSECTION_COST = 300
@@ -43,10 +42,8 @@ class a_star():
             solution = self.a_star_search(net)
             if solution:
                 net.route = solution
-                net.length = len(solution) - 1
-
-                for xyz in solution:
-                    self.board.grid[xyz[0]][xyz[1]][xyz[2]].append(net.net_id)
+                self.board.add_net(net)
+                
                 i += 1
 
             # if no solution restart with unsolved net first
