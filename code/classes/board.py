@@ -178,6 +178,7 @@ class Board:
         return tuple(new_loc)
     
     def read_output(self, output_csv):
+        """reads output.csv into board"""
         with open(output_csv) as file:
             data = csv.reader(file)
             next(data)
@@ -201,10 +202,26 @@ class Board:
                         for x, y, z in net.route:
                             self.grid[x][y][z].append(net)
                         
-
                         # match found
                         match = True
                         break
                 if match == False:
                     print("One or more nets in netlist and output.csv do not match")
                     raise SystemExit
+        
+
+    def add_net(self, net):
+        """adds net to grid"""
+        for x, y, z in net.route:
+            self.grid[x][y][z].append(net)
+        net.length = len(net.route) - 1
+
+    def rem_net(self, net):
+        """removes net from grid"""
+
+        # remove each wire from grid
+        for x, y, z in net.route:
+            self.grid[x][y][z].remove(net)
+        
+        # reset net length to 0
+        net.length = 0
