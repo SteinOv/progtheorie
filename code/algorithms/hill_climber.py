@@ -48,6 +48,7 @@ class hill_climber(a_star):
         # gives all possible permutations of nets
         permutations = list(itertools.permutations(nets))
         best_permutation = []
+        solution_found = False
 
         while permutations:
 
@@ -61,13 +62,26 @@ class hill_climber(a_star):
             
             # replace nets
             for net in nets:
-                net.route = self.a_star_search(net)
-                self.board.add_net(net)
+                # find solution
+                route = self.a_star_search(net)
+                if route:
+                    net.route = route
+                    self.board.add_net(net)
+                    solution_found = True
+
+                # skip permutation
+                else:
+                    solution_found = False
+                    break
+            
+            # no solution found in A* search
+            if not solution_found:
+                continue
 
             # check if current permutations is an improvement
             rewire_cost = self.board.calc_cost()
             if rewire_cost < best_cost:
-                print(f"improvement found: {best_cost} to {rewire_cost}")
+                print(f"improvement found: from {best_cost} to {rewire_cost}")
                 best_permutation = [net.route for net in nets]
                 best_cost = rewire_cost
         

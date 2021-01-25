@@ -138,7 +138,7 @@ class a_star():
                     new_node.heuristic = self.board.manhattan(current_node.loc, new_node.loc)
                     new_node.sum = cost_to_node + new_node.heuristic
 
-        print(f"No solution found, {net.net_id}")
+        print(f"no solution found for net: {net.net_id}")
         return False
             
 
