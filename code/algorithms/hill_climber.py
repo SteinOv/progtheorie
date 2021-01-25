@@ -29,13 +29,12 @@ class hill_climber(a_star):
             improvement = self.rewire(nets, self.board.cost)
             if improvement:
                 best_routes = improvement
-                # print(f"improvement: {best_routes}")
 
             # add routes to nets
             for net in nets:
                 # search for route matching to net
                 for route in best_routes:
-                    if route[0] == net.connect[0]:
+                    if route[0] == net.connect[0].loc:
                         net.route = route
                 self.board.add_net(net)
                 # print(f"route: {net.route}, len: {net.length}")
