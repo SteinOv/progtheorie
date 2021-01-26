@@ -75,7 +75,7 @@ class a_star:
         open_list = [start_node]
 
         # already visited nodes
-        closed_list = []
+        closed_list = set()
         
         current_node = start_node
 
@@ -103,7 +103,7 @@ class a_star:
 
             # move node from open to closed_list
             open_list.remove(current_node)
-            closed_list.append(current_node)
+            closed_list.add(current_node.loc)
 
             # add valid moves to open_list
             for move in DIRECTIONS:
@@ -133,8 +133,7 @@ class a_star:
                                                     new_loc, end_node.loc)
         if move_valid:
             # skip move if in closed_list
-            in_closed_list = [True for node in closed_list if node.loc == new_loc]
-            if in_closed_list:
+            if new_loc in closed_list:
                 return
 
             # calculate cost_to_node
