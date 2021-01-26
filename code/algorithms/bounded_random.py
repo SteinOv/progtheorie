@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 
 DEVIATION = 25
 DEVIATION_INCREASE = 10
-MAX_RESETS = 500
+MAX_RESETS = 1000
 MOVES = [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]
 
 class bounded_random:
@@ -21,7 +21,6 @@ class bounded_random:
         current_deviation = DEVIATION
 
         no_solution = True
-        n_tries = 0
 
         # continue until solution found
         while no_solution:
@@ -31,56 +30,47 @@ class bounded_random:
                 current_deviation += DEVIATION_INCREASE
 
                 # starting data
-                current_loc = net.connect[0].loc
-                goal = net.connect[1].loc
+                current_loc, goal = net.connect[0].loc, net.connect[1].loc
                 start_distance = self.board.manhattan(current_loc, goal)
+                
                 net_length = 0
                 
                 # coordinates of wire, start at gate
-                wire_coordinates = [current_loc]
+                current_route = [current_loc]
 
                 n_resets = 0
 
                 # continue until goal or limit is reached
                 while current_loc != goal and n_resets < MAX_RESETS:
-                    # possible moves
-                    moves = MOVES.copy()
-
-                    # continue until valid move found or no moves left
-                    while moves:
-                        # make move
-                        move = random.choice(moves)
-                        moves.remove(move)
-                        new_loc = self.board.find_new_loc(current_loc, move)
-
-                        # if move invalid try new move
-                        if self.valid_move(wire_coordinates, current_loc, new_loc, goal, 
-                                           net_length, start_distance, current_deviation):
-                            net_length += 1
-                            wire_coordinates.append(new_loc)
-                            current_loc = new_loc
-                            break
-
-                    n_resets += 1
+                    
+                    # make move
+                    current_loc = self.move(MOVES.copy(), current_loc, current_route, goal, net_length,
+                                     start_distance, current_deviation)
+                    
+                    # move succesfull
+                    if current_loc:
+                        current_route.append(current_loc)
+                        net_length += 1
+                    # move unsuccesfull, reset net route
+                    else:
+                        n_resets += 1
+                        current_loc = net.connect[0].loc
+                        current_route = [current_loc]
+                        net_length = 0
 
                 # if max resets reached, start over
-                if n_resets == MAX_RESETS:
-                    if net != 0:
-                        self.board.reset_grid()
+                if n_resets >= MAX_RESETS:
+                    self.board.reset_grid()
+                    print(f"got stuck at net: {net}, restarting...")
                     break
                 
                 # store wire coordinates in net
-                net.route = wire_coordinates
+                net.route = current_route
                 net.length = net_length
 
                 # add net to grid
-                for x, y, z in wire_coordinates:
+                for x, y, z in current_route:
                     self.board.grid[x][y][z].append(net.net_id)
-
-            # display every 100 tries
-            if not n_tries % 100:
-                print(f"Tried {n_tries} times")
-            n_tries += 1
 
             # check if solution found
             if n_resets != MAX_RESETS:
@@ -88,7 +78,7 @@ class bounded_random:
                 no_solution = False
 
 
-    def valid_move(self, wire_coordinates, current_loc, new_loc, goal, 
+    def valid_move(self, current_route, current_loc, new_loc, goal, 
                    net_length, dist_init, current_deviation):
         """determines if move is valid"""
         # return false if move outside of grid
@@ -100,7 +90,31 @@ class bounded_random:
         # requirements
         check_a = not self.board.is_collision(current_loc, new_loc, goal)[0]
         check_b = self.board.manhattan(goal, new_loc) + net_length <= dist_init + current_deviation
-        check_c = not new_loc in wire_coordinates
+        check_c = not new_loc in current_route
 
         return check_a & check_b & check_c
+
+
+    def move(self, moves, current_loc, current_route, goal, net_length,
+                        start_distance, current_deviation):
+        """makes move, returns new location if successfull"""
+
+        move = random.choice(moves)
+        moves.remove(move)
+        new_loc = self.board.find_new_loc(current_loc, move)
+
+        # move valid, make move
+        if self.valid_move(current_route, current_loc, new_loc, goal, 
+                            net_length, start_distance, current_deviation):
+            # return new location
+            return new_loc
+
+        # move invalid, try again
+        elif moves:
+            return self.move(moves, current_loc, current_route, goal, net_length,
+                        start_distance, current_deviation)
+
+        # move invalid and no moves left
+        else:
+            return False
 
