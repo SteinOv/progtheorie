@@ -2,16 +2,16 @@
 
 © 2021 "All Rights Reserved"
 
-This program contains several algorithms, which use heuristics to solve the Chips & Circuits problems. These problems contain multiple gates that have to be connected with wires. This connection between two gates is called a net. The goal of the problem is to place all nets in the most cost efficient manner. The nets are allowed to intersect, but are not allowed to overlap.
+This program contains several algorithms, which use heuristics to solve the Chips & Circuits problems. These problems contain multiple gates that have to be connected with wires. This connection between two gates is called a net. The goal of the problem is to place all nets in the most cost efficient manner. One unit length of wire costs $1 to place. The nets are not allowed to run along the same grid segment, this is called a collision. The nets are allowed to intersect, but this will cause a short-circuit. A short-circuit costs $300 to fix. In comparison, one unit length of wire costs $1. Therefore intersections should be avoided as much as possible.
 
-* :orange_circle: The orange line represents nets with a collision.
-The green line represents an intersection.<br>
-<img src="docs/images/Intersection and collision.png" alt="Intersection and collision" width="300px">
+:orange_circle: The orange line represents nets with a collision.<br>
+:green_circle: The green line represents nets with an intersection.<br>
+<img src="docs/images/Intersection and collision.png" alt="Intersection and collision" width="300px"></img>
 
-Costs are calculated as follows:<br>
+Total cost is calculated as follows:<br>
+`Cost = n + 300 * k`<br>
 n = total length of all nets<br>
-k = number of intersections<br>
-Cost = n + 300 * k<br>
+k = number of intersections
 
 
 
@@ -76,9 +76,6 @@ To eliminate as many intersections as possible, Hill Climber divides the nets in
 After running the Hill Climber algorithm once, it will reach a local minimum. The algorithm can be run again, to reach a better local minimum. After several iterations it will reach a point where no better local minimum can be found. To prevent the algorithm from running indefinitely, the algorithm will stop searching if it does not find any cost improvement since the last iteration.
 
 
-
-
-
 ### Structure
 * The following list describes the most important folders and files in the project, and where to find them: 
 * /code: contains all the code of this project
@@ -89,6 +86,7 @@ After running the Hill Climber algorithm once, it will reach a local minimum. Th
 * /data: contains the various data files that are needed to fill and visualize the graph
 * /data/output: contains the output files
 * /docs: contains the UML diagram <i>requires UMLet</i>
+
 
 ## Contributors: 
 * Samson van der Sande
