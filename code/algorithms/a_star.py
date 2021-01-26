@@ -127,18 +127,16 @@ class a_star:
 
     def move(self, move, current_node, end_node, open_list, closed_list):
         """if move valid, add to open_list or update existing node"""
-        
+        # try move, skip if invalid
         new_loc = helpers.find_new_loc(self.board, current_node.loc, move)
-
-        # skip move if in closed_list
-        in_closed_list = [True for node in closed_list if node.loc == new_loc]
-        if in_closed_list:
-            return
-        
-        # check if move is valid
         move_valid, n_intersections = self.valid_move(current_node.loc,
-                                                new_loc, end_node.loc)
+                                                    new_loc, end_node.loc)
         if move_valid:
+            # skip move if in closed_list
+            in_closed_list = [True for node in closed_list if node.loc == new_loc]
+            if in_closed_list:
+                return
+
             # calculate cost_to_node
             cost_to_node = current_node.cost_to_node + 1 + \
                         INTERSECTION_COST * n_intersections
@@ -146,13 +144,14 @@ class a_star:
             # check if node already in open_list
             in_open_list = [node for node in open_list if new_loc == node.loc]
             if in_open_list:
-                # update route if cost_to_node lower than current route
-                if cost_to_node < in_open_list[0].cost_to_node:
-                    print("cost lower")
-                    new_node = in_open_list[0]
-                    new_node.parent = current_node
-                else:
-                    return
+                return
+                # # update route if cost_to_node lower than current route TODO remove
+                # if cost_to_node < in_open_list[0].cost_to_node:
+                #     print("cost lower")
+                #     new_node = in_open_list[0]
+                #     new_node.parent = current_node
+                # else:
+                #     return
             else:
                 # add new node to open_list
                 new_node = Node(new_loc, current_node)
