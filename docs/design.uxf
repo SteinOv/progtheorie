@@ -1,20 +1,20 @@
-<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>690</x><y>36</y><w>210</w><h>140</h></coordinates><panel_attributes>_object: Gate_
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>627</x><y>0</y><w>210</w><h>140</h></coordinates><panel_attributes>_object: Gate_
 --
 gate_id: int
-loc: (x, y, 0)
+loc: (int x, int y, int 0) 
 
 --
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>690</x><y>336</y><w>210</w><h>180</h></coordinates><panel_attributes>_object: Net_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>627</x><y>300</y><w>210</w><h>180</h></coordinates><panel_attributes>_object: Net_
 --
 net_id: int
 connect: [Gate, Gate]
-route: [(int x ,int y, int z), (x, y, z), ... ]
+route: [(int x ,int y, int z), (int x, int y, int z), ..... ]
 length: int
 priority_num: int
 
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>100</x><y>276</y><w>300</w><h>330</h></coordinates><panel_attributes>_object: Board_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>37</x><y>240</y><w>320</w><h>330</h></coordinates><panel_attributes>_object: Board_
 --
 gates: {1: Gate, 2: Gate, ...}
 nets: [Net, Net, ...]
@@ -29,16 +29,18 @@ Methods
 
 load_gates(self, print.csv): {'1': Gate, '2': Gate, ...}
 load_nets(self, netlist.csv): {0: Net, 1, Net, ...}
-create_grid(self, width, length, height): 3D list of (x,y,z) tuples
+create_grid(self, width, length, height): 3D list of (int x, int y, int z) tuples
 reset_grid(self)
+
+!!!!!!!!! kan weg toch want het zit in helpers.py? !!!!!!!!!
 is_collision(self, curr_loc, new_loc, goal): bool, n_intersections
 calc_cost(self): self.cost = int
 manhattan(self, current_loc, new_loc): distance (int)
-find_new_loc(self, current_loc, move): (x,y,z) tuple
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>156</y><w>320</w><h>200</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>300;10;10;180</additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>406</y><w>320</w><h>110</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>300;90;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>780</x><y>166</y><w>30</w><h>190</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;10;170</additional_attributes></element><element><id>UMLClass</id><coordinates><x>100</x><y>686</y><w>250</w><h>190</h></coordinates><panel_attributes>_object: Node_
+find_new_loc(self, current_loc, move): (int x, int y, int z) tuple
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>347</x><y>120</y><w>300</w><h>200</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>280;10;10;180</additional_attributes></element><element><id>Relation</id><coordinates><x>347</x><y>370</y><w>300</w><h>110</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>280;90;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>717</x><y>130</y><w>30</w><h>190</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;10;170</additional_attributes></element><element><id>UMLClass</id><coordinates><x>37</x><y>650</y><w>250</w><h>190</h></coordinates><panel_attributes>_object: Node_
 --
 parent: Node
-location: (x,y,z)
+location: (int x, int y, int z) 
 cost_to_node: int
 heuristic: int
 sum: int
