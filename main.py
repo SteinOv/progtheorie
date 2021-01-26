@@ -115,14 +115,13 @@ def main():
             best_solution = algorithm.board
 
         # cost is the same as before running hill climber
-        elif cost_before == best_solution.cost and str(algorithm) == "hill_climber":
+        elif str(algorithm) == "hill_climber" and cost_before == best_solution.cost:
             print("solution did not improve in last iteration, quitting...")
             break
         
         # write costs
         with open(f"{output_folder}{costs_file}", 'a') as file:
             file.write(f"\n{cost}, {total_time}, {algorithm}, {chip_id}_{netlist_id}")
-        
         
 
     # filename for output

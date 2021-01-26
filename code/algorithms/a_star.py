@@ -1,4 +1,5 @@
 from copy import deepcopy
+from code.helpers import helpers
 
 INTERSECTION_COST = 300
 DIRECTIONS = [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]
@@ -14,6 +15,7 @@ class Node:
         self.heuristic = 0
         self.sum = 0
     
+
     def __repr__(self):
         return str(f"{id(self)}, loc: {self.loc}, sum: {self.sum}")
 
@@ -24,8 +26,10 @@ class a_star:
     def __init__(self, board):
         self.board = deepcopy(board)
     
+
     def __repr__(self):
         return "a_star"
+
 
     def run(self):
         """starts algorithm"""
@@ -55,7 +59,8 @@ class a_star:
                 print("Restarting...")
 
         # total cost
-        self.board.cost = self.board.calc_cost()
+        self.board.cost = helpers.calc_cost(self.board)
+
 
     def a_star_search(self, net):
         """
@@ -105,7 +110,7 @@ class a_star:
             # add valid moves to open_list
             for move in DIRECTIONS:
                 # try move
-                new_loc = self.board.find_new_loc(current_node.loc, move)
+                new_loc = helpers.find_new_loc(self.board, current_node.loc, move)
                 move_valid, n_intersections = self.valid_move(current_node.loc,
                                                          new_loc, end_node.loc)
                     
@@ -135,7 +140,7 @@ class a_star:
 
                     # calculate heuristic and sum
                     new_node.cost_to_node = cost_to_node
-                    new_node.heuristic = self.board.manhattan(current_node.loc, new_node.loc)
+                    new_node.heuristic = helpers.manhattan(self.board, current_node.loc, new_node.loc)
                     new_node.sum = cost_to_node + new_node.heuristic
 
         print(f"no solution found for net: {net.net_id}")
@@ -151,5 +156,5 @@ class a_star:
                 return False, 0
 
         # return: true if not in collision and 1 if intersection
-        collision_intersection = self.board.is_collision(current_loc, new_loc, goal)
+        collision_intersection = helpers.is_collision(self.board, current_loc, new_loc, goal)
         return not collision_intersection[0], collision_intersection[1]

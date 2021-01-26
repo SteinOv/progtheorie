@@ -52,7 +52,7 @@ python3 main.py stats
 
 ### Algorithms
 #### Basic algorithm
-The Basic algorithm is based on the fastest possible route using the Manhattan Distance heuristic. It does not take intersections and collisions into account, therefore Basic does not find valid solutions. The costs of other algorithms can never be less than the costs resulting from the basic algorithm, so the costs of Basic can be seen as a lower bound for every other algorithm.
+The Basic algorithm is primarily for testing purposes. It is based on the fastest possible route using the Manhattan Distance heuristic. It does not take intersections and collisions into account, therefore Basic does not find valid solutions. The costs of other algorithms can never be less than the costs resulting from the basic algorithm, so the costs of Basic can be seen as a lower bound for every other algorithm.
  
 
 #### Bounded-Random algorithm

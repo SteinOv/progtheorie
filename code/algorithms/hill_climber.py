@@ -1,52 +1,64 @@
 from .a_star import a_star
 from copy import deepcopy
 import itertools
+from code.helpers import helpers
 
 
 GROUP_SIZE = 3
 
+
 class hill_climber(a_star):
+    """hill climber optimization algorithm"""
 
     def __init__(self, board, i, filename="./data/output/output.csv"):
         self.board = board
 
-        # first iteration, read in output.csv
+        # read output file if first iteration
         if i == 0:
             self.board.read_output(filename)
-        self.board.cost = self.board.calc_cost()
+
+        # prior solution's cost
+        self.board.cost = helpers.calc_cost(self.board)
+
 
     def __repr__(self):
         return "hill_climber"
 
+
     def run(self):
         """starts algorithm"""
+        # number of nets
+        n_nets = len(self.board.nets)
+
         # group nets into separate lists
-        grouped_nets = [self.board.nets[i: i + GROUP_SIZE] for i in range(len(self.board.nets) - 2)]
+        grouped_nets = [self.board.nets[i - GROUP_SIZE: i] for i in range(2, n_nets)]
         
         for nets in grouped_nets:
             # save original route
             best_routes = [net.route for net in nets]
 
-            # perform hill climber, new best route if improvement found
+            # new best route if improvement found
             improvement = self.rewire(nets, self.board.cost)
             if improvement:
                 best_routes = improvement
 
-            # add routes to nets
             for net in nets:
                 # search for route matching to net
                 for route in best_routes:
                     if (route[0], route[-1]) == (net.connect[0].loc, net.connect[-1].loc):
                         net.route = route
+
                 self.board.add_net(net)
-            self.board.cost = self.board.calc_cost()
+
+            self.board.cost = helpers.calc_cost(self.board)
 
 
     def rewire(self, nets, best_cost):
         """rewires nets"""
-        # gives all possible permutations of nets
+        # all permutations of nets
         permutations = list(itertools.permutations(nets))
         best_permutation = []
+        
         solution_found = False
 
         while permutations:
@@ -65,25 +77,22 @@ class hill_climber(a_star):
                     net.route = route
                     self.board.add_net(net)
                     solution_found = True
-
-                # skip permutation
                 else:
                     solution_found = False
                     print("skip permutation")
                     break
             
-            # no solution found in A* search
+            # no solution for this permutation
             if not solution_found:
                 continue
 
-            # check if current permutation is an improvement
-            rewire_cost = self.board.calc_cost()
+            # check if current permutation is improvement
+            rewire_cost = helpers.calc_cost(self.board)
             if rewire_cost < best_cost:
                 print(f"improvement found: from {best_cost} to {rewire_cost}")
                 best_permutation = [net.route for net in nets]
                 self.board.cost = best_cost = rewire_cost
                 
-        
         # remove nets from grid
         for net in nets:
             self.board.rem_net(net)
@@ -91,4 +100,4 @@ class hill_climber(a_star):
         # return best permutation
         return best_permutation
             
-        
+    

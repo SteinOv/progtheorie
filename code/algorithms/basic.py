@@ -1,12 +1,15 @@
 from copy import deepcopy
 
+
 class basic:
     """finds shortest possible routes without constraints"""
     def __init__(self, board):
-        self.board = deepcopy(board)
+        self.board = board
+        
 
     def __repr__(self):
         return "basic"
+
 
     def run(self):
         """start algorithm"""
