@@ -20,10 +20,12 @@ class Node:
     def __repr__(self):
         return str(f"{id(self)}, loc: {self.loc}, sum: {self.sum}")
 
+
     def __lt__(self, other):
+        """highest priority for node with lowest sum and latest in open_list"""
         selfPriority = self.sum
         otherPriority = other.sum
-        return selfPriority < otherPriority
+        return selfPriority <= otherPriority
 
 
 class a_star:
@@ -158,9 +160,8 @@ class a_star:
 
             # calculate heuristic and sum
             new_node.cost_to_node = cost_to_node
-            node_heuristic = helpers.manhattan(self.board, current_node.loc, new_node.loc)
-            node_sum = cost_to_node + new_node.heuristic
-            new_node.sum, new_node.heuristic = node_sum, node_heuristic 
+            node_heuristic = new_node.heuristic = helpers.manhattan(self.board, current_node.loc, new_node.loc)
+            new_node.sum = cost_to_node + node_heuristic
 
             # add new node to open_list
             open_list.put(new_node)
