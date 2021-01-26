@@ -74,9 +74,9 @@ class hill_climber(a_star):
                 # find solution
                 route = self.a_star_search(net)
                 if route:
+                    solution_found = True
                     net.route = route
                     self.board.add_net(net)
-                    solution_found = True
                 else:
                     solution_found = False
                     print("skip permutation")

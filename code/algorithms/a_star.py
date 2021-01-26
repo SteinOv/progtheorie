@@ -68,10 +68,8 @@ class a_star:
         returns list of coordinates if solution found else false
         """
         # start and end nodes
-        start_loc = net.connect[0].loc
-        start_node = Node(start_loc)
-        end_loc = net.connect[1].loc
-        end_node = Node(end_loc)
+        start_loc, end_loc = net.connect[0].loc, net.connect[1].loc
+        start_node, end_node = Node(start_loc), Node(end_loc)
 
         # nodes open to visit
         open_list = [start_node]
