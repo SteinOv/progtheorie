@@ -107,39 +107,7 @@ class a_star:
 
             # add valid moves to open_list
             for move in DIRECTIONS:
-                # try move
-                new_loc = helpers.find_new_loc(self.board, current_node.loc, move)
-                move_valid, n_intersections = self.valid_move(current_node.loc,
-                                                         new_loc, end_node.loc)
-                    
-                if move_valid:
-                    # skip move if in closed_list
-                    in_closed_list = [True for node in closed_list if node.loc == new_loc]
-                    if in_closed_list:
-                        continue
-
-                    # increase cost_to_node
-                    cost_to_node = current_node.cost_to_node + 1 + \
-                                 INTERSECTION_COST * n_intersections
-
-                    # check if new_loc in open_list
-                    in_open_list = [node for node in open_list if new_loc == node.loc]
-                    if in_open_list:
-                        # update route if cost_to_node lower than current route
-                        if cost_to_node < in_open_list[0].cost_to_node:
-                            new_node = in_open_list[0]
-                            new_node.parent = current_node
-                        else:
-                            continue
-                    else:
-                        # add new node to open_list
-                        new_node = Node(new_loc, current_node)
-                        open_list.append(new_node)
-
-                    # calculate heuristic and sum
-                    new_node.cost_to_node = cost_to_node
-                    new_node.heuristic = helpers.manhattan(self.board, current_node.loc, new_node.loc)
-                    new_node.sum = cost_to_node + new_node.heuristic
+                self.move(move, current_node, end_node, open_list, closed_list)
 
         print(f"no solution found for net: {net.net_id}")
         return False
@@ -156,3 +124,41 @@ class a_star:
         # return: true if not in collision and 1 if intersection
         collision_intersection = helpers.is_collision(self.board, current_loc, new_loc, goal)
         return not collision_intersection[0], collision_intersection[1]
+
+    def move(self, move, current_node, end_node, open_list, closed_list):
+        """if move valid, add to open_list or update existing node"""
+        
+        new_loc = helpers.find_new_loc(self.board, current_node.loc, move)
+
+        # skip move if in closed_list
+        in_closed_list = [True for node in closed_list if node.loc == new_loc]
+        if in_closed_list:
+            return
+        
+        # check if move is valid
+        move_valid, n_intersections = self.valid_move(current_node.loc,
+                                                new_loc, end_node.loc)
+        if move_valid:
+            # calculate cost_to_node
+            cost_to_node = current_node.cost_to_node + 1 + \
+                        INTERSECTION_COST * n_intersections
+
+            # check if node already in open_list
+            in_open_list = [node for node in open_list if new_loc == node.loc]
+            if in_open_list:
+                # update route if cost_to_node lower than current route
+                if cost_to_node < in_open_list[0].cost_to_node:
+                    print("cost lower")
+                    new_node = in_open_list[0]
+                    new_node.parent = current_node
+                else:
+                    return
+            else:
+                # add new node to open_list
+                new_node = Node(new_loc, current_node)
+                open_list.append(new_node)
+
+            # calculate heuristic and sum
+            new_node.cost_to_node = cost_to_node
+            new_node.heuristic = helpers.manhattan(self.board, current_node.loc, new_node.loc)
+            new_node.sum = cost_to_node + new_node.heuristic
