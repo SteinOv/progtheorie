@@ -1,5 +1,6 @@
 from copy import deepcopy
 from code.helpers import helpers
+from queue import PriorityQueue
 
 INTERSECTION_COST = 300
 DIRECTIONS = [(0, 1), (0, -1), (1, 1), (1, -1), (2, 1), (2, -1)]
@@ -18,6 +19,11 @@ class Node:
 
     def __repr__(self):
         return str(f"{id(self)}, loc: {self.loc}, sum: {self.sum}")
+
+    def __lt__(self, other):
+        selfPriority = self.sum
+        otherPriority = other.sum
+        return selfPriority < otherPriority
 
 
 class a_star:
@@ -72,14 +78,14 @@ class a_star:
         start_node, end_node = Node(start_loc), Node(end_loc)
 
         # nodes open to visit
-        open_list = [start_node]
+        open_list = PriorityQueue()
+        open_list.put(start_node)
 
         # already visited nodes
         closed_list = set()
         
         current_node = start_node
-
-        while open_list:
+        while not open_list.empty():
             # check if goal reached
             if current_node.loc == end_node.loc:
                 path = []
@@ -95,14 +101,9 @@ class a_star:
                 path.reverse()
                 return path
 
-            # sort open_list on lowest sum
-            open_list.sort(key=lambda node: node.sum)
 
-            # choose node with lowest sum
-            current_node = open_list[0]
-
-            # move node from open to closed_list
-            open_list.remove(current_node)
+            # choose node with lowest sum and add to closed list
+            current_node = open_list.get()
             closed_list.add(current_node.loc)
 
             # add valid moves to open_list
@@ -141,7 +142,7 @@ class a_star:
                         INTERSECTION_COST * n_intersections
 
             # check if node already in open_list
-            in_open_list = [node for node in open_list if new_loc == node.loc]
+            in_open_list = [node for node in open_list.queue if new_loc == node.loc]
             if in_open_list:
                 return
                 # # update route if cost_to_node lower than current route TODO remove
@@ -151,12 +152,15 @@ class a_star:
                 #     new_node.parent = current_node
                 # else:
                 #     return
-            else:
-                # add new node to open_list
-                new_node = Node(new_loc, current_node)
-                open_list.append(new_node)
+
+                
+            new_node = Node(new_loc, current_node)
 
             # calculate heuristic and sum
             new_node.cost_to_node = cost_to_node
-            new_node.heuristic = helpers.manhattan(self.board, current_node.loc, new_node.loc)
-            new_node.sum = cost_to_node + new_node.heuristic
+            node_heuristic = helpers.manhattan(self.board, current_node.loc, new_node.loc)
+            node_sum = cost_to_node + new_node.heuristic
+            new_node.sum, new_node.heuristic = node_sum, node_heuristic 
+
+            # add new node to open_list
+            open_list.put(new_node)
