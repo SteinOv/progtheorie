@@ -15,6 +15,7 @@ class Node:
         self.cost_to_node = 0
         self.heuristic = 0
         self.sum = 0
+        
     
 
     def __repr__(self):

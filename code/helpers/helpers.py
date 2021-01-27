@@ -67,3 +67,21 @@ def find_new_loc(board, current_loc, move):
         else:
             new_loc.append(value)
     return tuple(new_loc)
+
+def add_intersections(grid):
+    """add intersections to Net objects"""
+
+    # convert grid to 2D list
+    list_2D = sum(sum(grid, []), [])
+
+    # list of grid points with intersections
+    intersection_nets = [li for li in list_2D if len(li) > 1 and not li.count(-1)]
+
+    # for each intersection
+    for intersection in intersection_nets:
+        # add intersecting nets to each net
+        for net in intersection:
+            net.intersections.extend(intersection)
+            net.intersections.remove(net)
+            net.num_of_intersections += len(intersection) - 1
+            

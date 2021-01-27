@@ -1,5 +1,5 @@
 from .a_star import a_star
-from copy import deepcopy
+from copy import copy, deepcopy
 import itertools
 from code.helpers import helpers
 
@@ -12,13 +12,50 @@ class hill_climber(a_star):
 
     def __init__(self, board, i, filename="./data/output/output.csv"):
         self.board = board
-
+        self.grouped_nets = []
+        
         # read output file if first iteration
         if i == 0:
             self.board.read_output(filename)
 
         # prior solution's cost
         self.board.cost = helpers.calc_cost(self.board)
+
+        # add intersections to nets and sort by number of intersections
+        helpers.add_intersections(self.board.grid)
+        self.board.nets.sort(key=lambda net: net.num_of_intersections)
+        nets = copy(self.board.nets)
+        
+        # TODO
+        while nets:
+            # take net with most intersections
+            net = nets.pop()
+            group = [net]
+            
+            i = 0
+            # j = -1
+            while i < GROUP_SIZE - 1:
+                i += 1
+                
+                # if not enough intersecting nets, add net with most intersections
+                try:
+                    new_net = net.intersections[i]
+                except IndexError:
+                    # new_net = self.board.nets[j]
+                    break
+                    
+                # net already in group
+                if new_net in group: 
+                    break
+                    # j += -1
+                    # new_net = self.board.nets[j]
+                # j += -1
+                    
+                # add intersecting net to group and remove from board
+                group.append(new_net)
+                # if new_net in nets: nets.remove(new_net)
+            # if len(group) > 1:
+            self.grouped_nets.append(group)
 
 
     def __repr__(self):
@@ -28,12 +65,16 @@ class hill_climber(a_star):
     def run(self):
         """starts algorithm"""
         # number of nets
-        n_nets = len(self.board.nets)
+        # n_nets = len(self.board.nets)
+
+        
 
         # group nets into separate lists
-        grouped_nets = [self.board.nets[i - GROUP_SIZE: i] for i in range(2, n_nets)]
+        # grouped_nets = [self.board.nets[i - GROUP_SIZE: i] for i in range(2, n_nets)]
+
+        print(f"net groups: {self.grouped_nets}")
         
-        for nets in grouped_nets:
+        for nets in self.grouped_nets:
             # save original route
             best_routes = [net.route for net in nets]
 
