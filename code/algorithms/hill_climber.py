@@ -25,41 +25,8 @@ class hill_climber(a_star):
         # prior solution's cost
         self.board.cost = helpers.calc_cost(self.board)
 
-        # add intersections to nets and sort by number of intersections
-        helpers.add_intersections(self.board.grid)
-        self.board.nets.sort(key=lambda net: net.num_of_intersections)
-        nets = copy(self.board.nets)
-        
-        # TODO
-        while nets:
-            # take net with most intersections
-            net = nets.pop()
-            group = [net]
-            
-            i = 0
-            # j = -1
-            while i < GROUP_SIZE - 1:
-                i += 1
-                
-                # if not enough intersecting nets, add net with most intersections
-                try:
-                    new_net = net.intersections[i]
-                except IndexError:
-                    # new_net = self.board.nets[j]
-                    break
-                    
-                # net already in group
-                if new_net in group: 
-                    break
-                    # j += -1
-                    # new_net = self.board.nets[j]
-                # j += -1
-                    
-                # add intersecting net to group and remove from board
-                group.append(new_net)
-                # if new_net in nets: nets.remove(new_net)
-            # if len(group) > 1:
-            self.grouped_nets.append(group)
+        # create groups for hill climber
+        self.create_groups()
 
 
     def __repr__(self):
@@ -68,13 +35,6 @@ class hill_climber(a_star):
 
     def run(self):
         """starts algorithm"""
-        # number of nets
-        # n_nets = len(self.board.nets)
-
-        
-
-        # group nets into separate lists
-        # grouped_nets = [self.board.nets[i - GROUP_SIZE: i] for i in range(2, n_nets)]
 
         print(f"net groups: {self.grouped_nets}")
         
@@ -146,3 +106,30 @@ class hill_climber(a_star):
         return best_permutation
             
     
+    def create_groups(self):
+        """creates groups based on intersections"""
+
+        # add intersections to nets and sort by number of intersections
+        helpers.add_intersections(self.board.grid)
+        self.board.nets.sort(key=lambda net: net.num_of_intersections, reverse=True)
+        nets = copy(self.board.nets)
+        
+        # TODO
+        for net in nets:
+            # take net with most intersections
+            group = [net]
+            
+            for i in range(GROUP_SIZE - 1):
+                # add intersecting nets to group
+                try:
+                    new_net = net.intersections[i]
+                except IndexError:
+                    break
+                    
+                # net already in group
+                if new_net in group: 
+                    break
+                    
+                group.append(new_net)
+
+            self.grouped_nets.append(group)
