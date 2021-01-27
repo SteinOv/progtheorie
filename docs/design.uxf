@@ -5,7 +5,7 @@ loc: (int x, int y, int 0)
 n_connections: int
 --
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>490</x><y>212</y><w>260</w><h>160</h></coordinates><panel_attributes>_object: Net_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>490</x><y>212</y><w>260</w><h>150</h></coordinates><panel_attributes>_object: Net_
 --
 net_id: int
 connect: [Gate, Gate]
@@ -13,24 +13,24 @@ route: [(int x ,int y, int z), ...]
 length: int
 priority_num: int
 intersections: [Net, ...]
-num_of_intersections = int
+num_of_intersections: int
 --
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>122</y><w>320</w><h>300</h></coordinates><panel_attributes>_object: Board_
 --
 gates: {1: Gate, 2: Gate, ...}
-gate_locations: [(int x, int y, int z), (int x, int y, int z), ...]
-nets: [Net,  Net, ...]
+gate_locations: [(int x, int y, int z),...]
+nets: [Net, ...]
 width: int
 length: int
 height: int
 cost: int
-grid: list(list(list(int)))
-grid_reserve: list(list(list(int)))
+grid: [[[int, Net]]]
+grid_reserve: [[[int, Net]]]
 
 --
 load_gates(self, print.csv): None
 load_nets(self, netlist.csv): None
-create_grid(self, width, length, height): list(list(list(int)))
+create_grid(self, width, length, height): [[[int, Net]]]
 reset_grid(self): None
 read_output(self, output_csv): None
 add_net(self, net): None

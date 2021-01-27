@@ -120,10 +120,9 @@ class hill_climber(a_star):
             # add intersecting nets to group
             for i in range(GROUP_SIZE - 1):
                 # determine this group's size
-                if i < len(net.intersections):
-                    new_net = net.intersections[i]
-                else:
+                if i => len(net.intersections):
                     break
+                new_net = net.intersections[i]
                     
                 # net already in group
                 if new_net in group: 

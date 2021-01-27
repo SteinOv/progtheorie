@@ -4,7 +4,7 @@ from copy import deepcopy
 class basic:
     """finds shortest possible routes without constraints"""
     def __init__(self, board):
-        self.board = board
+        self.board = deepcopy(board)
         
 
     def __repr__(self):
