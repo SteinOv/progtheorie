@@ -17,6 +17,10 @@ class hill_climber(a_star):
         # read output file if first iteration
         if i == 0:
             self.board.read_output(filename)
+        else:
+            for net in self.board.nets:
+                net.intersections = []
+                net.num_of_intersections = 0
 
         # prior solution's cost
         self.board.cost = helpers.calc_cost(self.board)
