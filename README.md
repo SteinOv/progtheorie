@@ -14,7 +14,6 @@ n = total length of all nets<br>
 k = number of intersections
 
 
-
 ### Requirements
 * This codebase is written entirely in Python 3.8.
 * The following extension is needed to visualize the UML diagram:
@@ -23,7 +22,6 @@ k = number of intersections
 ```
 pip install -r requirements.txt 
 ```
-
 
 ### Usage
 To use the program, run in the command line:

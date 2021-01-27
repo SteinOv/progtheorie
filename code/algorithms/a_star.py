@@ -104,7 +104,6 @@ class a_star:
                 path.reverse()
                 return path
 
-
             # choose node with lowest sum and add to closed list
             current_node = open_list.get()
             closed_list.add(current_node.loc)
@@ -129,6 +128,7 @@ class a_star:
         collision_intersection = helpers.is_collision(self.board, current_loc, new_loc, goal)
         return not collision_intersection[0], collision_intersection[1]
 
+
     def move(self, move, current_node, end_node, open_list, closed_list):
         """if move valid, add to open_list or update existing node"""
         # try move, skip if invalid
@@ -148,14 +148,6 @@ class a_star:
             in_open_list = [node for node in open_list.queue if new_loc == node.loc]
             if in_open_list:
                 return
-                # # update route if cost_to_node lower than current route TODO remove
-                # if cost_to_node < in_open_list[0].cost_to_node:
-                #     print("cost lower")
-                #     new_node = in_open_list[0]
-                #     new_node.parent = current_node
-                # else:
-                #     return
-
                 
             new_node = Node(new_loc, current_node)
 

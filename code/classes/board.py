@@ -84,7 +84,7 @@ class Board:
             # set priority of nets
             for net in self.nets:
                 net.priority_num = net.connect[0].n_connections + net.connect[1].n_connections
-                    
+
         except OSError:
             print(f"File {filename} not found")
             raise SystemExit
@@ -101,6 +101,7 @@ class Board:
         for gate in self.gates:
             x, y, z = self.gates[gate].loc
             grid[x][y][z].append(-1)
+
         return grid
     
     
@@ -117,20 +118,20 @@ class Board:
 
             # for every net in output
             for line in data:
-
                 # stop if at end of file
                 if line[0][0] != '(':
                     break
 
-                # search for matching net in self.nets
+                # search for matching net
                 match = False
                 for net in self.nets:
                     # if matching net found
                     if line[0] == str(net.connect).replace(" ", ""):
-
-                        # save route and add net to grid
+                        # save route
                         net.route = ast.literal_eval(line[1])
                         net.length = len(net.route) - 1
+
+                        # add net to grid
                         for x, y, z in net.route:
                             self.grid[x][y][z].append(net)
                         
@@ -149,9 +150,9 @@ class Board:
             self.grid[x][y][z].append(net)
         net.length = len(net.route) - 1
 
-    def rem_net(self, net):
-        """removes net from grid"""
 
+    def remove_net(self, net):
+        """removes net from grid"""
         # remove each wire from grid
         for x, y, z in net.route:
             self.grid[x][y][z].remove(net)

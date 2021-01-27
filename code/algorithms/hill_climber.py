@@ -108,7 +108,7 @@ class hill_climber(a_star):
 
             # remove nets from grid
             for net in nets:
-                self.board.rem_net(net)
+                self.board.remove_net(net)
             
             # replace nets
             for net in nets:
@@ -136,7 +136,7 @@ class hill_climber(a_star):
                 
         # remove nets from grid
         for net in nets:
-            self.board.rem_net(net)
+            self.board.remove_net(net)
         
         # return best permutation
         return best_permutation

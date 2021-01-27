@@ -1,6 +1,3 @@
-
-
-
 def is_collision(board, curr_loc, new_loc, goal):
     """
     checks if nets are in collision
@@ -24,7 +21,7 @@ def is_collision(board, curr_loc, new_loc, goal):
 
 
 def calc_cost(board):
-    """calculate total cost of solution"""
+    """calculates and returns total cost of solution"""
     # combined length of all nets
     length = 0
     for net in board.nets:
@@ -51,7 +48,7 @@ def calc_cost(board):
 
 
 def manhattan(board, current_loc, new_loc):
-    """calculate manhattan distance"""
+    """calculates and returns manhattan distance"""
     distance = 0
     for i in range(3):
         distance += abs(current_loc[i] - new_loc[i])
