@@ -60,7 +60,7 @@ The route of a net may deviate only 25 steps from the ideal route, which is base
 
 
 #### A* algorithm
-The A* algorithm finds the optimal solution for each individual net, but it does not take the routes of future nets into account. This results in a local optimum for the final solution.
+The A* algorithm finds the optimal solution for each individual net, but it does not take the routes of future nets into account. This results in a local minimum for the final solution.
  
 The order in which the A* algorithm places nets, is passed in the algorithm as a parameter. The nets connected to the gates that have the most connections are laid first, because this will
 increase the chance that the algorithm will find a solution where all the nets fit into the grid.
@@ -69,7 +69,7 @@ increase the chance that the algorithm will find a solution where all the nets f
 #### Hill Climber
 Hill Climber is an optimization algorithm that starts with an existing solution, and then attempts to find a better solution by changing the prior solution step by step.
 
-To eliminate as many intersections as possible, Hill Climber divides the nets into groups with a maximum size of three. For each net, it takes the first two intersecting nets it can find, and adds those to its group. If a net only has one or zero intersections, the group size will be two or one, respectively. For each group, all permutations are determined. For each permutation, the nets are placed with A* in that particular order. If a cost improvement is found, the original routes are replaced by the routes of the permutation with the lowest cost. The algorithm keeps searching for a better solution until no further improvements can be found.
+To eliminate as many intersections as possible, Hill Climber divides the nets into groups with a maximum size of three. For each net, it takes the first two intersecting nets it can find and adds those to its group of three. If a net only has one or zero intersections, the group size will be two or one, respectively. For each group, all permutations are determined. For each permutation, the nets are placed with A* in that permutation's order. If a cost improvement is found, the original routes are replaced by the routes of the permutation with the lowest cost. The algorithm keeps searching for a better solution until no further improvements are found.
 
 After running the Hill Climber algorithm once, it will reach a local minimum. The algorithm can be run again, to reach a better local minimum. After several iterations it will reach a point where no better local minimum can be found. To prevent the algorithm from running indefinitely, the algorithm will stop searching if it does not find any cost improvement since the last iteration.
 
@@ -80,6 +80,7 @@ After running the Hill Climber algorithm once, it will reach a local minimum. Th
     * /code/algorithms: contains the code for algorithms
     * /code/classes: contains the three classes required for this case
     * /code/visualisation: contains plotly code for visualization 
+    * /code/helpers: contains helper functions for algorithms 
     * /code/stats: contains pandas code for statistics
 * /data: contains the various data files that are needed to fill and visualize the graph
 * /data/output: contains the output files
