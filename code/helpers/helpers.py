@@ -65,6 +65,7 @@ def find_new_loc(board, current_loc, move):
             new_loc.append(value)
     return tuple(new_loc)
 
+
 def add_intersections(grid):
     """add intersections to Net objects"""
 

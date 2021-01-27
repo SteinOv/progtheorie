@@ -9,6 +9,7 @@ class Net:
         self.intersections = []
         self.num_of_intersections = 0
 
+
     def __repr__(self):
         return str(self.net_id)
 

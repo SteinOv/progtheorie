@@ -35,9 +35,6 @@ class hill_climber(a_star):
 
     def run(self):
         """starts algorithm"""
-
-        print(f"net groups: {self.grouped_nets}")
-        
         for nets in self.grouped_nets:
             # save original route
             best_routes = [net.route for net in nets]
@@ -107,23 +104,25 @@ class hill_climber(a_star):
             
     
     def create_groups(self):
-        """creates groups based on intersections"""
-
-        # add intersections to nets and sort by number of intersections
+        """creates groups based on number of intersections"""
+        # add intersections to nets
         helpers.add_intersections(self.board.grid)
+
+        # sort by number of intersections
         self.board.nets.sort(key=lambda net: net.num_of_intersections, reverse=True)
-        nets = copy(self.board.nets)
         
-        # TODO
+        # group nets
+        nets = copy(self.board.nets)
         for net in nets:
-            # take net with most intersections
+            # get net with most intersections
             group = [net]
             
+            # add intersecting nets to group
             for i in range(GROUP_SIZE - 1):
-                # add intersecting nets to group
-                try:
+                # determine this group's size
+                if i < len(net.intersections):
                     new_net = net.intersections[i]
-                except IndexError:
+                else:
                     break
                     
                 # net already in group

@@ -16,17 +16,17 @@ class Node:
         self.heuristic = 0
         self.sum = 0
         
-    
-
+        
     def __repr__(self):
         return str(f"{id(self)}, loc: {self.loc}, sum: {self.sum}")
 
 
     def __lt__(self, other):
-        """highest priority for node with lowest sum and latest in open_list"""
-        selfPriority = self.sum
-        otherPriority = other.sum
-        return selfPriority <= otherPriority
+        """
+        prioritizes node with lowest sum 
+        if nodes have equal sum, prioritize latest node in open_list
+        """
+        return self.sum <= other.sum
 
 
 class a_star:
@@ -45,9 +45,8 @@ class a_star:
         # sort nets by priority
         self.board.nets.sort(key=lambda net: net.priority_num, reverse=True)
 
-        i = 0
-        
         # for every net
+        i = 0
         while i < len(self.board.nets):
             net = self.board.nets[i]
 
@@ -56,7 +55,6 @@ class a_star:
             if solution:
                 net.route = solution
                 self.board.add_net(net)
-                
                 i += 1
 
             # if no solution restart with unsolved net first
@@ -88,6 +86,8 @@ class a_star:
         closed_list = set()
         
         current_node = start_node
+
+        # while there are nodes to visit
         while not open_list.empty():
             # check if goal reached
             if current_node.loc == end_node.loc:
@@ -104,7 +104,7 @@ class a_star:
                 path.reverse()
                 return path
 
-            # choose node with lowest sum and add to closed list
+            # add node with lowest sum to closed list
             current_node = open_list.get()
             closed_list.add(current_node.loc)
 
@@ -124,14 +124,15 @@ class a_star:
             if i > j or i < 0:
                 return False, 0
 
-        # return: true if not in collision and 1 if intersection
-        collision_intersection = helpers.is_collision(self.board, current_loc, new_loc, goal)
+        # return true if not in collision and 1 if intersection
+        collision_intersection = helpers.is_collision(
+            self.board, current_loc, new_loc, goal
+            )
         return not collision_intersection[0], collision_intersection[1]
 
 
     def move(self, move, current_node, end_node, open_list, closed_list):
-        """if move valid, add to open_list or update existing node"""
-        # try move, skip if invalid
+        """makes move if valid and adds to open_list or updates existing node"""
         new_loc = helpers.find_new_loc(self.board, current_node.loc, move)
         move_valid, n_intersections = self.valid_move(current_node.loc,
                                                     new_loc, end_node.loc)
@@ -148,7 +149,8 @@ class a_star:
             in_open_list = [node for node in open_list.queue if new_loc == node.loc]
             if in_open_list:
                 return
-                
+            
+            # create new node
             new_node = Node(new_loc, current_node)
 
             # calculate heuristic and sum

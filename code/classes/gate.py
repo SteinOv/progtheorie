@@ -5,6 +5,7 @@ class Gate:
         self.loc = loc
         self.n_connections = 0
 
+
     def __repr__(self):
         return str(self.gate_id)
 
