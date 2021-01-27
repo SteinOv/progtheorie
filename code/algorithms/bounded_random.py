@@ -22,14 +22,14 @@ class bounded_random:
 
     def run(self):
         """starts algorithm"""
-        # allowed deviation for algorithm
+        # allowed deviation from manhattan
         current_deviation = DEVIATION
 
         no_solution = True
 
         # continue until solution found
         while no_solution:
-            # determine route for each net
+            # determine routes
             for net in self.board.nets:
                 # increase allowed deviation
                 current_deviation += DEVIATION_INCREASE
@@ -40,19 +40,18 @@ class bounded_random:
                 
                 net_length = 0
                 
-                # coordinates of wire, start at gate
+                # coordinates of wire
                 current_route = [current_loc]
 
                 n_resets = 0
 
                 # continue until goal or limit is reached
-                while current_loc != goal and n_resets < MAX_RESETS:
-                    
+                while current_loc != goal and n_resets < MAX_RESETS:        
                     # make move
                     current_loc = self.move(MOVES.copy(), current_loc, current_route, goal, net_length,
                                      start_distance, current_deviation)
                     
-                    # try move, reset if unsuccesfull
+                    # reset if unsuccesful
                     if current_loc:
                         current_route.append(current_loc)
                         net_length += 1
@@ -62,7 +61,7 @@ class bounded_random:
                         current_route = [current_loc]
                         net_length = 0
 
-                # if max resets reached, start over
+                # start over if max resets reached 
                 if n_resets >= MAX_RESETS:
                     self.board.reset_grid()
                     print(f"got stuck at net: {net}, restarting...")
@@ -70,6 +69,8 @@ class bounded_random:
                 
                 # store wire coordinates in net
                 net.route = current_route
+
+                # set net length
                 net.length = net_length
 
                 # add net to grid
@@ -101,24 +102,22 @@ class bounded_random:
 
     def move(self, moves, current_loc, current_route, goal, net_length,
                         start_distance, current_deviation):
-        """makes move, returns new location if successfull"""
-
+        """makes move, returns new location if successful"""
         move = random.choice(moves)
         moves.remove(move)
         new_loc = helpers.find_new_loc(self.board, current_loc, move)
 
-        # move valid, make move
+        # make move if valid
         if self.valid_move(current_route, current_loc, new_loc, goal, 
                             net_length, start_distance, current_deviation):
-            # return new location
             return new_loc
 
-        # move invalid, try again
+        # try again if move invalid 
         elif moves:
             return self.move(moves, current_loc, current_route, goal, net_length,
                         start_distance, current_deviation)
 
-        # move invalid and no moves left
+        # no moves left
         else:
             return False
 

@@ -1,3 +1,2 @@
-matplotlib
-plotly
-pandas
+plotly==4.14.1
+pandas==1.2.0

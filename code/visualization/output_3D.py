@@ -58,17 +58,10 @@ def plot_output3D(output_csv, output_folder, board):
             xaxis = dict(dtick=1),
             yaxis = dict(dtick=1),
             zaxis = dict(dtick=1)
-        )
-    )
+        ))
+
     # change font size
     fig.layout.font.size = 10
 
     # show plot
     fig.show()
-
-    
-    
-    
-
-
-    

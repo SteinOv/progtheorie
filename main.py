@@ -38,7 +38,7 @@ def main():
         for algorithm in algorithms:
             print(algorithm)
 
-        # get user input
+        # get user choice
         command = input("> ")
 
         # check if algorithm exists
@@ -93,17 +93,16 @@ def main():
     # for every desired solution
     for i in range(n_solutions):
         print(f"-----running {str(algorithm)}-----\n")
-        # run algorithm and track time
-        start = time.time()
 
         # for hill climber, pass in iteration number
         if str(algorithm) == "hill_climber":
             cost_before = best_solution.cost
             algorithm = alg_class(best_solution, i)
-
         else:
             algorithm = alg_class(board)
 
+        # run algorithm and track time
+        start = time.time()
         algorithm.run()
         total_time = time.time() - start
         
@@ -114,7 +113,7 @@ def main():
         if cost < best_solution.cost or not best_solution.cost:
             best_solution = algorithm.board
 
-        # cost is the same as before running hill climber
+        # hill climber did not improve cost
         elif str(algorithm) == "hill_climber" and cost_before == best_solution.cost:
             print("solution did not improve in last iteration, quitting...")
             break
@@ -123,7 +122,6 @@ def main():
         with open(f"{output_folder}{costs_file}", 'a') as file:
             file.write(f"\n{cost}, {total_time}, {algorithm}, {chip_id}_{netlist_id}")
         
-
     # filename for output
     output_file = "output.csv"
 
@@ -146,6 +144,5 @@ def main():
     plot_output3D(output_file, output_folder, best_solution)
 
         
-
 if __name__ == "__main__":
     main()
