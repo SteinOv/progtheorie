@@ -124,6 +124,7 @@ class hill_climber(a_star):
                     break
                 new_net = net.intersections[i]
                     
+                # skip net if already in group
                 if new_net in group:
                     continue
                 
